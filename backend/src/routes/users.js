@@ -1,4 +1,4 @@
-import {Router} from 'express';
+import { Router } from 'express';
 const router = Router();
 
 import bcrypt from "bcryptjs";
@@ -11,7 +11,7 @@ const User = mongoose.model('User');
 // import validateRegisterInput from '../../validations/register';
 // import validateLoginInput from '../../validations/login';
 
-router.get('/', function(req, res, next){
+router.get('/', (req, res, next) => {
     res.json({
         message:"GET /api/users"
     });
