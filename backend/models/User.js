@@ -15,11 +15,11 @@ const userSchema = new Schema({
   },
   genre :{
     type: [Number],
-    required: false
+    required: true
   },
   likedMovies: {
     type: [Number],
-    required: false
+    required: true
   }
 }, {
   timestamps: true
