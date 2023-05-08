@@ -28,10 +28,10 @@ router.get('/movies/:movieId/recommendations', async (req, res) => {
 
 
 router.get('/movies/:movieId', async (req, res) => {
-    const {movieId} = req.params;
+    const { movieId } = req.params;
     const data = await fetchTMDB(`/movie/${movieId}`);
-    res.status(200).json(data);
-})
-
+    const movie = { [data.id]: data };
+    res.status(200).json(movie);
+});
 
 export default router;
