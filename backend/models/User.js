@@ -13,7 +13,7 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    genres:{
+    genres: {
         type: [Number],
         required: true
     },
