@@ -3,6 +3,10 @@ import ReactDOM from 'react-dom/client';
 import './reset.css';
 import './index.css';
 import App from './App';
+import configureStore from './store/store';
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
+
 
 let store = configureStore({});
 
@@ -16,10 +20,10 @@ function Root() {
     )
 }
 
-
-ReactDOM.render(
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
     <React.StrictMode>
-        <Root />
-    </React.StrictMode>,
-    document.getElementById('root')
+        <Root/>
+    </React.StrictMode>
 );
+

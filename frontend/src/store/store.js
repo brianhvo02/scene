@@ -3,7 +3,7 @@ import thunk from 'redux-thunk';
 import session, { sessionErrorsReducer } from './session'
 import sessionReducer from './session';
 import errors from './errors';
-
+import logger from 'redux-logger';
 
 const rootReducer = combineReducers({
     session: sessionReducer,

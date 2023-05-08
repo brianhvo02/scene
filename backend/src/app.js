@@ -10,6 +10,8 @@ import http from 'http';
 import mongoose from 'mongoose';
 
 import csrfRouter from './routes/csrf';
+import usersRouter from './routes/users';
+
 import { isProduction, mongoURI as db } from './config';
 
 const app = express();
@@ -36,6 +38,7 @@ app.use(
 );
 
 app.use('/api/csrf', csrfRouter);
+app.use('/api/users', usersRouter);
 
 if (isProduction) {
     app.get('/', (req, res) => {
@@ -76,7 +79,7 @@ app.use((err, req, res, next) => {
 const serverLogger = debug('backend:server');
 const dbLogger = debug('backend:mongodb');
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5001;
 app.set('port', port);
 const server = http.createServer(app);
 
