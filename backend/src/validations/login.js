@@ -1,7 +1,6 @@
 import { check, oneOf} from 'express-validator';
 import handleValidationErrors from './handleValidationErrors';
 
-
 const validateLoginInput = [
     oneOf([
         check('email')
@@ -20,4 +19,4 @@ const validateLoginInput = [
     handleValidationErrors
 ]
 
-module.exports = validateLoginInput;
+export default validateLoginInput;

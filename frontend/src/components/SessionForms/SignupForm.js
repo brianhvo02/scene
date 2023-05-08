@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import './index.css';
-import { clearSessionErrors, login } from '../../store/session';
+import { login } from '../../store/session';
+import { clearSessionErrors } from '../../store/errors/sessionErrors';
 
 const LoginForm = () => {
     const [email, setEmail] = useState('');

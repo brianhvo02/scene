@@ -1,27 +1,23 @@
+import { receiveSessionErrors } from './errors/sessionErrors';
 import jwtFetch from './jwt';
+import { createSlice } from '@reduxjs/toolkit';
 
-const RECEIVE_CURRENT_USER = "session/RECEIVE_CURRENT_USER";
-const RECEIVE_SESSION_ERRORS = "session/RECEIVE_SESSION_ERRORS";
-const CLEAR_SESSION_ERRORS = "session/CLEAR_SESSION_ERRORS";
-export const RECEIVE_USER_LOGOUT = "session/RECEIVE_USER_LOGOUT";
+const initialState = {
+    user: undefined
+};
 
-const receiveCurrentUser = currentUser => ({
-    type: RECEIVE_CURRENT_USER,
-    currentUser
+// Start new stuff
+const sessionSlice = createSlice({
+    name: 'session',
+    initialState,
+    reducers: {
+        receiveCurrentUser: (state, action) => ({ user: action.payload }),
+        logoutUser: () => initialState
+    }
 });
 
-const receiveErrors = errors => ({
-    type: RECEIVE_SESSION_ERRORS,
-    errors
-});
-
-const logoutUser = () => ({
-    type: RECEIVE_USER_LOGOUT
-});
-
-export const clearSessionErrors = () => ({
-    type: CLEAR_SESSION_ERRORS
-});
+const { receiveCurrentUser, logoutUser } = sessionSlice.actions;
+// End new stuff
 
 export const signup = user => startSession(user, 'api/users/register');
 export const login = user => startSession(user, 'api/users/login');
@@ -29,24 +25,22 @@ export const login = user => startSession(user, 'api/users/login');
 const startSession = (userInfo, route) => async dispatch => {
     try {
         const res = await jwtFetch(route, {
-            method: "POST",
+            method: 'POST',
             body: JSON.stringify(userInfo)
         });
         const { user, token } = await res.json();
-        localStorage.setItem('jwtToken', token);
+        sessionStorage.setItem('jwtToken', token);
         return dispatch(receiveCurrentUser(user));
     } catch (err) {
         const res = await err.json();
         if (res.statusCode === 400) {
-            return dispatch(receiveErrors(res.errors));
+            return dispatch(receiveSessionErrors(res.errors));
         }
     }
 };
 
-//logout
-
 export const logout = () => dispatch => {
-    localStorage.removeItem('jwtToken');
+    sessionStorage.removeItem('jwtToken');
     dispatch(logoutUser());
 };
 
@@ -56,36 +50,5 @@ export const getCurrentUser = () => async dispatch => {
     return dispatch(receiveCurrentUser(user));
 };
 
-const nullErrors = null;
-
-export const sessionErrorsReducer = (state = nullErrors, action) => {
-    switch (action.type) {
-        case RECEIVE_SESSION_ERRORS:
-            return action.errors;
-        case RECEIVE_CURRENT_USER:
-        case CLEAR_SESSION_ERRORS:
-            return nullErrors;
-        default:
-            return state;
-    }
-};
-
-//session reducer
-
-const initialState = {
-    user: undefined
-
-};
-
-const sessionReducer = (state = initialState, action) => {
-    switch (action.type) {
-        case RECEIVE_CURRENT_USER:
-            return { user: action.currentUser };
-        case RECEIVE_USER_LOGOUT:
-            return initialState;
-        default:
-            return state;
-    }
-}
-
-export default sessionReducer
+// This is new
+export default sessionSlice.reducer;

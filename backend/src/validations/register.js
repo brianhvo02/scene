@@ -17,4 +17,4 @@ const validateRegisterInput = [
     handleValidationErrors
 ]
 
-module.exports = validateRegisterInput;
+export default validateRegisterInput;

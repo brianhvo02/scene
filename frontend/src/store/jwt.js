@@ -10,14 +10,14 @@ function getCookie(cookieName) {
 async function jwtFetch(url, options = {}) {
     options.method = options.method || "GET";
     options.headers = options.headers || {};
-    const jwtToken = localStorage.getItem("jwtToken");
+    const jwtToken = sessionStorage.getItem("jwtToken");
 
     if (jwtToken) options.headers["Authorization"] = 'Bearer ' + jwtToken;
 
     if (options.method.toUpperCase() !== "GET") {
         options.headers["Content-Type"] =
             options.headers["Content-Type"] || "application/json";
-        options.headers["CSRF-Token"] = getCookie("CSRF-TOKEN");
+        options.headers["CSRF-Token"] = getCookie("X-CSRF-Token");
     }
 
     const res = await fetch(url, options);

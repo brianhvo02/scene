@@ -42,7 +42,7 @@ app.use('/api/users', usersRouter);
 
 if (isProduction) {
     app.get('/', (req, res) => {
-        res.cookie('CSRF-TOKEN', req.csrfToken());
+        res.cookie('X-CSRF-Token', req.csrfToken());
         res.sendFile(
         path.resolve(__dirname, '../frontend', 'build', 'index.html')
         );
@@ -51,7 +51,7 @@ if (isProduction) {
     app.use(express.static(path.resolve('../frontend/build')));
 
     app.get(/^(?!\/?api).*/, (req, res) => {
-        res.cookie('CSRF-TOKEN', req.csrfToken());
+        res.cookie('X-CSRF-Token', req.csrfToken());
         res.sendFile(
             path.resolve(__dirname, '../frontend', 'build', 'index.html')
         );
