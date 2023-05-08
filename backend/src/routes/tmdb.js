@@ -1,8 +1,11 @@
 import { Router } from 'express';
 import { tmdbAPIKey } from '../config';
+import { snakeToCamel } from '../utils';
+
 const router = Router();
 
 const fetchTMDB = (route, params) => fetch(`https://api.themoviedb.org/3${route}?api_key=${tmdbAPIKey}&${params}`).then(res => res.json());
+const allowedParams = ["id", "title", "overview", "poster_path", "backdrop_path", "genre_ids"]
 
 router.get('/genres', async (req, res) => {
     const data = await fetchTMDB('/genre/movie/list')
@@ -23,8 +26,12 @@ router.get('/movies/:movieId/recommendations', async (req, res) => {
     res.status(200).json({ movies });
 });
 
-router
 
+router.get('/movies/:movieId', async (req, res) => {
+    const {movieId} = req.params;
+    const data = await fetchTMDB(`/movie/${movieId}`);
+    res.status(200).json(data);
+})
 
 
 export default router;
