@@ -8,8 +8,8 @@ import { isProduction, loginUser, restoreUser } from '../config';
 
 const User = mongoose.model('User');
 
-import validateRegisterInput from '../../validations/register';
-import validateLoginInput from '../../validations/login';
+import validateRegisterInput from '../validations/register';
+import validateLoginInput from '../validations/login';
 
 router.get('/', (req, res, next) => {
     res.json({

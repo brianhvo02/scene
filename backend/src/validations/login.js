@@ -10,7 +10,7 @@ const validateLogin = [
             .withMessage('Please provide a valid email.'),
         check('username')
             .exists({ checkFalsy: true })
-            .isUsername()
+            .isLength({ min: 3 })
             .withMessage('Please provide a username.'),
     ]),
     check('password')
