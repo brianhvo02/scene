@@ -8,8 +8,8 @@ import { isProduction, loginUser, restoreUser } from '../config';
 
 const User = mongoose.model('User');
 
-// import validateRegisterInput from '../../validations/register';
-// import validateLoginInput from '../../validations/login';
+import validateRegisterInput from '../../validations/register';
+import validateLoginInput from '../../validations/login';
 
 router.get('/', (req, res, next) => {
     res.json({
@@ -17,7 +17,7 @@ router.get('/', (req, res, next) => {
     });
 });
 
-router.post('/register', validateReisterInput, async (req, res, next) => {
+router.post('/register', validateRegisterInput, async (req, res, next) => {
     const user = await User.findOne({
         $or: [{ email: req.body.email }, { username: req.body.username }]
     });
