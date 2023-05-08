@@ -27,7 +27,8 @@ router.get('/movies/:movieId/recommendations', async (req, res) => {
 });
 
 router.get('/movies/now_playing', async (req, res) => {
-    const { results }  = await fetchTMDB('/movie/now_playing');
+    const query = new URLSearchParams(req.query);
+    const { results }  = await fetchTMDB('/movie/now_playing', query.toString());
     const movies = Object.fromEntries(results.map(result => [result.id, result]));
     res.status(200).json( {movies} )
 })
