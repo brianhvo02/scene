@@ -49,7 +49,7 @@ router.post('/register', validateReisterInput, async (req, res, next) => {
             try {
                 newUser.hashedPassword = hashedPassword;
                 const user = await newUser.save();
-                return res.json(await loginUser(user)); // <-- THIS IS THE CHANGED LINE
+                return res.json(await loginUser(user)); 
             }
             catch (err) {
                 next(err);
