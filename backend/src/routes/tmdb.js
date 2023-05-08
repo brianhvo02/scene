@@ -12,9 +12,18 @@ router.get('/genres', async (req, res) => {
 router.get('/discover', async (req, res) => {
     const query = new URLSearchParams(req.query);
     const { results } = await fetchTMDB('/discover/movie', query.toString());
-    const payload = Object.fromEntries(results.map(result => [result.id, result]));
-    res.status(200).json(payload);
+    const movies = Object.fromEntries(results.map(result => [result.id, result]));
+    res.status(200).json({ movies });
 });
+
+router.get('/movies/:movieId/recommendations', async (req, res) => {
+    const { movieId } = req.params;
+    const { results } = await fetchTMDB(`/movie/${movieId}/recommendations`);
+    const movies = Object.fromEntries(results.map(result => [result.id, result]));
+    res.status(200).json({ movies });
+});
+
+router
 
 
 
