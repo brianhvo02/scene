@@ -10,7 +10,8 @@ dotenv.config();
 export const 
     secret = process.env.SECRET,
     mongoURI = process.env.MONGO_URI,
-    isProduction = process.env.NODE_ENV === 'production';
+    isProduction = process.env.NODE_ENV === 'production',
+    tmdbAPIKey = process.env.TMDB_API_KEY;
 
 // const User = mongoose.model('User');
 

@@ -10,6 +10,7 @@ import http from 'http';
 import mongoose from 'mongoose';
 
 import csrfRouter from './routes/csrf';
+import tmdbRouter from './routes/tmdb';
 import { isProduction, mongoURI as db } from './config';
 
 const app = express();
@@ -36,6 +37,7 @@ app.use(
 );
 
 app.use('/api/csrf', csrfRouter);
+app.use('/api/tmdb', tmdbRouter);
 
 if (isProduction) {
     app.get('/', (req, res) => {
@@ -70,7 +72,7 @@ app.use((err, req, res, next) => {
         message: err.message,
         statusCode,
         errors: err.errors
-    })
+    });
 });
 
 const serverLogger = debug('backend:server');
