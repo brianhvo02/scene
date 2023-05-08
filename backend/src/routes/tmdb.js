@@ -26,6 +26,12 @@ router.get('/movies/:movieId/recommendations', async (req, res) => {
     res.status(200).json({ movies });
 });
 
+router.get('/movies/now_playing', async (req, res) => {
+    const { results }  = await fetchTMDB('/movie/now_playing');
+    const movies = Object.fromEntries(results.map(result => [result.id, result]));
+    res.status(200).json( {movies} )
+})
+
 
 router.get('/movies/:movieId', async (req, res) => {
     const { movieId } = req.params;
@@ -33,5 +39,7 @@ router.get('/movies/:movieId', async (req, res) => {
     const movie = { [data.id]: data };
     res.status(200).json(movie);
 });
+
+
 
 export default router;
