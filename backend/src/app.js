@@ -10,6 +10,9 @@ import http from 'http';
 import mongoose from 'mongoose';
 import csrfRouter from './routes/csrf';
 import eventRouter from './routes/events';
+import tmdbRouter from './routes/tmdb';
+import usersRouter from './routes/users';
+
 import { isProduction, mongoURI as db } from './config';
 
 const app = express();
@@ -37,10 +40,12 @@ app.use(
 
 app.use('/api/csrf', csrfRouter);
 app.use('/api/events', eventRouter);
+app.use('/api/tmdb', tmdbRouter);
+app.use('/api/users', usersRouter);
 
 if (isProduction) {
     app.get('/', (req, res) => {
-        res.cookie('CSRF-TOKEN', req.csrfToken());
+        res.cookie('X-CSRF-Token', req.csrfToken());
         res.sendFile(
         path.resolve(__dirname, '../frontend', 'build', 'index.html')
         );
@@ -49,7 +54,7 @@ if (isProduction) {
     app.use(express.static(path.resolve('../frontend/build')));
 
     app.get(/^(?!\/?api).*/, (req, res) => {
-        res.cookie('CSRF-TOKEN', req.csrfToken());
+        res.cookie('X-CSRF-Token', req.csrfToken());
         res.sendFile(
             path.resolve(__dirname, '../frontend', 'build', 'index.html')
         );
@@ -71,7 +76,7 @@ app.use((err, req, res, next) => {
         message: err.message,
         statusCode,
         errors: err.errors
-    })
+    });
 });
 
 const serverLogger = debug('backend:server');

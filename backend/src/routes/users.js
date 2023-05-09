@@ -3,19 +3,13 @@ const router = Router();
 
 import bcrypt from "bcryptjs";
 import passport from "passport";
-import mongoose from 'monogoose';
+import mongoose from 'mongoose';
 import { isProduction, loginUser, restoreUser } from '../config';
 
 const User = mongoose.model('User');
 
 import validateRegisterInput from '../validations/register';
 import validateLoginInput from '../validations/login';
-
-router.get('/', (req, res, next) => {
-    res.json({
-        message:"GET /api/users"
-    });
-});
 
 router.post('/register', validateRegisterInput, async (req, res, next) => {
     const user = await User.findOne({
@@ -64,7 +58,7 @@ router.post('/login', validateLoginInput, async (req, res, next) => {
         if (!user) {
             const err = new Error('Invalid credentials');
             err.statusCode = 400;
-            err.errors = { email: "Invalid credentials" };
+            err.errors = { credential: "Invalid credentials" };
             return next(err);
         }
         return res.json(await loginUser(user));
@@ -74,7 +68,7 @@ router.post('/login', validateLoginInput, async (req, res, next) => {
 router.get('/current', restoreUser, (req, res) => {
     if (!isProduction) {
         const csrfToken = req.csrfToken();
-        res.cookie("CSRF-TOKEN", csrfToken);
+        res.cookie("X-CSRF-Token", csrfToken);
     }
     if (!req.user) return res.json(null);
     res.json({
@@ -84,6 +78,4 @@ router.get('/current', restoreUser, (req, res) => {
     });
 });
 
-
-
-
+export default router;
