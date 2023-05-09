@@ -5,3 +5,7 @@
     --backgroundLightBlue: #C6D4ED;
     --textDefault: #111;
 }
+
+html, body {
+    background-color: var(--backgroundBlue);
+}

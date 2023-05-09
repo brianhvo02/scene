@@ -57,7 +57,7 @@ export const useProtected = () => {
     const navigate = useNavigate();
     const currentUser = useCurrentUser();
     useEffect(() => {
-        if (currentUser === null) navigate('/login');
+        if (currentUser === null) navigate('/');
     }, [currentUser]);
 }
 

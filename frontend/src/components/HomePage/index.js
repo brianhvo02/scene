@@ -6,6 +6,7 @@ import './index.scss'
 
 const HomePage = () => {
     const [selectedMovie, setSelectedMovie] = useState(); 
+    useProtected();
     
     return(
         <div className="homepage-container">

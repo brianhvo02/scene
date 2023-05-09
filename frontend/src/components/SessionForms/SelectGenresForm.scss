@@ -12,6 +12,7 @@
             align-items: center;
             justify-content: space-between;
             height: 100%;
+            color: var(--backgroundLightBlue);
 
             cursor: pointer;
     
@@ -20,11 +21,15 @@
                 position: absolute;
             }
     
-            img {
-                width: 10em;
-                height: 100%;
-                background-color: gray;
+            div {
+                height: calc(100% - 20px);
+                background-color: #BFCBCE;
+
+                img {
+                    width: 10em;
+                }
             }
+            
         }
     }
     

@@ -6,6 +6,12 @@ import { fetchNowPlayingMovies, getMovies } from '../../store/movies';
 import { shuffle } from '../../util/function';
 import MoviePolaroid from './MoviePolaroid';
 import { Slogan } from './SplashSlogan';
+import { createPortal } from 'react-dom';
+import SignupForm from '../SessionForms/SignupForm';
+import LoginForm from '../SessionForms/LoginForm';
+import SelectGenresForm from '../SessionForms/SelectGenresForm';
+import { useRequireLoggedOut } from '../../store/session';
+import Modal from '../Modal';
 
 const SplashPage = () => {
     const dispatch = useDispatch();
@@ -14,55 +20,67 @@ const SplashPage = () => {
     const [moviePolaroids, setMoviePolaroids] = useState(shuffle(movies).slice(0,14))
     const tmdbUrl = "https://www.themoviedb.org/t/p/w1280";
     const [sloganPage, setSloganPage] = useState(0);
+    const [modal, setModal] = useState();
+
+    useRequireLoggedOut();
 
     useEffect(()=>{
         dispatch(fetchNowPlayingMovies());
     },[dispatch]);
 
-    let interval;
     useEffect(()=> {
         setMoviePolaroids(shuffle(movies).slice(0, 14))
         setSloganPage(0)
-        interval = setInterval(() => {
+        const interval = setInterval(() => {
             setMoviePolaroids(shuffle(movies).slice(0, 14))
             setSloganPage((prev) => (prev+1) % 3)
         }, 6000);
         return () => {
-            clearInterval(interval)
+            clearInterval(interval);
         }
-    },[movies])
+    },[movies]);
+
     return(
-        <>
-            <div className="splash-page-container">
-                <div className='splash-center-container'>
-                    <div className='scene-login-signup-logo'>
-                        <img className="scene-logo" src='/light-logo.png' alt="scene-logo" />                      
-                        <div className='scene-login-signup-logo-right'>
-                            <div className='slogan-text'>{Slogan[sloganPage]}</div>
-                            <div className="button-container">
-                                <button onClick={() => navigate('/signup')}>Sign Up</button>
-                                <button onClick={() => navigate('/login')}>Login</button>
-                            </div>
+        <div className="splash-page-container">
+            {
+                modal &&
+                    createPortal(
+                        <Modal>
+                            {modal === 'signup' && <SignupForm />}
+                            {modal === 'login' && <LoginForm />}
+                            {modal === 'genres' && <SelectGenresForm />}
+                        </Modal>, 
+                        document.body
+                    )
+            }
+            <div className='splash-center-container'>
+                <div className='scene-login-signup-logo'>
+                    <img className="scene-logo" src='/light-logo.png' alt="scene-logo" />                      
+                    <div className='scene-login-signup-logo-right'>
+                        <div className='slogan-text'>{Slogan[sloganPage]}</div>
+                        <div className="button-container">
+                            <button onClick={() => setModal('signup')}>Sign Up</button>
+                            <button onClick={() => setModal('login')}>Login</button>
                         </div>
-                    </div>
-                    
-                </div>
-                <div className='splash-movie-poster-box'>
-                    <div className='splash-movie-poster-container'>
-                    {
-                        moviePolaroids.map((movie, i) => 
-                        <MoviePolaroid
-                        imageUrl = {`${tmdbUrl.concat(movie.posterPath)}`}
-                        title = {movie.title}
-                        key = {i}
-                        posterId = {i}
-                        />)
-                    }
                     </div>
                 </div>
                 
             </div>
-        </>
+            <div className='splash-movie-poster-box'>
+                <div className='splash-movie-poster-container'>
+                {
+                    moviePolaroids.map((movie, i) => 
+                    <MoviePolaroid
+                        imageUrl = {`${tmdbUrl.concat(movie.posterPath)}`}
+                        title = {movie.title}
+                        key = {i}
+                        posterId = {i}
+                    />)
+                }
+                </div>
+            </div>
+            
+        </div>
     )
 }
 
