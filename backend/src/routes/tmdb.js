@@ -34,7 +34,6 @@ router.get('/movies/:movieId/recommendations', async (req, res) => {
     res.status(200).json({ movies });
 });
 
-
 router.get('/movies/:movieId', async (req, res) => {
     const { movieId } = req.params;
     const movie = await fetchTMDB(`/movie/${movieId}`);
