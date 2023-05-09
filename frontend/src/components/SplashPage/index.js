@@ -14,7 +14,7 @@ const SplashPage = () => {
     const [moviePolaroids, setMoviePolaroids] = useState(shuffle(movies).slice(0,14))
     const tmdbUrl = "https://www.themoviedb.org/t/p/w1280";
     const [sloganPage, setSloganPage] = useState(0);
-
+    const [fadeIn,setFadeIn] = useState(false)
     useEffect(()=>{
         dispatch(fetchNowPlayingMovies());
     },[dispatch]);
@@ -24,9 +24,15 @@ const SplashPage = () => {
         setMoviePolaroids(shuffle(movies).slice(0, 14))
         setSloganPage(0)
         interval = setInterval(() => {
-            setMoviePolaroids(shuffle(movies).slice(0, 14))
-            setSloganPage((prev) => (prev+1) % 3)
-        }, 6000);
+            setFadeIn(false);
+            setTimeout(()=>{
+                
+                setMoviePolaroids(shuffle(movies).slice(0, 14))
+                setSloganPage((prev) => (prev+1) % 3)
+                setFadeIn(true);
+            },800)
+            
+        }, 8000);
         return () => {
             clearInterval(interval)
         }
@@ -34,11 +40,17 @@ const SplashPage = () => {
     return(
         <>
             <div className="splash-page-container">
+                {/* {showSignupModal &&
+                    <SignupForm closeCreateBoardModal={() => {
+                        setShowCreateBoardModal(false)
+                    }
+                    } />
+                } */}
                 <div className='splash-center-container'>
                     <div className='scene-login-signup-logo'>
                         <img className="scene-logo" src='/light-logo.png' alt="scene-logo" />                      
                         <div className='scene-login-signup-logo-right'>
-                            <div className='slogan-text'>{Slogan[sloganPage]}</div>
+                            <div className='slogan-text' style={{ opacity: fadeIn ? 1 : 0, transition: "opacity 0.5s" }}>{Slogan[sloganPage]}</div>
                             <div className="button-container">
                                 <button onClick={() => navigate('/signup')}>Sign Up</button>
                                 <button onClick={() => navigate('/login')}>Login</button>
@@ -56,6 +68,7 @@ const SplashPage = () => {
                         title = {movie.title}
                         key = {i}
                         posterId = {i}
+                        fadeIn = {fadeIn}
                         />)
                     }
                     </div>

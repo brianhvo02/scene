@@ -51,7 +51,12 @@ const SignupForm = () => {
 
     return (
         <form className="session-form" onSubmit={handleSubmit}>
-            <h2>Sign Up Form</h2>
+            <div className="logo-container">
+                <img className="mlogo" src={logo} />
+            </div>
+            <div className="header-container">
+                <h1 id="welcome-text">Welcome to interestIn</h1>
+            </div>
             <div className="errors">{errors?.email}</div>
             <label className="input-label" htmlFor="user-email">Email</label>
             <div className='inputbox-container'>

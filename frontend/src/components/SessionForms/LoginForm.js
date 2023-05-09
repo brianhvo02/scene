@@ -30,7 +30,12 @@ const LoginForm = () => {
     return (
         <>
             <form className='session-form' onSubmit={handleSubmit}>
-                <h2>Log In Form</h2>
+                <div className="logo-container">
+                    <img className="mlogo" src={logo} />
+                </div>
+                <div className="header-container">
+                    <h1 id="welcome-text">Welcome to interestIn</h1>
+                </div>
                 <div className = 'errors'>{errors?.credentials}</div>
                 <label className="input-label" htmlFor="user-credential">Username or Email</label>
                 <div className='inputbox-container'>

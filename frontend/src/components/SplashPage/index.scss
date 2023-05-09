@@ -1,3 +1,12 @@
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
 .scene-logo{
     width: 160px;
     height: 160px;
@@ -16,6 +25,7 @@
 }
 
 .slogan-text{
+    animation: fadeIn 5s;
     color: var(--backgroundLightBlue);
     font-size: 32px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
