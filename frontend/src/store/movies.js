@@ -31,7 +31,7 @@ export const getMovie = state => movieId => {
 // }
 
 export const fetchDiscoverMovies = user => 
-    fetchUrl(`/api/tmdb/discover?with_genres=${user.genreIds.join('|')}`, receiveMovies);
+    fetchUrl(`/api/tmdb/discover?with_genres=${user?.genreIds?.join('|')}`, receiveMovies);
 
 // export const fetchRecommendedMovies = (movieId) => async dispatch => {
 //     const res = await fetch(`/api/tmdb/movies/${movieId}/recommendations`);

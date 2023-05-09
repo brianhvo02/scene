@@ -1,18 +1,15 @@
 import { useDispatch, useSelector } from "react-redux"
 import { getMovie } from "../../store/movies";
+import { FontAwesomeIcon } from '@fortawesome/free-solid-svg-icons'
 
-const MoviePoster = (movie) => {
-    const dispatch = useDispatch();
-    const movie = useSelector(getMovie(movie?.id));
-    const MOVIE_LINK = "https://image.tmdb.org/t/p/original/"
-    // add like/dislike
-    //AiTwotoneLike
-    //AiTwotoneDislike
+const MoviePoster = ({ movie }) => {
+    const MOVIE_LINK = "https://image.tmdb.org/t/p/original";
+    console.log(movie);
 
     return(
         <div className="movie-poster-container">
             <div className="movie-poster">
-                <img src={MOVIE_LINK + movie?.posterPath}/>
+                <img src={`${MOVIE_LINK.concat(movie?.posterPath)}`}/>
             </div>
             <div className="movie-title">
                 <h2>{movie?.title}</h2>

@@ -1,6 +1,7 @@
-import './index.scss'
+import { useProtected } from '../../store/session';
 import DiscoverCarousel from './DiscoverCarousel';
 import RecommendationsPopup from './RecommendationsPopup';
+import './index.scss'
 
 const HomePage = () => {
 
@@ -8,9 +9,6 @@ const HomePage = () => {
         <div className="homepage-container">
             <div className="discover-carousel">
                 <DiscoverCarousel />
-            </div>
-            <div className="recommendations-pop-up">
-                <RecommendationsPopup />
             </div>
         </div>
     )

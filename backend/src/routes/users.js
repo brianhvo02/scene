@@ -33,7 +33,8 @@ router.post('/register', validateRegisterInput, async (req, res, next) => {
     const newUser = new User({
         username: req.body.username,
         email: req.body.email,
-        genres: req.body.genres
+        genreIds: [],
+        likedMovies: []
     });
 
     bcrypt.genSalt(10, (err, salt) => {
@@ -74,7 +75,9 @@ router.get('/current', restoreUser, (req, res) => {
     res.json({
         _id: req.user._id,
         username: req.user.username,
-        email: req.user.email
+        email: req.user.email,
+        genreIds: [],
+        likedMovies: []
     });
 });
 
