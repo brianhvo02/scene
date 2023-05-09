@@ -1,8 +1,7 @@
-const { check } = require('express-validator');
-const handleValidationErrors = require('./handleValidationErrors');
+import { check, oneOf} from 'express-validator';
+import handleValidationErrors from './handleValidationErrors';
 
-
-const validateLogin = [
+const validateLoginInput = [
     oneOf([
         check('email')
             .exists({ checkFalsy: true })
@@ -20,4 +19,4 @@ const validateLogin = [
     handleValidationErrors
 ]
 
-module.exports = validateLogin;
+export default validateLoginInput;
