@@ -15,7 +15,7 @@ const RecommendationsPopup = ({ movie }) => {
         <div className="recommendations-container">
         {movies.map((movie, idx) => {
             return(
-                <MoviePoster movie={movie} key={idx}/>
+                <MoviePoster movie={movie} key={idx} className="recommendations-movie-poster"/>
             )
         })}
         </div>

@@ -55,8 +55,14 @@
 }
 
 .recommendations-container{
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(20em, 1fr));
+    // display: flex;
     // flex-wrap: wrap;
-    overflow-x: scroll;
+    // justify-content: center;
     height: 50vh;
+    
+    .recommendations-movie-poster{
+        max-width: 19%;
+    }
 }
