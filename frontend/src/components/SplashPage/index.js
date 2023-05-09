@@ -1,16 +1,19 @@
 import { useEffect, useState } from 'react'
 import './index.scss'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
-import { fetchNowPlayingMovies } from '../../store/movies';
+import { fetchNowPlayingMovies, getMovies } from '../../store/movies';
 
 const SplashPage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    
+    const movies = useSelector(getMovies);
+    const firstPageMovies = movies.slice(0,19);
+    const secondPageMovies = movies.slice(20,39)
+    const [moviePosters, setMoviePosters] = useState
     useEffect(()=>{
         dispatch(fetchNowPlayingMovies());
-    },[]);
+    },[dispatch]);
 
     return(
         <>

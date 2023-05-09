@@ -8,13 +8,16 @@ const movieSlice = createSlice({
     initialState,
     reducers: {
         receiveMovies: (state, action) => {
-            console.log(action)
             return ({...state, ...action.payload.movies})
         },
     }
 });
 
 const { receiveMovies } = movieSlice.actions;
+
+export const getMovies = state => {
+    return state?.movies ? Object.values(state.movies) : null;
+}
 
 export const fetchDiscoverMovies = (user) => async dispatch => {
     const genreString = user.genreIds.join('|');
