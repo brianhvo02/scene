@@ -20,7 +20,7 @@ function App() {
             <Routes>
                 {/* <AuthRoute exact path="/" component={MainPage} /> */}
                 <Route exact path="/login" Component={LoginForm} />
-                {/* <AuthRoute exact path="/signup" component={SignupForm} /> */}
+                <Route exact path="/signup" Component={SignupForm} />
             </Routes>
             
         </>

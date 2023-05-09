@@ -38,7 +38,7 @@ const LoginForm = () => {
                     type='text'
                     value={ credential }
                     plasceholder = "Username or Email"
-                    onChange={(e) => setCredential(e.target.value)}
+                    onChange={update('credential')}
                     required
                     />
                 </div>
@@ -49,7 +49,7 @@ const LoginForm = () => {
                         type='password'
                         value={ password }
                         plasceholder="password"
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={update('password')}
                         required
                     />
                 </div>

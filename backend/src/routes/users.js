@@ -74,7 +74,7 @@ router.post('/login', validateLoginInput, async (req, res, next) => {
 router.get('/current', restoreUser, (req, res) => {
     if (!isProduction) {
         const csrfToken = req.csrfToken();
-        res.cookie("CSRF-TOKEN", csrfToken);
+        res.cookie("X-CSRF-Token", csrfToken);
     }
     if (!req.user) return res.json(null);
     res.json({
