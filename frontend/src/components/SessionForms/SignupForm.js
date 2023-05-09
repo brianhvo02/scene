@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import './index.scss';
-import { signup } from '../../store/session';
-import { clearSessionErrors } from '../../store/errors/sessionErrors';
+import { signup, useRequireLoggedOut } from '../../store/session';
+import { clearSessionErrors, useClearSessionErrors } from '../../store/errors/sessionErrors';
 
 const SignupForm = () => {
     const [email, setEmail] = useState('');
@@ -12,11 +12,8 @@ const SignupForm = () => {
     const errors = useSelector(state => state.errors.session);
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        return () => {
-            dispatch(clearSessionErrors());
-        }
-    }, [dispatch]);
+    useRequireLoggedOut();
+    useClearSessionErrors();
 
     const update = (field) => {
         let setState;
