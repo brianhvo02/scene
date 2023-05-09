@@ -4,41 +4,50 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronLeft, faChevronRight, faThumbsDown, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
+import './index.scss'
 
-const DiscoverCarousel = () => {
+const DiscoverCarousel = ({ setSelectedMovie }) => {
     const dispatch = useDispatch();
     const movies = useSelector(getMovies);
-    const movieLength = movies.length;
     const sessionUser = useSelector(state => state.session.user);
 
-    const [index, setIndex] = useState(0);
+    const [currentIndex, setCurrentIndex] = useState(0);
 
     useEffect(()=> {
         dispatch(fetchDiscoverMovies(sessionUser));
     }, [dispatch])
 
-    return(
-        <div className="discover component">
-            <div className="movie-poster-container">
-                {movies?.map((movie,idx) => {
-                    return(
-                        <>
-                            <MoviePoster key={idx} movie={movie} className="movie-poster-component"/>
-                            <h2>{movie?.title}</h2>
-                        </>
-                    )
+    const handlePrevClick = () => {
+        setCurrentIndex((prevIndex) => (prevIndex === 0 ? movies?.length - 1 : prevIndex - 1));
+        setSelectedMovie()
+    }
 
-                })}
+    const handleNextClick = () => {
+        setCurrentIndex((prevIndex) => (prevIndex === movies?.length - 1 ? 0 : prevIndex + 1));
+        setSelectedMovie()
+    }
+
+    const handleDislikeButtonClick = (movie) => {
+        setSelectedMovie()
+    }
+
+    const handleLikeButtonClick = (movie) => {
+        sessionUser?.likedMovies?.push(movie?._id)
+        setSelectedMovie(movie)
+    }
+
+    return(
+        <>
+            <FontAwesomeIcon icon={faChevronLeft} onClick={handlePrevClick} className="arrow"/>
+            <div className="movie-poster-container">
+                <MoviePoster movie={movies[currentIndex]} className="movie-poster-component" />
                 <div className="like-options">
-                    <FontAwesomeIcon icon={faThumbsDown} />
-                    <FontAwesomeIcon icon={faThumbsUp}/>
+                    <FontAwesomeIcon icon={faThumbsDown} className="thumb-down" onClick={() => handleDislikeButtonClick(movies[currentIndex])}/>
+                    <FontAwesomeIcon icon={faThumbsUp} className="thumb-up" onClick={() => handleLikeButtonClick(movies[currentIndex])}/>
                 </div>
             </div>
-            <div className="arrows">
-                <FontAwesomeIcon icon={faChevronLeft}/>
-                <FontAwesomeIcon icon={faChevronRight}/>
-            </div>
-        </div>
+            <FontAwesomeIcon icon={faChevronRight} onClick={handleNextClick} className="arrow"/>
+        </>
     )
 }
 

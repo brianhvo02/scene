@@ -19,7 +19,7 @@ export const getMovies = state => {
     return state?.movies ? Object.values(state.movies) : [];
 }
 
-export const getMovie = state => movieId => {
+export const getMovie = movieId => state => {
     return state?.movies ? state?.movies[movieId] : null;
 }
 

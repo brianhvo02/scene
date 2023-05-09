@@ -76,8 +76,8 @@ router.get('/current', restoreUser, (req, res) => {
         _id: req.user._id,
         username: req.user.username,
         email: req.user.email,
-        genreIds: [],
-        likedMovies: []
+        genreIds: req.user.genreIds,
+        likedMovies: req.user.likedMovies
     });
 });
 

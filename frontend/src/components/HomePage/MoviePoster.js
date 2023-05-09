@@ -1,10 +1,11 @@
 import { useDispatch, useSelector } from "react-redux"
 import { getMovie } from "../../store/movies";
 import { FontAwesomeIcon } from '@fortawesome/free-solid-svg-icons'
+import './index.scss'
+
 
 const MoviePoster = ({ movie }) => {
     const MOVIE_LINK = "https://image.tmdb.org/t/p/original";
-    console.log(movie);
 
     return(
         <div className="movie-poster-container">
