@@ -1,25 +1,23 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { customFetch, fetchUrl } from "./utils";
+import { fetchUrl } from "./utils";
 
 const initialState = {}
 
 const movieSlice = createSlice({
-    name: "movie",
+    name: "movies",
     initialState,
     reducers: {
-        receiveMovies: (state, action) => {
-            return ({...state, ...action.payload.movies})
-        },
+        receiveMovies: (state, action) => ({...state, ...action.payload.movies})
     }
 });
 
-const { receiveMovies } = movieSlice.actions;
+export const { receiveMovies } = movieSlice.actions;
 
 export const getMovies = state => {
     return state?.movies ? Object.values(state.movies) : [];
 }
 
-export const getMovie = state => movieId => {
+export const getMovie = movieId => state => {
     return state?.movies ? state?.movies[movieId] : null;
 }
 
@@ -44,5 +42,8 @@ export const fetchRecommendedMovies = movieId =>
 
 export const fetchNowPlayingMovies = () => 
     fetchUrl(`/api/tmdb/movies/now_playing`, receiveMovies);
+
+export const fetchPopularMovies = () =>
+    fetchUrl(`/api/tmdb/movies/popular`, receiveMovies);
 
 export default movieSlice.reducer;
