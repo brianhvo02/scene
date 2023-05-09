@@ -23,8 +23,8 @@ router.get('/discover', async (req, res) => {
 router.get('/movies/now_playing', async (req, res) => {
     const query = new URLSearchParams(req.query);
     const [{ results: res1 }, { results: res2 }] = await Promise.all([
-        fetchTMDB('/movie/now_playing?page=1&', query.toString()),
-        fetchTMDB('/movie/now_playing?page=2&', query.toString())
+        fetchTMDB('/movie/now_playing', query.toString() + '&page=1'),
+        fetchTMDB('/movie/now_playing', query.toString() + '&page=2')
     ]);
     const movies = Object.fromEntries([...res1, ...res2].map(result => [result.id, extractAllowedParams(result)]));
     res.status(200).json({ movies })
