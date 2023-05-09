@@ -2,13 +2,14 @@ import { useEffect, useState } from 'react'
 import './index.scss'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
+import { fetchNowPlayingMovies } from '../../store/movies';
 
 const SplashPage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     
     useEffect(()=>{
-        
+        dispatch(fetchNowPlayingMovies());
     },[]);
 
     return(

@@ -1,4 +1,6 @@
-function getCookie(cookieName) {
+import { useDispatch } from "react-redux";
+
+const getCookie = cookieName => {
     const cookies = document.cookie.split(';');
     for (let cookie of cookies) {
         const [name, value] = cookie.split('=');
@@ -7,7 +9,7 @@ function getCookie(cookieName) {
     return null;
 }
 
-async function jwtFetch(url, options = {}) {
+export const customFetch = async (url, options = {}) => {
     options.method = options.method || "GET";
     options.headers = options.headers || {};
     const jwtToken = sessionStorage.getItem("jwtToken");
@@ -22,7 +24,7 @@ async function jwtFetch(url, options = {}) {
 
     const res = await fetch(url, options);
     if (res.status >= 400) throw res;
-    return res;
+    return res.json();
 }
 
-export default jwtFetch;
+export const fetchUrl = (url, action) => dispatch => customFetch(url).then(json => dispatch(action(json)));

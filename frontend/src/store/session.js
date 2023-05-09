@@ -1,5 +1,5 @@
 import { receiveSessionErrors } from './errors/sessionErrors';
-import jwtFetch from './jwt';
+import { customFetch } from './utils';
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
@@ -24,11 +24,10 @@ export const login = user => startSession(user, 'api/users/login');
 
 const startSession = (userInfo, route) => async dispatch => {
     try {
-        const res = await jwtFetch(route, {
+        const { user, token } = await customFetch(route, {
             method: 'POST',
             body: JSON.stringify(userInfo)
         });
-        const { user, token } = await res.json();
         sessionStorage.setItem('jwtToken', token);
         return dispatch(receiveCurrentUser(user));
     } catch (err) {
@@ -45,8 +44,7 @@ export const logout = () => dispatch => {
 };
 
 export const getCurrentUser = () => async dispatch => {
-    const res = await jwtFetch('/api/users/current');
-    const user = await res.json();
+    const user = await customFetch('/api/users/current');
     return dispatch(receiveCurrentUser(user));
 };
 
