@@ -7,12 +7,12 @@ import LoginForm from './components/SessionForms/LoginForm';
 import SignupForm from './components/SessionForms/SignupForm.js'; 
 import { getCurrentUser } from './store/session';
 import HomePage from './components/HomePage';
+import SelectGenresForm from './components/SessionForms/SelectGenresForm';
 
 function App() {
-    const [loaded, setLoaded] = useState(false);
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(getCurrentUser()).then(() => setLoaded(true));
+        dispatch(getCurrentUser());
     }, [dispatch]);
 
     return (
@@ -22,6 +22,7 @@ function App() {
             <Route exact path="/home" Component={HomePage}/>
             <Route exact path="/login" Component={LoginForm} />
             <Route exact path="/signup" Component={SignupForm} />
+            <Route exact path="/signup/genres" Component={SelectGenresForm} />
         </Routes>
     );
 }
