@@ -59,7 +59,7 @@ router.delete('/:id', requireUser, async (req, res, next) => {
             return next(error);
         }
         await Event.findByIdAndDelete(req.params.id);
-        return res.json({ message: 'Event deleted' });
+        return res.json(event);
     }
     catch (err) {
         next(err);
