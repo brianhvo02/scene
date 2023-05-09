@@ -8,8 +8,8 @@ import passport from 'passport';
 import path from 'path';
 import http from 'http';
 import mongoose from 'mongoose';
-
 import csrfRouter from './routes/csrf';
+import eventRouter from './routes/events';
 import { isProduction, mongoURI as db } from './config';
 
 const app = express();
@@ -36,6 +36,7 @@ app.use(
 );
 
 app.use('/api/csrf', csrfRouter);
+app.use('/api/events', eventRouter);
 
 if (isProduction) {
     app.get('/', (req, res) => {
