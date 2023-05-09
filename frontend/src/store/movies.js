@@ -16,7 +16,7 @@ const movieSlice = createSlice({
 const { receiveMovies } = movieSlice.actions;
 
 export const getMovies = state => {
-    return state?.movies ? Object.values(state.movies) : null;
+    return state?.movies ? Object.values(state.movies) : [];
 }
 
 export const fetchDiscoverMovies = (user) => async dispatch => {

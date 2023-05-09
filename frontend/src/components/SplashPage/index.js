@@ -3,35 +3,64 @@ import './index.scss'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 import { fetchNowPlayingMovies, getMovies } from '../../store/movies';
+import { shuffle } from '../../util/function';
+import MoviePolaroid from './MoviePolaroid';
+import { Slogan } from './SplashSlogan';
 
 const SplashPage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const movies = useSelector(getMovies);
-    const firstPageMovies = movies.slice(0,19);
-    const secondPageMovies = movies.slice(20,39)
-    const [moviePosters, setMoviePosters] = useState
+    const [moviePolaroids, setMoviePolaroids] = useState(shuffle(movies).slice(0,14))
+    const tmdbUrl = "https://www.themoviedb.org/t/p/w1280";
+    const [sloganPage, setSloganPage] = useState(0);
+
     useEffect(()=>{
         dispatch(fetchNowPlayingMovies());
     },[dispatch]);
 
+    let interval;
+    useEffect(()=> {
+        setMoviePolaroids(shuffle(movies).slice(0, 14))
+        setSloganPage(0)
+        interval = setInterval(() => {
+            setMoviePolaroids(shuffle(movies).slice(0, 14))
+            setSloganPage((prev) => (prev+1) % 3)
+        }, 6000);
+        return () => {
+            clearInterval(interval)
+        }
+    },[movies])
     return(
         <>
-            <div className="name-logo-container">
-                <img className="scene-logo" src='/logo.png' alt="scene-logo" />
-                <div className='splash-movie-poster-container'>
-                    {/* {
-                        movies.map((movie, i) => <moviePolaroid
-                        imageUrls = {`https://www.themoviedb.org/t/p${movie.poster_path}`}
+            <div className="splash-page-container">
+                <div className='splash-center-container'>
+                    <div className='scene-login-signup-logo'>
+                        <img className="scene-logo" src='/light-logo.png' alt="scene-logo" />                      
+                        <div className='scene-login-signup-logo-right'>
+                            <div className='slogan-text'>{Slogan[sloganPage]}</div>
+                            <div className="button-container">
+                                <button onClick={() => navigate('/signup')}>Sign Up</button>
+                                <button onClick={() => navigate('/login')}>Login</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div className='splash-movie-poster-box'>
+                    <div className='splash-movie-poster-container'>
+                    {
+                        moviePolaroids.map((movie, i) => 
+                        <MoviePolaroid
+                        imageUrl = {`${tmdbUrl.concat(movie.posterPath)}`}
                         title = {movie.title}
                         key = {i}
+                        posterId = {i}
                         />)
-                    } */}
+                    }
+                    </div>
                 </div>
-                <div className="button-container">
-                    <button onClick={() => navigate('/signup')}>Sign Up</button>
-                    <button onClick={() => navigate('/login')}>Login</button>
-                </div>
+                
             </div>
         </>
     )
