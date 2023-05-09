@@ -28,7 +28,7 @@ export const fetchRecommendedMovies = (movieId) => async dispatch => {
 export const fetchNowPlayingMovies = () => async dispatch => {
     const res1 = await fetch('/api/tmdb/movies/now_playing?page=1').then(() => res1.json());
     const res2 = await fetch('/api/tmdb/movies/now_playing?page=2').then(() => res2.json());
-    const res = {movies: {...res1.movies, ...res2.movies}}
+    const movies = { movies: {...res1.movies, ...res2.movies} }
     dispatch(receiveMovies(movies))
 }
 

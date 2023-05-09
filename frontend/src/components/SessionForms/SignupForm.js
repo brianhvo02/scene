@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import './index.css';
+import './index.scss';
 import { signup } from '../../store/session';
 import { clearSessionErrors } from '../../store/errors/sessionErrors';
 

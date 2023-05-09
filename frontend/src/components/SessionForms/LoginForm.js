@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import './index.css';
+import './index.scss';
 import { login } from '../../store/session';
 import { clearSessionErrors } from '../../store/errors/sessionErrors';
 
@@ -35,11 +35,11 @@ const LoginForm = () => {
                 <label className="input-label" htmlFor="user-credential">Username or Email</label>
                 <div className='inputbox-container'>
                     <input className='inputbox' id = 'user-credential' 
-                    type='text'
-                    value={ credential }
-                    plasceholder = "Username or Email"
-                    onChange={update('credential')}
-                    required
+                        type='text'
+                        value={ credential }
+                        plasceholder = "Username or Email"
+                        onChange={update('credential')}
+                        required
                     />
                 </div>
                 <div className='errors'>{errors?.password}</div>

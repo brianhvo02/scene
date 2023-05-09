@@ -11,12 +11,6 @@ const User = mongoose.model('User');
 import validateRegisterInput from '../validations/register';
 import validateLoginInput from '../validations/login';
 
-router.get('/', (req, res, next) => {
-    res.json({
-        message:"GET /api/users"
-    });
-});
-
 router.post('/register', validateRegisterInput, async (req, res, next) => {
     const user = await User.findOne({
         $or: [{ email: req.body.email }, { username: req.body.username }]
@@ -64,7 +58,7 @@ router.post('/login', validateLoginInput, async (req, res, next) => {
         if (!user) {
             const err = new Error('Invalid credentials');
             err.statusCode = 400;
-            err.errors = { email: "Invalid credentials" };
+            err.errors = { credential: "Invalid credentials" };
             return next(err);
         }
         return res.json(await loginUser(user));
