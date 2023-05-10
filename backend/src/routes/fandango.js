@@ -5,7 +5,6 @@ const router = Router({ mergeParams: true });
 
 const fetchFandango = (route, params) => fetch(`https://www.fandango.com/napi${route}?${params}`, { headers: { 'Referer': 'https://www.fandango.com' } }).then(res => res.json());
 const theatreAllowedParams = [ 'name', 'fullAddress', 'geo' ];
-// const movieAllowedParams = [ 'title', 'rating' ];
 const ticketAllowedParams = [ 'ticketingDate', 'type', 'date', 'expired', 'ticketingJumpPageURL', 'amenities' ];
 
 const extractAllowedParams = (allowedParams, result) => Object.fromEntries(allowedParams.map(key => [key, result[key]]))
@@ -13,7 +12,7 @@ const extractAllowedParams = (allowedParams, result) => Object.fromEntries(allow
 router.get('/', async (req, res, next) => {
     const { movieId } = req.params;
     const query = new URLSearchParams({
-        limit: 3,
+        limit: 10,
         ...req.query
     });
     try {

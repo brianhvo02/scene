@@ -1,4 +1,4 @@
-import * as dotenv from 'dotenv';
+import { config }from 'dotenv';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
@@ -7,7 +7,7 @@ import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import User from './models/User';
 
-dotenv.config();
+config();
 export const 
     secret = process.env.SECRET,
     mongoURI = process.env.MONGO_URI,
@@ -52,7 +52,8 @@ export const loginUser = async user => {
 
 passport.use(new JwtStrategy({
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: secret
+    secretOrKey: secret,
+    ignoreExpiration: !isProduction
 }, async (jwtPayload, done) => {
     try {
         const user = await User.findById(jwtPayload._id)
