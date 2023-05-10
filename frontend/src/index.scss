@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css?family=Permanent+Marker");
+@import url('https://fonts.googleapis.com/css2?family=League+Gothic&display=swap');
 
 :root {
     --backgroundBlue: #111D47;
@@ -18,4 +19,8 @@
 
 html, body {
     background-color: var(--backgroundBlue);
+    background-color: var(--backgroundBlue);
+    color: var(--backgroundLightBlue);
+    font-family: 'League Gothic', sans-serif;
+    letter-spacing: 1px;
 }

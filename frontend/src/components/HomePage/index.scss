@@ -3,15 +3,32 @@
     justify-content: center;
     align-items: center;
     margin: 1.5em 0em;
+    z-index: 5;
     .arrow{
         margin: 2em 2em;
         cursor: pointer;
+        height: 2em;
+        z-index: 5;
+    }
+    .movie-poster{
+        cursor: pointer;
+        transition: transform 250ms;
+        img{
+            height: 75vh;
+        }
     }
 }
 
 .movie-poster{
+    cursor: pointer;
+    transition: transform 250ms;
+
+    .movie-poster:hover{
+        transform: translateY(-10px);
+        animation-duration: 1s;
+    }
     img{
-        height: 45vh;
+        height: 50vh;
     }
 }
 
@@ -21,14 +38,26 @@
     align-items: center;
     position: relative;
     min-width: 20em;
+    z-index: 5;
+
+    #movie-title{
+        margin: 10px 0px;
+        font-size: 1.5em;
+        padding-top: 0px;
+
+        h2{
+            overflow-wrap: normal;
+        }
+    }
 
     .like-options{
         display: flex;
         justify-content: space-between;
-        width: 83%;
+        width: 90%;
         position: absolute;
-        color: rgb(207, 207, 207);
-        bottom: 30px;
+        color: rgb(129, 129, 129);
+        bottom: 4em;
+        z-index: 10;
 
         .thumb-up, .thumb-down{
             height: 1.7em;
@@ -42,7 +71,7 @@
         }
         .thumb-up:hover{
             opacity: 1;
-            color: green;
+            color: rgb(0, 206, 0);
         }
 
     }
@@ -52,17 +81,55 @@
     display: flex;
     justify-content: center;
     margin: 1em 0em;
+    font-size: 1.8em;
+    text-transform: capitalize;
+    z-index: 10;
+    position: relative;
 }
 
-.recommendations-container{
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(20em, 1fr));
-    // display: flex;
-    // flex-wrap: wrap;
-    // justify-content: center;
-    height: 50vh;
-    
-    .recommendations-movie-poster{
-        max-width: 19%;
+.background-gradient{
+    height: 200px;
+    position: absolute;
+    background: linear-gradient(rgba(255,255,255,0) 0%, #111D47 70%);
+    box-sizing: border-box;
+    left:0;
+    bottom: 0;
+    right: 0;
+    display: block;
+    z-index: 2;
+}
+
+.recommendations{
+    width: 99vw;
+    z-index: 5;
+    position: relative;
+    background-image: linear-gradient(45deg, #161616, #111D47);
+
+    h2{
+        width: 100%;
+        height: 100%;
+        padding-top: 15px;
     }
+
+    .recommendations-container{
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(20em, 1fr));
+
+        .recommendations-movie-poster{
+            max-width: 19%;
+            margin-bottom: 5px;
+        }
+    }
+}
+
+.background-image{
+    position:absolute;
+    width: 98vw;
+    height: 100vh;
+    opacity: 0.3;
+    z-index: 1;
+}
+
+.homepage-container{
+    background-blend-mode: color;
 }

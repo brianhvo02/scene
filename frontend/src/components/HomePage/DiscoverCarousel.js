@@ -1,10 +1,10 @@
-import MoviePoster from "./MoviePoster"
-import { getMovies, fetchDiscoverMovies } from "../../store/movies"
-import { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronLeft, faChevronRight, faThumbsDown, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
-import './index.scss'
+import MoviePoster from "./MoviePoster";
+import { getMovies, fetchDiscoverMovies } from "../../store/movies";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronLeft, faChevronRight, faThumbsDown, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
+import './index.scss';
 
 const DiscoverCarousel = ({ setSelectedMovie }) => {
     const dispatch = useDispatch();
@@ -19,26 +19,30 @@ const DiscoverCarousel = ({ setSelectedMovie }) => {
 
     const handlePrevClick = () => {
         setCurrentIndex((prevIndex) => (prevIndex === 0 ? movies?.length - 1 : prevIndex - 1));
-        setSelectedMovie()
+        setSelectedMovie();
     }
 
     const handleNextClick = () => {
         setCurrentIndex((prevIndex) => (prevIndex === movies?.length - 1 ? 0 : prevIndex + 1));
-        setSelectedMovie()
+        setSelectedMovie();
     }
 
     const handleDislikeButtonClick = (movie) => {
-        setSelectedMovie()
+        setSelectedMovie();
+        handleNextClick();
     }
 
     const handleLikeButtonClick = (movie) => {
-        sessionUser?.likedMovies?.push(movie?._id)
+        // sessionUser?.likedMovies?.push(movie?.id)
         setSelectedMovie(movie)
     }
+
+    const MOVIE_LINK = "https://image.tmdb.org/t/p/original";
 
     return(
         <>
             <FontAwesomeIcon icon={faChevronLeft} onClick={handlePrevClick} className="arrow"/>
+            <img src={MOVIE_LINK.concat(movies[currentIndex]?.backdropPath)} className="background-image"/>
             <div className="movie-poster-container">
                 <MoviePoster movie={movies[currentIndex]} className="movie-poster-component" />
                 <div className="like-options">
