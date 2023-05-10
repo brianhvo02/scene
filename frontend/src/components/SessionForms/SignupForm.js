@@ -12,7 +12,6 @@ const SignupForm = () => {
     const errors = useSelector(state => state.errors.session);
     const dispatch = useDispatch();
 
-    useRequireLoggedOut();
     useClearSessionErrors();
 
     const update = (field) => {

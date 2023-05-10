@@ -15,19 +15,19 @@ import Modal from '../Modal';
 
 const SplashPage = () => {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     const movies = useSelector(getMovies);
     const [moviePolaroids, setMoviePolaroids] = useState(shuffle(movies).slice(0,14))
     const tmdbUrl = "https://www.themoviedb.org/t/p/w1280";
     const [sloganPage, setSloganPage] = useState(0);
-    const [fadeIn,setFadeIn] = useState(false)
+    const [fadeIn, setFadeIn] = useState(false)
     const [modal, setModal] = useState();
 
-    useRequireLoggedOut();
+    useRequireLoggedOut(() => setModal('genres'));
+    console.log(modal)
 
     useEffect(()=>{
         dispatch(fetchNowPlayingMovies());
-    },[dispatch]);
+    }, [dispatch]);
 
     useEffect(()=> {
         setMoviePolaroids(shuffle(movies).slice(0, 14))
@@ -35,12 +35,10 @@ const SplashPage = () => {
         const interval = setInterval(() => {
             setFadeIn(false);
             setTimeout(()=>{
-                
-                setMoviePolaroids(shuffle(movies).slice(0, 14))
-                setSloganPage((prev) => (prev+1) % 3)
+                setMoviePolaroids(shuffle(movies).slice(0, 14));
+                setSloganPage((prev) => (prev + 1) % 3);
                 setFadeIn(true);
-            },800)
-            
+            }, 800);
         }, 8000);
         return () => {
             clearInterval(interval);
@@ -78,11 +76,11 @@ const SplashPage = () => {
                 {
                     moviePolaroids.map((movie, i) => 
                     <MoviePolaroid
-                    imageUrl = {`${tmdbUrl.concat(movie.posterPath)}`}
-                    title = {movie.title}
-                    key = {i}
-                    posterId = {i}
-                    fadeIn = {fadeIn}
+                        imageUrl = {`${tmdbUrl.concat(movie.posterPath)}`}
+                        title = {movie.title}
+                        key = {i}
+                        posterId = {i}
+                        fadeIn = {fadeIn}
                     />)
                 }
                 </div>

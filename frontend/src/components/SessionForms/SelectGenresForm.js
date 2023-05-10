@@ -24,7 +24,7 @@ const SelectGenresForm = () => {
     return (
         <div className='select-genres-container'>
             {
-                
+                "test"
             }
         </div>
     )
