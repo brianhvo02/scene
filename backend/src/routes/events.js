@@ -27,7 +27,7 @@ router.post('/', requireUser, validateEventInput, async (req, res, next) => {
         let movie = await Movie.findOne({ [movieId.length !== 24 ? 'tmdbId' : '_id']: movieId });
         // console.log(movie)
         movie.events.push(event);
-        movie.save();
+        await movie.save();
         event = await event.populate('host', '_id username');
         return res.json(event);
     }

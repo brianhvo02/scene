@@ -56,7 +56,7 @@ passport.use(new JwtStrategy({
     ignoreExpiration: !isProduction
 }, async (jwtPayload, done) => {
     try {
-        const user = await User.findById(jwtPayload._id)
+        const user = await User.findById(jwtPayload._id);
         if (user) return done(null, user);
         return done(null, false);
     }
