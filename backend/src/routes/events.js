@@ -1,17 +1,17 @@
 import { Router } from 'express';
 import mongoose, { model } from 'mongoose';
-const router = Router();
+const router = Router({mergeParams: true});
 import Event from '../models/Event';
 import passport from 'passport';
 // import mongoose from 'mongoose';
 import { isProduction } from '../config';
 import validateEventInput from '../validations/event';
 import { requireUser } from '../config';
+import Movie from '../models/Movie';
 
 
 router.post('/',requireUser, validateEventInput, async (req, res, next) => {
     try {
-        debugger;
         const newEvent = new Event({
             title: req.body.title,
             body: req.body.body,
@@ -21,6 +21,10 @@ router.post('/',requireUser, validateEventInput, async (req, res, next) => {
         });
 
         let event = await newEvent.save();
+        let movie = await Movie.findById(req.params.movieId);
+        // console.log(movie)
+        movie.events.push(event);
+        movie.save();
         event = await event.populate('host', '_id username');
         return res.json(event);
     }

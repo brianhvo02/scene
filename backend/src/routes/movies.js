@@ -2,10 +2,16 @@ import { Router } from "express";
 const router = Router();
 import Movie from "../models/Movie";
 import validateMovieInput from "../validations/movie";
+import eventRouter from "./events";
+
+
+router.use("/:movieId/events", eventRouter);
 
 router.get('/:id', async (req, res, next) => {
     try {
-        const movie = await Movie.findById(req.params.id);
+        let movie = await Movie.findById(req.params.id);
+        movie = await movie.populate('events')
+
         return res.json(movie);
     }
     catch(err) {
@@ -16,8 +22,8 @@ router.get('/:id', async (req, res, next) => {
     }
 });
 
+
 router.post('/', validateMovieInput, async (req, res, next) => {
-    console.log(req.body)
     try {
         const newMovie = new Movie({
             tmdbId: req.body.tmdbId,

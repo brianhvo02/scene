@@ -40,7 +40,6 @@ app.use(
 );
 
 app.use('/api/csrf', csrfRouter);
-app.use('/api/events', eventRouter);
 app.use('/api/tmdb', tmdbRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/movies', moviesRouter);

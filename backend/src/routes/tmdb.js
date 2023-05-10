@@ -15,7 +15,7 @@ router.get('/genres', async (req, res) => {
 
 router.get('/discover', async (req, res) => {
     const query = new URLSearchParams(req.query);
-    const { results } = await fetchTMDB('/discover/movie', query.toString());
+    const { results } = await fetchTMDB('/discover/movie', query.toString() + "&include_adult=false");
     const movies = Object.fromEntries(results.map(result => [result.id, extractAllowedParams(result)]));
     res.status(200).json({ movies });
 });
