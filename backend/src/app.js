@@ -12,6 +12,7 @@ import csrfRouter from './routes/csrf';
 import eventRouter from './routes/events';
 import tmdbRouter from './routes/tmdb';
 import usersRouter from './routes/users';
+import moviesRouter from './routes/movies';
 
 import { isProduction, mongoURI as db } from './config';
 
@@ -39,9 +40,9 @@ app.use(
 );
 
 app.use('/api/csrf', csrfRouter);
-app.use('/api/events', eventRouter);
 app.use('/api/tmdb', tmdbRouter);
 app.use('/api/users', usersRouter);
+app.use('/api/movies', moviesRouter);
 
 if (isProduction) {
     app.get('/', (req, res) => {
