@@ -1,0 +1,234 @@
+
+
+.session-form {
+    min-height: 400px;
+    padding: 20px 10px 24px
+}
+
+.logo-container {
+    height: 100px;
+    width:100px;
+    display: block;
+    margin: 8px auto 6px;
+    text-align: center;
+}
+
+.mlogo {
+    height: 100px;
+    width: 100px;
+}
+
+.header-container {
+    margin: 0 auto 22px;
+    width: 400px;
+}
+
+#welcome-text {
+    -webkit-font-smoothing: antialiased;
+    color: var(--backgroundBlue);
+    font-size: 32px;
+    font-weight: 600;
+    letter-spacing: -1.2px;
+    padding-left: 16px;
+    padding-right: 16px;
+    word-break: keep-all;
+}
+
+
+// #m-close-button {
+//     display: flex;
+//     cursor: pointer;
+//     position: absolute;
+//     right: 0;
+//     height: 32px;
+//     width: 32px;
+//     margin-right: 16px;
+//     margin-left: 16px;
+//     border-radius: 50%;
+//     justify-content: center;
+//     align-items: center;
+//     background-color: white;
+//     /* margin-top: 16px; */
+// }
+
+// #m-close-button:hover {
+
+//     background-color: var(--hovelightGray);
+
+// }
+
+// #close-icon {
+//     height: 24px;
+//     width: 24px;
+// }
+#modal-input{
+    margin: 0 auto;
+    width: 268px;
+}
+
+
+.input-label {
+    display: block;
+    margin-left: 8px;
+    margin-bottom: 4px;
+    text-align: left;
+    word-wrap: break-word;
+    font-weight: 400;
+    font-size: 14px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--backgroundBlue);
+}
+
+.inputbox-container {
+    position: relative;
+    margin: 8px 0px;
+}
+
+#user-credential,
+#user-username,
+#user-email,
+#password2
+ {
+    -webkit-font-smoothing: antialiased;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: var(--backgroundLightBlue);
+    border-color: var(--backgroundBlue);
+    border-radius: 16px;
+    border-style: solid;
+    border-width: 2px;
+    box-sizing: border-box;
+    color: var(--textDefault);
+    font-family: Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 16px;
+    max-width: 100%;
+    min-height: 48px;
+    overflow: hidden;
+    padding: 8px 16px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 268px;
+
+}
+
+#password {
+    -webkit-font-smoothing: antialiased;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: var(--backgroundLightBlue);
+    border-color: var(--backgroundBlue);
+    border-radius: 16px;
+    border-style: solid;
+    border-width: 2px;
+    box-sizing: border-box;
+    color: var(--textDefault);
+    font-family: Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 16px;
+    max-width: 100%;
+    min-height: 48px;
+    overflow: hidden;
+    padding: 8px 16px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 268px;
+}
+
+.modal-button {
+    border: 0px;
+    height: 40px;
+    display: inline-block;
+    border-radius: 20px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: var(--backgroundBlue);
+    -webkit-font-smoothing: antialiased;
+    padding: 0px 18px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    vertical-align: middle;
+    text-align: center;
+    color: rgb(255, 255, 255);
+    width: 100%;
+}
+
+#modal-button-login,
+#modal-button-signup {
+    background-color: var(--backgroundBlue);
+}
+
+#modal-button-login:hover {
+    background-color: #0c1331;
+}
+#modal-button-signup:hover {
+    background-color: #0c1331;
+}
+
+#modal-button-demo {
+    background-color: var(--backgroundLightBlue);
+    border-color: var(--backgroundBlue);
+    color: var(--backgroundBlue);
+}
+
+#modal-button-demo:hover {
+    border-color: var(--backgroundBlue);
+    background-color: #b2bed2;
+}
+
+#modal-or {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.warning-text {
+    margin: 10px auto;
+    font-size: 11px;
+    color: #767676;
+
+}
+
+.divide-line {
+    border-bottom: 1px solid var(--backgroundBlue);
+    margin: 10px auto;
+    width: 110px;
+}
+
+#io-warning {
+    width: 16px;
+    height: 16px;
+    margin-right: 4px;
+}
+
+.modal-error-text {
+    display: flex;
+    text-align: left;
+    width: 100%;
+    align-items: center;
+    margin: 4px;
+
+    font-size: 12px !important;
+    font-weight: 100;
+    color: var(--textError);
+}
+
+@keyframes mymove {
+    from {
+        top: -100%;
+    }
+
+    to {
+        top: 20%;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0%;
+    }
+
+    to {
+        opacity: 100%;
+    }
+}

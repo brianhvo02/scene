@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import './index.scss';
-import { signup } from '../../store/session';
-import { clearSessionErrors } from '../../store/errors/sessionErrors';
+import { signup, useRequireLoggedOut } from '../../store/session';
+import { clearSessionErrors, useClearSessionErrors } from '../../store/errors/sessionErrors';
+
 
 const SignupForm = () => {
     const [email, setEmail] = useState('');
@@ -12,11 +13,7 @@ const SignupForm = () => {
     const errors = useSelector(state => state.errors.session);
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        return () => {
-            dispatch(clearSessionErrors());
-        }
-    }, [dispatch]);
+    useClearSessionErrors();
 
     const update = (field) => {
         let setState;
@@ -51,14 +48,20 @@ const SignupForm = () => {
 
     return (
         <form className="session-form" onSubmit={handleSubmit}>
-            <h2>Sign Up Form</h2>
+            <div className="logo-container">
+                <img className="mlogo" src="./logo.png" />
+            </div>
+            <div className="header-container">
+                <h1 id="welcome-text">Welcome to SCENE</h1>
+            </div>
+            <div id="modal-input">
             <div className="errors">{errors?.email}</div>
             <label className="input-label" htmlFor="user-email">Email</label>
             <div className='inputbox-container'>
                 <input className='inputbox' id='user-email'
                     type='text'
                     value={email}
-                    plasceholder="Email"
+                    placeholder="Email"
                     onChange={update('email')}
                     required
                 />
@@ -69,7 +72,7 @@ const SignupForm = () => {
                 <input className='inputbox' id='user-username'
                     type='text'
                     value={username}
-                    plasceholder="Username"
+                    placeholder="Username"
                     onChange={update('username')}
                     required
                 />
@@ -80,7 +83,7 @@ const SignupForm = () => {
                 <input className='inputbox' id='password'
                     type='password'
                     value={password}
-                    plasceholder="password"
+                    placeholder="password"
                     onChange={update('password')}
                     required
                 />
@@ -93,16 +96,22 @@ const SignupForm = () => {
                 <input className='inputbox' id='password2'
                     type='password'
                     value={password2}
-                    plasceholder="Confirm Password"
+                    placeholder="Confirm Password"
                     onChange={update('password2')}
                     required
                 />
             </div>
-            <input
+            <input className='modal-button' id='modal-button-signup'
                 type="submit"
                 value="Sign Up"
                 disabled={!email || !username || !password || password !== password2}
             />
+            <div className="divide-line"></div>
+            <div className="warning-text">
+                <p>This website is for educational purposes only.</p>
+                <p>Please do not put any sensitive information.</p>
+            </div>
+            </div>
         </form>
     )
 }

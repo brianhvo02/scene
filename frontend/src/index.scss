@@ -1,0 +1,24 @@
+@import url("https://fonts.googleapis.com/css?family=Permanent+Marker");
+@import url('https://fonts.googleapis.com/css2?family=League+Gothic&display=swap');
+
+:root {
+    --backgroundBlue: #111D47;
+    --backgroundLightBlue: #C6D4ED;
+    --textDefault: #111;
+    --red: #e60023;
+    --lightGray: #efefef;
+    --hoveRed: #ad081b;
+    --hovelightGray: #e2e2e2;
+    --transparentGray: rgb(0 0 0/0.1);
+    --textDefault: #111;
+    --grayContainer: #cdcdcd;
+    --backgrounGray: #fff;
+    --textError: #c00;
+    --defaultSelect: #111;
+}
+
+html, body {
+    background-color: var(--backgroundBlue);
+    font-family: 'League Gothic', sans-serif;
+    letter-spacing: 1px;
+}

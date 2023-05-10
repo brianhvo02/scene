@@ -1,6 +1,239 @@
-.name-logo-container {
-    img {
-        width: 10em;
-        height: 10em;
+
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
     }
+
+    100% {
+        opacity: 1;
+    }
+}
+.scene-logo{
+    width: 160px;
+    height: 160px;
+    
+}
+
+.splash-center-container{
+    width: 1200px;
+    height: auto;
+}
+.scene-login-signup-logo-right{
+    flex-direction: column;
+    display: flex;
+    align-items: right;
+    width: 680px;
+}
+
+.slogan-text{
+    animation: fadeIn 5s;
+    color: var(--backgroundLightBlue);
+    font-size: 32px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: right;
+    padding-bottom: 30px;
+}
+
+.scene-login-signup-logo{
+    position: fixed;
+    left: calc(50% - 420px);
+    top: calc(50% - 50px);
+    display: flex;
+    color: var(--backgroundBlue);
+    width: 600 px;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    z-index: 5;
+
+    button{
+        
+        border: 0;
+        border-radius: 24px;
+        box-sizing: border-box;
+        display: inline-block;
+        font-size: 16px;
+        font-weight: 600;
+        height: 48px;
+        margin-left: 8px;
+        margin-right: 8px;
+        min-width: 100px;
+        padding: 8px 12px;
+
+        &:hover{
+            cursor: pointer;
+            color: #fff;
+            background-color: var(--backgroundLightBlue);
+        }
+    }
+}
+
+.button-container{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-direction: row;
+}
+
+.splash-page-container {
+    background-color: var(--backgroundBlue);
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+
+}
+
+.splash-movie-poster-box{
+    
+    padding: 0 2rem;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+}
+
+.splash-movie-poster-container {
+    position: relative;
+    display: block;
+    height: 400px;
+    width: 250px;
+    margin: auto;
+
+}
+
+
+.splash-movie-polaroid-container{
+    // box-sizing: border-box;
+    // border: 1px black;
+
+}
+
+.splash-photo-container{
+    width: 250px;
+    height: 300px;
+    display: inline-block;
+    margin-top: 2rem;
+    
+}
+
+.splash-individual-photo{
+    background: #fff;
+    padding: 1rem;
+    box-shadow: 0 0.5rem 1.2rem rgb(0, 0, 0);
+}
+
+.splash-poster{
+    max-width: 218px;
+    height: 327px;
+}
+
+.movie-title {
+    font-size: 16px;
+    font-family: Permanent Marker;
+    text-align: center;
+    line-height: 2em;
+    
+}
+
+.splash-movie-polaroid-container-0 {
+    position: absolute;
+    right: 665px;
+    top: -350px;
+    transform: rotate(5deg);
+}
+
+.splash-movie-polaroid-container-1 {
+    position: absolute;
+    right: 399px;
+    top: -350px;
+    transform: rotate(-15deg);
+}
+
+.splash-movie-polaroid-container-2 {
+    position: absolute;
+    right: 133px;
+    top: -350px;
+    transform: rotate(4deg);
+}
+
+.splash-movie-polaroid-container-3 {
+    position: absolute;
+    right: -133px;
+    top: -350px;
+    transform: rotate(-5deg);
+}
+
+.splash-movie-polaroid-container-4 {
+    position: absolute;
+    right: -399px;
+    top: -350px;
+    transform: rotate(-15deg);
+}
+
+.splash-movie-polaroid-container-5 {
+    position: absolute;
+    right: -665px;
+    top: -350px;
+    transform: rotate(10deg);
+}
+
+.splash-movie-polaroid-container-6 {
+    position: absolute;
+    right: 665px;
+    top: 0px;
+    transform: rotate(-5deg);
+}
+
+.splash-movie-polaroid-container-7 {
+    position: absolute;
+    right: -665px;
+    top: 0px;
+    transform: rotate(20deg);
+}
+
+.splash-movie-polaroid-container-8 {
+    position: absolute;
+    right: 665px;
+    top: 350px;
+    transform: rotate(-40deg);
+}
+
+.splash-movie-polaroid-container-9 {
+    position: absolute;
+    right: 399px;
+    top: 350px;
+    transform: rotate(20deg);
+}
+
+.splash-movie-polaroid-container-10 {
+    position: absolute;
+    right: 133px;
+    top: 350px;
+    transform: rotate(-10deg);
+}
+
+.splash-movie-polaroid-container-11 {
+    position: absolute;
+    right: -133px;
+    top: 350px;
+    transform: rotate(-3deg);
+}
+
+.splash-movie-polaroid-container-12 {
+    position: absolute;
+    right: -399px;
+    top: 350px;
+    transform: rotate(6deg);
+}
+
+.splash-movie-polaroid-container-13 {
+    position: absolute;
+    right: -665px;
+    top: 350px;
+    transform: rotate(10deg);
 }

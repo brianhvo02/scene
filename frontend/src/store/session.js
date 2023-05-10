@@ -1,6 +1,9 @@
+import { useSelector } from 'react-redux';
 import { receiveSessionErrors } from './errors/sessionErrors';
 import { customFetch } from './utils';
 import { createSlice } from '@reduxjs/toolkit';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const initialState = {
     user: undefined
@@ -47,6 +50,35 @@ export const getCurrentUser = () => async dispatch => {
     const user = await customFetch('/api/users/current');
     return dispatch(receiveCurrentUser(user));
 };
+
+export const useCurrentUser = () => useSelector(state => state.session.user);
+
+export const useProtected = () => {
+    const navigate = useNavigate();
+    const currentUser = useCurrentUser();
+    useEffect(() => {
+        if (
+            currentUser === null
+            || (currentUser !== undefined
+                && currentUser.genreIds.length === 0)
+        ) navigate('/');
+    }, [currentUser]);
+}
+
+export const useRequireLoggedOut = setShowModal => {
+    const navigate = useNavigate();
+    const currentUser = useCurrentUser();
+    useEffect(() => {
+        if (currentUser) {
+            (!currentUser.genreIds.length && setShowModal)
+                ? (() => {
+                    navigate('/');
+                    setShowModal();
+                })()
+                : navigate('/home');
+        }
+    }, [currentUser]);
+}
 
 // This is new
 export default sessionSlice.reducer;

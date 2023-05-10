@@ -34,7 +34,9 @@ export const loginUser = async user => {
     const userInfo = {
         _id: user._id,
         username: user.username,
-        email: user.email
+        email: user.email,
+        genreIds: user.genreIds,
+        likedMovies: user.likedMovies
     };
     const token = await new Promise((resolve, reject) => jwt.sign(
         userInfo,
