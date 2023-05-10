@@ -32,13 +32,16 @@ const DiscoverCarousel = ({ setSelectedMovie }) => {
     }
 
     const handleLikeButtonClick = (movie) => {
-        sessionUser?.likedMovies?.push(movie?._id)
+        // sessionUser?.likedMovies?.push(movie?.id)
         setSelectedMovie(movie)
     }
+
+    const MOVIE_LINK = "https://image.tmdb.org/t/p/original";
 
     return(
         <>
             <FontAwesomeIcon icon={faChevronLeft} onClick={handlePrevClick} className="arrow"/>
+            <img src={MOVIE_LINK.concat(movies[currentIndex]?.backdropPath)} className="background-image"/>
             <div className="movie-poster-container">
                 <MoviePoster movie={movies[currentIndex]} className="movie-poster-component" />
                 <div className="like-options">

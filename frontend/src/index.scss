@@ -1,7 +1,17 @@
 @import url("https://fonts.googleapis.com/css?family=Permanent+Marker");
+// @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=League+Gothic&display=swap');
 
 :root {
     --backgroundBlue: #111D47;
     --backgroundLightBlue: #C6D4ED;
     --textDefault: #111;
+}
+
+body{
+    background-color: var(--backgroundBlue);
+    color: var(--backgroundLightBlue);
+    font-family: 'League Gothic', sans-serif;
+    letter-spacing: 1px;
+    // font-family: 'Bebas Neue', sans-serif;
 }

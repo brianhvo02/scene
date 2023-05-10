@@ -13,6 +13,7 @@ const HomePage = () => {
             <div className="discover-carousel">
                 <DiscoverCarousel setSelectedMovie={setSelectedMovie}/>
             </div>
+            <div className="background-gradient"></div>
             <div className="recommendations">
                 {selectedMovie ? 
                     (

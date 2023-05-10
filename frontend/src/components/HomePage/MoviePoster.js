@@ -12,8 +12,8 @@ const MoviePoster = ({ movie }) => {
             <div className="movie-poster">
                 <img src={`${MOVIE_LINK.concat(movie?.posterPath)}`}/>
             </div>
-            <div className="movie-title">
-                <h2>{movie?.title}</h2>
+            <div >
+                <h2 id="movie-title">{movie?.title}</h2>
             </div>
         </div>
     )
