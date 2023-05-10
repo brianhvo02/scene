@@ -5,11 +5,14 @@ import validateMovieInput from "../validations/movie";
 import eventRouter from "./events";
 import commentRouter from "./comments";
 import fandangoRouter from "./fandango";
+import ratingRouter from "./ratings";
 
 
 router.use("/:movieId/events", eventRouter);
 router.use("/:movieId/comments", commentRouter);
 router.use("/:movieId/theatres", fandangoRouter);
+router.use("/:movieId/ratings", ratingRouter);
+
 
 router.get('/:id', async (req, res, next) => {
     try {
