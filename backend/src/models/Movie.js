@@ -22,6 +22,10 @@ const movieSchema = new Schema({
         type: String,
         required: true
     },
+    alternativeTitles: [{
+        type: String,
+        required: true
+    }],
     genreIds: [{
         type: Number,
         required: true

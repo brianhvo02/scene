@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import mongoose, { model } from 'mongoose';
-const router = Router({mergeParams: true});
+const router = Router({ mergeParams: true });
 import Event from '../models/Event';
 import passport from 'passport';
 // import mongoose from 'mongoose';
@@ -10,8 +10,10 @@ import { requireUser } from '../config';
 import Movie from '../models/Movie';
 
 
-router.post('/',requireUser, validateEventInput, async (req, res, next) => {
+router.post('/', requireUser, validateEventInput, async (req, res, next) => {
     try {
+        const { movieId } = req.params;
+
         const newEvent = new Event({
             title: req.body.title,
             body: req.body.body,
@@ -21,7 +23,8 @@ router.post('/',requireUser, validateEventInput, async (req, res, next) => {
         });
 
         let event = await newEvent.save();
-        let movie = await Movie.findById(req.params.movieId);
+
+        let movie = await Movie.findOne({ [movieId.length !== 24 ? 'tmdbId' : '_id']: movieId });
         // console.log(movie)
         movie.events.push(event);
         movie.save();
