@@ -5,8 +5,8 @@
   "main": "app.js",
   "scripts": {
     "build": "babel src -d dist",
-    "dev": "DEBUG=backend:server nodemon -w src --exec 'npm run start'",
-    "start": "npm run build && node dist/app.js"
+    "dev": "DEBUG=backend:server nodemon -w src --exec 'npm run build && npm start'",
+    "start": "node dist/app.js"
   },
   "keywords": [],
   "author": "",

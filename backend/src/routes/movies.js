@@ -4,20 +4,25 @@ import Movie from "../models/Movie";
 import validateMovieInput from "../validations/movie";
 import eventRouter from "./events";
 import commentRouter from "./comments";
+import fandangoRouter from "./fandango";
 
 
 router.use("/:movieId/events", eventRouter);
 router.use("/:movieId/comments", commentRouter);
+router.use("/:movieId/theatres", fandangoRouter);
 
 router.get('/:id', async (req, res, next) => {
     try {
-        let movie = await Movie.findById(req.params.id);
-        movie = await movie.populate('events')
+        const { id } = req.params;
+
+        let movie = await Movie.findOne({ [id.length !== 24 ? 'tmdbId' : '_id']: id });
+
+        movie = await movie.populate('events');
 
         return res.json(movie);
     }
     catch(err) {
-        const error = new Error('Movie not found')
+        const error = new Error('Movie not found');
         error.statusCode = 404;
         error.errors = { message: 'No movie found with that id' };
         return next(error);
@@ -39,7 +44,6 @@ router.post('/', validateMovieInput, async (req, res, next) => {
             events: req.body.events
         });
         let movie = await newMovie.save();
-        console.log(newMovie)
         return res.json(movie);
     }
     catch(err) {

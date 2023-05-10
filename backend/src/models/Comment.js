@@ -1,18 +1,19 @@
 import {model, Schema} from 'mongoose';
 
 const commentSchema = new Schema({
-    userId: {
+    user: {
         type: Schema.Types.ObjectId,
         ref: 'User',
         required: true
     },
     body: {
-        type: Text,
+        type: String,
         required: true
     },
     childrenComment: [{
         type: Schema.Types.ObjectId,
         ref: 'Comment',
+        required: true
     }]
 }, {
     timestamps: true
