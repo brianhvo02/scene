@@ -71,7 +71,10 @@ export const useRequireLoggedOut = setShowModal => {
     useEffect(() => {
         if (currentUser) {
             (!currentUser.genreIds.length && setShowModal)
-                ? (navigate('/') && setShowModal())
+                ? (() => {
+                    navigate('/');
+                    setShowModal();
+                })()
                 : navigate('/home');
         }
     }, [currentUser]);

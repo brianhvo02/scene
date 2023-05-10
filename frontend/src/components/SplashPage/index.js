@@ -17,13 +17,12 @@ const SplashPage = () => {
     const dispatch = useDispatch();
     const movies = useSelector(getMovies);
     const [moviePolaroids, setMoviePolaroids] = useState(shuffle(movies).slice(0,14))
-    const tmdbUrl = "https://www.themoviedb.org/t/p/w1280";
+    const tmdbUrl = "https://www.themoviedb.org/t/p/original";
     const [sloganPage, setSloganPage] = useState(0);
     const [fadeIn, setFadeIn] = useState(false)
     const [modal, setModal] = useState();
 
     useRequireLoggedOut(() => setModal('genres'));
-    console.log(modal)
 
     useEffect(()=>{
         dispatch(fetchNowPlayingMovies());
