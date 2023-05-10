@@ -27,4 +27,4 @@ export const customFetch = async (url, options = {}) => {
     return res.json();
 }
 
-export const fetchUrl = (url, action) => dispatch => customFetch(url).then(json => dispatch(action(json)) && json);
+export const fetchUrl = (url, action, options) => dispatch => customFetch(url, options).then(json => dispatch(action(json)) && json);

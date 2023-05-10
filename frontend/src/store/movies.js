@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchUrl } from "./utils";
+import { fetchUrl, customFetch } from "./utils";
+import { receiveMovieErrors } from './errors/movieErrors';
+
 
 const initialState = {}
 
@@ -7,7 +9,7 @@ const movieSlice = createSlice({
     name: "movies",
     initialState,
     reducers: {
-        receiveMovies: (state, action) => ({...state, ...action.payload.movies})
+        receiveMovies: (state, action) => ({...state, ...action.payload.movies}),
     }
 });
 
@@ -32,5 +34,34 @@ export const fetchNowPlayingMovies = () =>
 
 export const fetchPopularMovies = () =>
     fetchUrl(`/api/tmdb/movies/popular`, receiveMovies);
+
+
+export const addEventAttendee = (eventId, movieId) => async dispatch => {
+    try {
+        const movies = await customFetch(`/api/movies/${movieId}/events/${eventId}/addAttendees`, {
+            method: 'PATCH'
+        });
+        return dispatch(receiveMovies({ movies }));
+    } catch (err) {
+        const res = await err.json();
+        if (res.statusCode === 400) {
+            return dispatch(receiveMovieErrors(res.errors));
+        }
+    }
+}
+
+export const removeEventAttendee = (eventId, movieId) => async dispatch => {
+    try{
+        const movies = await customFetch(`/api/movies/${movieId}/events/${eventId}/removeAttendee`, {
+            method: 'DELETE'
+        });
+        return dispatch(receiveMovies({ movies }));
+    } catch (err) {
+        const res = await err.json();
+        if (res.statusCode === 400){
+            return dispatch(receiveMovieErrors(res.errors));
+        }
+    }
+}
 
 export default movieSlice.reducer;
