@@ -7,7 +7,6 @@ import { fetchGenres, useGenres } from '../../store/genres';
 import { fetchPopularMovies, receiveMovies } from '../../store/movies';
 
 const SelectGenresForm = () => {
-    const [genres, setGenres] = useState([]);
     const [selectedGenres, setSelectedGenres] = useState({});
     const errors = useSelector(state => state.errors.session);
     const dispatch = useDispatch();
@@ -19,12 +18,14 @@ const SelectGenresForm = () => {
     useProtected();
     useClearSessionErrors();
 
-    const allGenres = useGenres();
+    const genres = useGenres();
 
     return (
         <div className='select-genres-container'>
             {
-                
+                genres.map(genre => 
+                    <p>{genre}</p>
+                )
             }
         </div>
     )

@@ -57,15 +57,26 @@ export const useProtected = () => {
     const navigate = useNavigate();
     const currentUser = useCurrentUser();
     useEffect(() => {
-        if (currentUser === null) navigate('/');
+        if (
+            currentUser === null
+            || (currentUser !== undefined
+                && currentUser.genreIds.length === 0)
+        ) navigate('/');
     }, [currentUser]);
 }
 
-export const useRequireLoggedOut = () => {
+export const useRequireLoggedOut = setShowModal => {
     const navigate = useNavigate();
     const currentUser = useCurrentUser();
     useEffect(() => {
-        if (currentUser) navigate('/home');
+        if (currentUser) {
+            (!currentUser.genreIds.length && setShowModal)
+                ? (() => {
+                    navigate('/');
+                    setShowModal();
+                })()
+                : navigate('/home');
+        }
     }, [currentUser]);
 }
 

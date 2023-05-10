@@ -12,7 +12,6 @@ const LoginForm = () => {
     const dispatch = useDispatch();
     const user = useCurrentUser();
 
-    useRequireLoggedOut();
     useClearSessionErrors();
 
     const update = (field) => {
