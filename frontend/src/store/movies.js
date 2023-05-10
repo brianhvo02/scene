@@ -33,4 +33,7 @@ export const fetchNowPlayingMovies = () =>
 export const fetchPopularMovies = () =>
     fetchUrl(`/api/tmdb/movies/popular`, receiveMovies);
 
+export const fetchMovie = movieId =>
+    fetchUrl(`/api/movies/${movieId}`, receiveMovies);
+
 export default movieSlice.reducer;

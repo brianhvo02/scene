@@ -26,6 +26,18 @@ const movieSchema = new Schema({
         type: String,
         required: true
     }],
+    runtime: {
+        type: Number,
+        required: true
+    },
+    tagline: {
+        type: String,
+        required: true
+    },
+    certification: {
+        type: String,
+        required: true
+    },
     genreIds: [{
         type: Number,
         required: true

@@ -7,8 +7,6 @@ const fetchFandango = (route, params) => fetch(`https://www.fandango.com/napi${r
 const theatreAllowedParams = [ 'name', 'fullAddress', 'geo' ];
 const ticketAllowedParams = [ 'ticketingDate', 'type', 'date', 'expired', 'ticketingJumpPageURL', 'amenities' ];
 
-const extractAllowedParams = (allowedParams, result) => Object.fromEntries(allowedParams.map(key => [key, result[key]]))
-
 router.get('/', async (req, res, next) => {
     const { movieId } = req.params;
     const query = new URLSearchParams({

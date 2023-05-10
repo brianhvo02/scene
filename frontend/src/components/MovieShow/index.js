@@ -1,12 +1,18 @@
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { getMovie } from "../../store/movies";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchMovie, getMovie } from "../../store/movies";
 import './index.scss'
+import { useEffect } from "react";
 
 const MovieShow = () => {
     const { movieId } = useParams();
-    const movie = useSelector(getMovie(movieId))
+    const movie = useSelector(getMovie(movieId));
     const MOVIE_LINK = "https://image.tmdb.org/t/p/original";
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(fetchMovie(movieId));
+    }, [dispatch]);
 
     return(
         <>

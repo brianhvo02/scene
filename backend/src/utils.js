@@ -5,3 +5,5 @@ export const snakeToCamel = str =>
         .replace('-', '')
         .replace('_', '')
     );
+
+export const extractAllowedParams = (allowedParams, result) => Object.fromEntries(allowedParams.map(key => [snakeToCamel(key), result[key]]));
