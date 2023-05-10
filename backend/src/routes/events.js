@@ -9,7 +9,6 @@ import validateEventInput from '../validations/event';
 import { requireUser } from '../config';
 import Movie from '../models/Movie';
 
-
 router.post('/', requireUser, validateEventInput, async (req, res, next) => {
     try {
         const { movieId } = req.params;
@@ -24,12 +23,18 @@ router.post('/', requireUser, validateEventInput, async (req, res, next) => {
 
         let event = await newEvent.save();
 
-        let movie = await Movie.findOne({ [movieId.length !== 24 ? 'tmdbId' : '_id']: movieId });
-        // console.log(movie)
+        let movie = await Movie.findOne({ [movieId.length === 24 ? '_id' : 'tmdbId']: movieId });
         movie.events.push(event);
-        await movie.save();
-        event = await event.populate('host', '_id username');
-        return res.json(event);
+        movie = await movie.save()
+            .populate({
+                path: 'events',
+                populate: {
+                    path: 'host',
+                    model: 'User',
+                    select: '_id username email'
+                }
+            });
+        return res.json(movie);
     }
     catch (err) {
         next(err);
@@ -66,10 +71,114 @@ router.delete('/:id', requireUser, async (req, res, next) => {
             return next(error);
         }
         await Event.findByIdAndDelete(req.params.id);
-        return res.json(event);
+
+        const { movieId } = req.params;
+        const movie = await Movie.findOne({ [movieId.length === 24 ? '_id' : 'tmdbId']: movieId })
+            .populate({
+                path: 'events',
+                populate: [
+                    {
+                        path: 'host',
+                        model: 'User',
+                        select: '_id username email'
+                    },
+                    {
+                        path: 'attendees',
+                        model: 'User',
+                        select: '_id username email'
+                    }
+                ]
+            });
+        return res.json(movie);
     }
     catch (err) {
         next(err);
+    }
+});
+
+router.post('/:id/addAttendee', requireUser, async (req, res, next) => {
+    try {
+        const event = await Event.findById(req.params.id)
+            .populate('host', '_id');
+
+        if (event.attendees.includes(req.user._id)) {
+            const error = new Error('User already an attendee');
+            error.statusCode = 404;
+            error.errors = { message: 'The logged in user is already attending this event' };
+            return next(error);
+        }
+        if (event.host._id.equals(req.user._id)) {
+            const error = new Error('User is the host');
+            error.statusCode = 404;
+            error.errors = { message: 'The logged in user is hosting this event' };
+            return next(error);
+        }
+        event.attendees.push(req.user);
+        await event.save();
+
+        const { movieId } = req.params;
+        const movie = await Movie.findOne({ [movieId.length === 24 ? '_id' : 'tmdbId']: movieId })
+            .populate({
+                path: 'events',
+                populate: [
+                    {
+                        path: 'host',
+                        model: 'User',
+                        select: '_id username email'
+                    },
+                    {
+                        path: 'attendees',
+                        model: 'User',
+                        select: '_id username email'
+                    }
+                ]
+            });
+        return res.json(movie);
+    }
+    catch (err) {
+        const error = new Error('Event not found');
+        error.statusCode = 404;
+        error.errors = { message: 'No event found with that id' };
+        return next(error);
+    }
+});
+
+router.delete('/:id/removeAttendee', requireUser, async (req, res, next) => {
+    try {
+        const event = await Event.findById(req.params.id);
+        if (!event.attendees.includes(req.user._id)) {
+            const error = new Error('User is not an attendee');
+            error.statusCode = 404;
+            error.errors = { message: 'The logged in user is not attending this event' };
+            return next(error);
+        }
+        event.attendees.remove(req.user);
+        await event.save();
+
+        const { movieId } = req.params;
+        const movie = await Movie.findOne({ [movieId.length === 24 ? '_id' : 'tmdbId']: movieId })
+            .populate({
+                path: 'events',
+                populate: [
+                    {
+                        path: 'host',
+                        model: 'User',
+                        select: '_id username email'
+                    },
+                    {
+                        path: 'attendees',
+                        model: 'User',
+                        select: '_id username email'
+                    }
+                ]
+            });
+        return res.json(movie);
+    }
+    catch (err) {
+        const error = new Error('Event not found');
+        error.statusCode = 404;
+        error.errors = { message: 'No event found with that id' };
+        return next(error);
     }
 });
 
