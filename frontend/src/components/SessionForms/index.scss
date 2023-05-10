@@ -34,6 +34,10 @@
     word-break: keep-all;
 }
 
+.errors{
+    color: red;
+    font-size: 12px;
+}
 
 // #m-close-button {
 //     display: flex;
@@ -83,6 +87,7 @@
     position: relative;
     margin: 8px 0px;
 }
+
 
 #user-credential,
 #user-username,
