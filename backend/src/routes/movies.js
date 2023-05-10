@@ -3,9 +3,11 @@ const router = Router();
 import Movie from "../models/Movie";
 import validateMovieInput from "../validations/movie";
 import eventRouter from "./events";
+import commentRouter from "./comments";
 
 
 router.use("/:movieId/events", eventRouter);
+router.use("/:movieId/comments", commentRouter);
 
 router.get('/:id', async (req, res, next) => {
     try {
