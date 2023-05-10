@@ -1,10 +1,10 @@
-import MoviePoster from "./MoviePoster"
-import { getMovies, fetchDiscoverMovies } from "../../store/movies"
-import { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronLeft, faChevronRight, faThumbsDown, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
-import './index.scss'
+import MoviePoster from "./MoviePoster";
+import { getMovies, fetchDiscoverMovies } from "../../store/movies";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronLeft, faChevronRight, faThumbsDown, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
+import './index.scss';
 
 const DiscoverCarousel = ({ setSelectedMovie }) => {
     const dispatch = useDispatch();
@@ -19,16 +19,17 @@ const DiscoverCarousel = ({ setSelectedMovie }) => {
 
     const handlePrevClick = () => {
         setCurrentIndex((prevIndex) => (prevIndex === 0 ? movies?.length - 1 : prevIndex - 1));
-        setSelectedMovie()
+        setSelectedMovie();
     }
 
     const handleNextClick = () => {
         setCurrentIndex((prevIndex) => (prevIndex === movies?.length - 1 ? 0 : prevIndex + 1));
-        setSelectedMovie()
+        setSelectedMovie();
     }
 
     const handleDislikeButtonClick = (movie) => {
-        setSelectedMovie()
+        setSelectedMovie();
+        handleNextClick();
     }
 
     const handleLikeButtonClick = (movie) => {
