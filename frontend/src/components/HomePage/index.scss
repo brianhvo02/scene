@@ -4,6 +4,7 @@
     align-items: center;
     margin: 1.5em 0em;
     z-index: 5;
+    
     .arrow{
         margin: 2em 2em;
         cursor: pointer;
@@ -15,6 +16,7 @@
         transition: transform 250ms;
         img{
             height: 75vh;
+            width: auto;
         }
     }
 }
@@ -28,7 +30,8 @@
         animation-duration: 1s;
     }
     img{
-        height: 50vh;
+        height: auto;
+        width: 316px;
     }
 }
 
@@ -37,7 +40,7 @@
     flex-direction: column;
     align-items: center;
     position: relative;
-    min-width: 20em;
+    min-width: 2em;
     z-index: 5;
 
     #movie-title{
@@ -134,3 +137,19 @@
     color: var(--backgroundLightBlue);
     background-blend-mode: color;
 }
+
+// @media(min-width: 0px){
+//     .recommendations-container{
+//         column-count: 2;
+//         column-gap: 16px;
+//         width: 624px;
+//     }
+// }
+
+// @media(min-width: 0px){
+//     .recommendations-container{
+//         column-count: 3;
+//         column-gap: 16px;
+//         width: 624px;
+//     }
+// }

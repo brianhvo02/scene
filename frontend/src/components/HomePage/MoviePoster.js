@@ -1,16 +1,21 @@
 import { useDispatch, useSelector } from "react-redux"
 import { getMovie } from "../../store/movies";
-// import { FontAwesomeIcon } from '@fortawesome/free-solid-svg-icons'
+import { useNavigate } from "react-router-dom";
 import './index.scss'
 
 
 const MoviePoster = ({ movie }) => {
+    const navigate = useNavigate();
     const MOVIE_LINK = "https://image.tmdb.org/t/p/original";
+
+    const handleMoviePosterClick = (movie) => {
+        navigate(`/movie/${movie.id}`)
+    }
 
     return(
         <div className="movie-poster-container">
             <div className="movie-poster">
-                <img src={`${MOVIE_LINK.concat(movie?.posterPath)}`}/>
+                <img src={`${MOVIE_LINK.concat(movie?.posterPath)}`} onClick={() => handleMoviePosterClick(movie)}/>
             </div>
             <div >
                 <h2 id="movie-title">{movie?.title}</h2>

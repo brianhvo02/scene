@@ -5,7 +5,7 @@ import { snakeToCamel } from '../utils';
 const router = Router();
 
 const fetchTMDB = (route, params) => fetch(`https://api.themoviedb.org/3${route}?api_key=${tmdbAPIKey}&${params}`).then(res => res.json());
-const allowedParams = ["id", "title", "overview", "poster_path", "backdrop_path", "genre_ids", "alternative_titles"];
+const allowedParams = ["id", "title", "overview", "poster_path", "backdrop_path", "genre_ids", "alternative_titles", "runtime", "tagline"];
 const extractAllowedParams = result => Object.fromEntries(allowedParams.map(key => [snakeToCamel(key), result[key]]));
 
 const getAlternativeTitles = async movieId => {

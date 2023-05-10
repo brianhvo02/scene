@@ -5,10 +5,10 @@ import MoviePoster from "./MoviePoster";
 
 const RecommendationsPopup = ({ movie }) => {
     const dispatch = useDispatch();
-    const movies = useSelector(getMovies)
+    const movies = useSelector(getMovies);
 
     useEffect(() => {
-        dispatch(fetchRecommendedMovies(movie?.id))
+        dispatch(fetchRecommendedMovies(movie?.id));
     }, [movie])
 
     return(
