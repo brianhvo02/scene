@@ -4,7 +4,7 @@ const router = Router();
 import bcrypt from "bcryptjs";
 import passport from "passport";
 import mongoose from 'mongoose';
-import { isProduction, loginUser, restoreUser } from '../config';
+import { isProduction, loginUser, requireUser, restoreUser } from '../config';
 
 const User = mongoose.model('User');
 
@@ -51,7 +51,7 @@ router.post('/register', validateRegisterInput, async (req, res, next) => {
             }
         })
     });
-})
+});
 
 router.post('/login', validateLoginInput, async (req, res, next) => {
     passport.authenticate('local', async function (err, user) {
@@ -79,6 +79,19 @@ router.get('/current', restoreUser, (req, res) => {
         genreIds: req.user.genreIds,
         likedMovies: req.user.likedMovies
     });
+});
+
+router.patch('/current/registerGenresZipCode', requireUser, async (req, res, next) => {
+    try {
+        let user = req.user;
+        user.genreIds.push(...req.body.genreIds);
+        user.zipCode = req.body.zipCode;
+        user = await user.save();
+        return res.json(user);
+    }
+    catch (err) {
+        next(err);
+    };
 });
 
 export default router;

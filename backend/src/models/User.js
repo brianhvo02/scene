@@ -11,6 +11,9 @@ const userSchema = new Schema({
         required: true,
         unique: true,
     },
+    zipCode: {
+        type: Number
+    },
     hashedPassword: {
         type: String,
         required: true

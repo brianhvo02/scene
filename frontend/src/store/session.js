@@ -47,9 +47,31 @@ export const logout = () => dispatch => {
 };
 
 export const getCurrentUser = () => async dispatch => {
-    const user = await customFetch('/api/users/current');
-    return dispatch(receiveCurrentUser(user));
+    try {
+        const user = await customFetch('/api/users/current');
+        return dispatch(receiveCurrentUser(user));
+    } catch (err) {
+        const res = await err.json();
+        if (res.statusCode === 400) {
+            return dispatch(receiveSessionErrors(res.errors));
+        }
+    }
 };
+
+export const updateGenreZipCode = (genreIds, zipCode) => async dispatch => {
+    try {
+        const user = await customFetch('/api/users/current/registerGenresZipCode', {
+            method: 'PATCH',
+            body: JSON.stringify({ genreIds, zipCode })
+        });
+        return dispatch(receiveCurrentUser(user));
+    } catch (err) {
+        const res = await err.json();
+        if (res.statusCode === 400) {
+            return dispatch(receiveSessionErrors(res.errors));
+        }
+    }
+}
 
 export const useCurrentUser = () => useSelector(state => state.session.user);
 

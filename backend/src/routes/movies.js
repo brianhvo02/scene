@@ -14,11 +14,11 @@ router.use("/:movieId/theatres", fandangoRouter);
 router.use("/:movieId/ratings", ratingRouter);
 
 
-router.get('/:id', async (req, res, next) => {
+router.get('/:movieId', async (req, res, next) => {
     try {
-        const { id } = req.params;
+        const { movieId } = req.params;
 
-        let movie = await Movie.findOne({ [id.length !== 24 ? 'tmdbId' : '_id']: id });
+        let movie = await Movie.findOne({ [movieId.length !== 24 ? 'tmdbId' : '_id']: movieId });
 
         movie = await movie.populate('events');
 
