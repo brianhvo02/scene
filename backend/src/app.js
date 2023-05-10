@@ -48,16 +48,16 @@ if (isProduction) {
     app.get('/', (req, res) => {
         res.cookie('X-CSRF-Token', req.csrfToken());
         res.sendFile(
-        path.resolve(__dirname, '../frontend', 'build', 'index.html')
+            path.resolve(__dirname, '../../frontend', 'build', 'index.html')
         );
     });
 
-    app.use(express.static(path.resolve('../frontend/build')));
+    app.use(express.static(path.resolve(__dirname, '../../frontend', 'build')));
 
     app.get(/^(?!\/?api).*/, (req, res) => {
         res.cookie('X-CSRF-Token', req.csrfToken());
         res.sendFile(
-            path.resolve(__dirname, '../frontend', 'build', 'index.html')
+            path.resolve(__dirname, '../../frontend', 'build', 'index.html')
         );
     });
 }
