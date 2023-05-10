@@ -22,7 +22,7 @@ const SplashPage = () => {
     const [sloganPage, setSloganPage] = useState(0);
     const [fadeIn,setFadeIn] = useState(false)
     const [modal, setModal] = useState();
-
+    
     useRequireLoggedOut();
 
     useEffect(()=>{
@@ -52,10 +52,11 @@ const SplashPage = () => {
             {
                 modal &&
                     createPortal(
-                        <Modal>
+                        <Modal closeModal = {()=>setModal('')}>
                             {modal === 'signup' && <SignupForm />}
                             {modal === 'login' && <LoginForm />}
                             {modal === 'genres' && <SelectGenresForm />}
+                            
                         </Modal>, 
                         document.body
                     )

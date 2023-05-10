@@ -4,6 +4,7 @@ import './index.scss';
 import { signup, useRequireLoggedOut } from '../../store/session';
 import { clearSessionErrors, useClearSessionErrors } from '../../store/errors/sessionErrors';
 
+
 const SignupForm = () => {
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
@@ -49,18 +50,19 @@ const SignupForm = () => {
     return (
         <form className="session-form" onSubmit={handleSubmit}>
             <div className="logo-container">
-                {/* <img className="mlogo" src={logo} /> */}
+                <img className="mlogo" src="./logo.png" />
             </div>
             <div className="header-container">
-                <h1 id="welcome-text">Welcome to interestIn</h1>
+                <h1 id="welcome-text">Welcome to SCENE</h1>
             </div>
+            <div id="modal-input">
             <div className="errors">{errors?.email}</div>
             <label className="input-label" htmlFor="user-email">Email</label>
             <div className='inputbox-container'>
                 <input className='inputbox' id='user-email'
                     type='text'
                     value={email}
-                    plasceholder="Email"
+                    placeholder="Email"
                     onChange={update('email')}
                     required
                 />
@@ -71,7 +73,7 @@ const SignupForm = () => {
                 <input className='inputbox' id='user-username'
                     type='text'
                     value={username}
-                    plasceholder="Username"
+                    placeholder="Username"
                     onChange={update('username')}
                     required
                 />
@@ -82,7 +84,7 @@ const SignupForm = () => {
                 <input className='inputbox' id='password'
                     type='password'
                     value={password}
-                    plasceholder="password"
+                    placeholder="password"
                     onChange={update('password')}
                     required
                 />
@@ -95,16 +97,22 @@ const SignupForm = () => {
                 <input className='inputbox' id='password2'
                     type='password'
                     value={password2}
-                    plasceholder="Confirm Password"
+                    placeholder="Confirm Password"
                     onChange={update('password2')}
                     required
                 />
             </div>
-            <input
+            <input className='modal-button' id='modal-button-signup'
                 type="submit"
                 value="Sign Up"
                 disabled={!email || !username || !password || password !== password2}
             />
+            <div className="divide-line"></div>
+            <div className="warning-text">
+                <p>This clone is for educational purposes only.</p>
+                <p>Please do not put any sensitive information.</p>
+            </div>
+            </div>
         </form>
     )
 }
