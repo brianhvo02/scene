@@ -4,10 +4,10 @@ import { useDispatch } from 'react-redux';
 
 const sessionErrorsSlice = createSlice({
     name: 'sessionErrors',
-    initialState: null,
+    initialState: [],
     reducers: {
-        receiveSessionErrors: (_, action) => ({ errors: action.payload.errors }),
-        clearSessionErrors: () => null
+        receiveSessionErrors: (_, action) => action.payload.errors,
+        clearSessionErrors: () => []
     }
 });
 
