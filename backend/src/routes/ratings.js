@@ -3,17 +3,20 @@ const router = Router({ mergeParams: true });
 import Rating from "../models/Rating";
 import { requireUser } from "../config";
 import Movie from "../models/Movie";
+import validateRatingInput from '../validations/rating';
 
 
 router.post('/', requireUser, validateRatingInput, async(req, res, next) => {
     try {
+        const {movieId} = req.params;
+
         const newRating = new Rating({
             rating: req.body.rating,
             rater: req.user._id
         });
 
-        let rating = await newRate.save();
-        let movie = await Movie.findById(req.params.movieId);
+        let rating = await newRating.save();
+        let movie = await Movie.findOne({ [movieId.length !== 24 ? 'tmdbId' : '_id']: movieId });
 
         movie.ratings.push(rating);
         movie.save();
@@ -38,23 +41,53 @@ router.get('/:id', async (req,res, next) => {
     }
 });
 
-router.delete('/:id', requireUser, async(req, res, next) => {
-    try {
-        const rating = await Rating.findById(req.params.id);
+router.patch('/:id', requireUser, validateRatingInput, async(req, res, next) => {
+    try{
+        let rating = await Rating.findById(req.params.id);
         if (!rating) {
             const error = new Error('Rating not found');
-            error.statusCode= 404;
+            error.statusCode = 404;
             error.errors = { message: 'No rating found with that id' };
-            return new(error);
+            return next(error);
         }
         if (rating.rater.toString() !== req.user._id.toString()) {
             const error = new Error ('Unauthorized');
             error.statusCode = 401;
-            error.errors = { message: 'You are not authorzied to delete this rating' };
+            error.errors = { message: 'Unauthorized' };
             return next(error);
         }
-        await Rating.findByIdAndDelete(req.params.id);
+        rating = await Rating.findByIdAndUpdate(req.params.id,{
+            rating: req.body.rating,
+        }, { new: true });
         return res.json(rating);
+    }
+    catch(err) {
+        next(err);
+    }
+});
+
+router.delete('/:id', requireUser, async(req, res, next) => {
+    try {
+        const { movieId } = req.params 
+        console.log(movieId)
+        const rating = await Rating.findById(req.params.id);
+            if (!rating) {
+                const error = new Error('Rating not found');
+                error.statusCode= 404;
+                error.errors = { message: 'No rating found with that id' };
+                return new(error);
+            }
+            if (rating.rater.toString() !== req.user._id.toString()) {
+                const error = new Error ('Unauthorized');
+                error.statusCode = 401;
+                error.errors = { message: 'You are not authorzied to delete this rating' };
+                return next(error);
+            }
+            await Rating.findByIdAndDelete(req.params.id);
+            let movie = await Movie.findOne({ [movieId.length !== 24 ? 'tmdbId' : '_id']: movieId });
+            await movie.ratings.remove(req.params.id);
+            await movie.save();
+            return res.json(rating);
     }
     catch (err) {
         next(err);
