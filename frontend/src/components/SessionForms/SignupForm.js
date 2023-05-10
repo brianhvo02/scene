@@ -108,7 +108,7 @@ const SignupForm = () => {
             />
             <div className="divide-line"></div>
             <div className="warning-text">
-                <p>This clone is for educational purposes only.</p>
+                <p>This website is for educational purposes only.</p>
                 <p>Please do not put any sensitive information.</p>
             </div>
             </div>
