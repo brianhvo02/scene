@@ -8,8 +8,12 @@ import passport from 'passport';
 import path from 'path';
 import http from 'http';
 import mongoose from 'mongoose';
-
 import csrfRouter from './routes/csrf';
+import eventRouter from './routes/events';
+import tmdbRouter from './routes/tmdb';
+import usersRouter from './routes/users';
+import moviesRouter from './routes/movies';
+
 import { isProduction, mongoURI as db } from './config';
 
 const app = express();
@@ -36,21 +40,24 @@ app.use(
 );
 
 app.use('/api/csrf', csrfRouter);
+app.use('/api/tmdb', tmdbRouter);
+app.use('/api/users', usersRouter);
+app.use('/api/movies', moviesRouter);
 
 if (isProduction) {
     app.get('/', (req, res) => {
-        res.cookie('CSRF-TOKEN', req.csrfToken());
+        res.cookie('X-CSRF-Token', req.csrfToken());
         res.sendFile(
-        path.resolve(__dirname, '../frontend', 'build', 'index.html')
+            path.resolve(__dirname, '../../frontend', 'build', 'index.html')
         );
     });
 
-    app.use(express.static(path.resolve('../frontend/build')));
+    app.use(express.static(path.resolve(__dirname, '../../frontend', 'build')));
 
     app.get(/^(?!\/?api).*/, (req, res) => {
-        res.cookie('CSRF-TOKEN', req.csrfToken());
+        res.cookie('X-CSRF-Token', req.csrfToken());
         res.sendFile(
-            path.resolve(__dirname, '../frontend', 'build', 'index.html')
+            path.resolve(__dirname, '../../frontend', 'build', 'index.html')
         );
     });
 }
@@ -70,13 +77,13 @@ app.use((err, req, res, next) => {
         message: err.message,
         statusCode,
         errors: err.errors
-    })
+    });
 });
 
 const serverLogger = debug('backend:server');
 const dbLogger = debug('backend:mongodb');
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5001;
 app.set('port', port);
 const server = http.createServer(app);
 
