@@ -62,3 +62,4 @@ const movieSchema = new Schema({
 });
 
 export default model('Movie', movieSchema);
+
