@@ -39,7 +39,21 @@ router.get('/:movieId', async (req, res, next) => {
         movie = await movie.save();
     }
 
-    movie = await movie.populate('events');
+    movie = await movie.populate({
+        path: 'events',
+        populate: [
+            {
+                path: 'host',
+                model: 'User',
+                select: '_id username email'
+            },
+            {
+                path: 'attendees',
+                model: 'User',
+                select: '_id username email'
+            }
+        ]
+    });
     movie = await movie.populate('comments');
     
     return res.json({

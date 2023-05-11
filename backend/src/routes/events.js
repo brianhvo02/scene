@@ -34,11 +34,18 @@ router.post('/', requireUser, validateEventInput, async (req, res, next) => {
         movie = await movie.save();
         movie = await movie.populate({
             path: 'events',
-            populate: {
-                path: 'host',
-                model: 'User',
-                select: '_id username email'
-            }
+            populate: [
+                {
+                    path: 'host',
+                    model: 'User',
+                    select: '_id username email'
+                },
+                {
+                    path: 'attendees',
+                    model: 'User',
+                    select: '_id username email'
+                }
+            ]
         });
         return res.json(
             {
