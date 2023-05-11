@@ -1,8 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=PT+Sans+Narrow:wght@400;700&display=swap');
+.event-title{
+    color: #C5D4Ed;
+    display: flex;
+    justify-content: center;
+    text-transform: capitalize;
+    font-size: 60px;
+    margin-bottom: 20px;
+    z-index: 5;
+    position: relative;
+}
+
 .event-show-page-container {
-    color: white;
-    .event-show-page-movie-poster {
-        img {
-            width: 20rem;
+
+    color: #C6D4ED;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+    position: relative;
+    z-index: 5;
+    
+    li{
+        font-family: 'PT Sans Narrow', sans-serif;
+        font-size: 16px;
+        margin:4px 0px;
+    }
+
+
+
+    a{
+        cursor: pointer;
+        text-decoration: underline;
+        color: var(--backgroundLightBlue);
+    }
+
+    .event-show-page-left{
+        margin-right: 30px;
+
+        h3{
+            font-weight: 800;
+            font-size: 24px;
+            font-family: 'PT Sans Narrow', sans-serif;
+        }
+
+        p{
+            font-family: 'PT Sans Narrow', sans-serif;
+            font-size: 16px;
+            margin:4px 0px;
+        }
+
+        .event-show-page-movie-poster {    
+
+            .event-title-movie-title{
+                font-size: 30px;
+                margin-top: 10px;
+            }
+            img {
+                width: 20rem;
+            }
+        }
+
+        .event-show-page-description{
+            width: 500px;
+
+            *{
+                margin-top: 5px;
+                margin-bottom: 5px;
+            }
         }
     }
+
+    .event-show-page-right{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+
+        p, li{
+            font-family: 'PT Sans Narrow', sans-serif;
+            font-size: 20px;
+            margin:4px 0px;
+        }
+
+        #date{
+            font-size: 30px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+
+                .rsvp-button{
+                    padding: 10px;
+                    width: 80%;
+                    border-radius: 10px;
+                    font-size: 25px;
+                    border: 2px solid white;
+                    background: var(--backgroundLightBlue);
+                    color: black;
+                    letter-spacing: 2px;
+                    font-family: 'PT Sans Narrow', sans-serif;
+                    cursor:pointer;
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                }
+
+                .rsvp-button:active{
+                    background: var(--backgroundBlue); 
+                    color: var(--lightGray)
+                }
+
+        .map{
+            margin-top: 15px;
+
+            div{
+                border-radius: 24px;
+            }
+        }
+    }
+
 }
