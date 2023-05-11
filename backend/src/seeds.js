@@ -19,8 +19,8 @@ const genres = [878, 12, 28, 80, 53, 10751, 14, 35, 16, 9648, 27, 36]
 const users = [];
 users.push(
     new User({
-        username: 'demo-user',
-        email: 'demo-user@appacademy.io',
+        username: 'DemoUser',
+        email: 'DemoUser@appacademy.io',
         hashedPassword: bcrypt.hashSync('password', 10),
         zipCode: 94103,
         genreIds: [12, 80, 54, 10751, 16],
