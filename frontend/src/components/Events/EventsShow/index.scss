@@ -20,17 +20,13 @@
     position: relative;
     z-index: 5;
     
-    p, li{
+    li{
         font-family: 'PT Sans Narrow', sans-serif;
-        font-size: 20px;
+        font-size: 16px;
         margin:4px 0px;
     }
 
-    h3{
-        font-weight: 800;
-        font-size: 30px;
-        font-family: 'PT Sans Narrow', sans-serif;
-    }
+
 
     a{
         cursor: pointer;
@@ -41,10 +37,23 @@
     .event-show-page-left{
         margin-right: 30px;
 
-        .event-show-page-movie-poster {
+        h3{
+            font-weight: 800;
+            font-size: 24px;
+            font-family: 'PT Sans Narrow', sans-serif;
+        }
+
+        p{
+            font-family: 'PT Sans Narrow', sans-serif;
+            font-size: 16px;
+            margin:4px 0px;
+        }
+
+        .event-show-page-movie-poster {    
 
             .event-title-movie-title{
                 font-size: 30px;
+                margin-top: 10px;
             }
             img {
                 width: 20rem;
@@ -66,6 +75,12 @@
         flex-direction: column;
         align-items: center;
         text-align: center;
+
+        p, li{
+            font-family: 'PT Sans Narrow', sans-serif;
+            font-size: 20px;
+            margin:4px 0px;
+        }
 
         #date{
             font-size: 30px;
@@ -96,6 +111,10 @@
 
         .map{
             margin-top: 15px;
+
+            div{
+                border-radius: 24px;
+            }
         }
     }
 
