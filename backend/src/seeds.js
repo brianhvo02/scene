@@ -100,7 +100,7 @@ const genres = [878, 12, 28, 80, 53, 10751, 14, 35, 16, 9648, 27, 36];
         if (Math.random() > 0.5 || level === 5) return;
 
         const child = new Comment({
-            user: users[Math.floor(Math.random() * NUM_SEED_USERS)],
+            author: users[Math.floor(Math.random() * NUM_SEED_USERS)],
             body: faker.random.words(),
             childrenComment: []
         });
@@ -110,14 +110,15 @@ const genres = [878, 12, 28, 80, 53, 10751, 14, 35, 16, 9648, 27, 36];
         comments.push(child);
     }
 
-    Array.from(Array(NUM_SEED_COMMENTS).keys()).forEach(() => {
+    const rootComments = Array.from(Array(NUM_SEED_COMMENTS).keys()).map(() => {
         const root = new Comment({
-            user: users[Math.floor(Math.random() * NUM_SEED_USERS)],
+            author: users[Math.floor(Math.random() * NUM_SEED_USERS)],
             body: faker.random.words(),
             childrenComment: []
         });
         createChildComment(root, 0);
         comments.push(root);
+        return root;
     });
 
     const ratings = Array.from(Array(NUM_SEED_RATING).keys()).map(() => 
@@ -128,7 +129,7 @@ const genres = [878, 12, 28, 80, 53, 10751, 14, 35, 16, 9648, 27, 36];
     );
 
     const ratingsClone = [...ratings];
-    const commentsClone = [...comments];
+    const commentsClone = [...rootComments];
 
     movies.forEach((movie) => {
         for (let i = 0; i < 3; i++){

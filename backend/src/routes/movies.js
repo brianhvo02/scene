@@ -38,8 +38,11 @@ router.get('/:movieId', async (req, res, next) => {
         movie = new Movie(extractAllowedParams(allowedParams, movieRes));
         movie = await movie.save();
     }
+    sendMovie(movie, res);
+});
 
-    movie = await movie.populate({
+export const sendMovie = async (movie, res) => {
+    movie = await movie.populate([{
         path: 'events',
         populate: [
             {
@@ -53,14 +56,48 @@ router.get('/:movieId', async (req, res, next) => {
                 select: '_id username email'
             }
         ]
-    });
-    movie = await movie.populate('comments');
+    }, {
+        path: 'ratings',
+        populate: {
+            path: 'rater',
+            model: 'User',
+            select: '_id username email'
+        }
+    }, 'comments']);
+
+    const populateChildren = async comment => {
+        await comment.populate([
+            {
+                path: 'author',
+                select: '_id username email'
+            },
+            {
+                path: 'childrenComments'
+            }
+        ]);
+
+        if (comment.childrenComments.length) return Promise.all(comment.childrenComments.map(populateChildren));
+    }
+    
+    await Promise.all(movie.comments.map(comment => 
+        (comment.childrenComments.length) 
+            ? populateChildren(comment)
+            : comment.populate([
+                {
+                    path: 'author',
+                    select: '_id username email'
+                },
+                {
+                    path: 'childrenComments'
+                }
+            ])
+    ));
     
     return res.json({
         movies: {
             [movie.tmdbId]: movie
         }
     });
-});
+}
 
 export default router;

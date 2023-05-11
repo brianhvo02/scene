@@ -1,7 +1,7 @@
 import {model, Schema} from 'mongoose';
 
 const commentSchema = new Schema({
-    user: {
+    author: {
         type: Schema.Types.ObjectId,
         ref: 'User',
         required: true
@@ -13,7 +13,8 @@ const commentSchema = new Schema({
     childrenComments: [{
         type: Schema.Types.ObjectId,
         ref: 'Comment',
-        required: true
+        required: true,
+        autopopulate: true
     }]
 }, {
     timestamps: true

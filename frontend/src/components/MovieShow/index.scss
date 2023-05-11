@@ -97,3 +97,16 @@
     height: 30vh;
     margin-top: 30px;
 }
+
+.comment {
+    .children {
+        margin-left: 1em;
+    }
+}
+
+.events-near {
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+}

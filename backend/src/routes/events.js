@@ -30,29 +30,7 @@ router.post('/', requireUser, validateEventInput, async (req, res, next) => {
         let event = await newEvent.save();
 
         let movie = await Movie.findOne({ [movieId.length === 24 ? '_id' : 'tmdbId']: movieId });
-        movie.events.push(event);
-        movie = await movie.save();
-        movie = await movie.populate({
-            path: 'events',
-            populate: [
-                {
-                    path: 'host',
-                    model: 'User',
-                    select: '_id username email'
-                },
-                {
-                    path: 'attendees',
-                    model: 'User',
-                    select: '_id username email'
-                }
-            ]
-        });
-        return res.json(
-            {
-                eventId: event._id,
-                movies: {[movie.tmdbId]: movie}
-            }
-        );
+        sendMovie(movie, res);
     }
     catch (err) {
         next(err);
@@ -91,23 +69,8 @@ router.delete('/:id', requireUser, async (req, res, next) => {
         await Event.findByIdAndDelete(req.params.id);
 
         const { movieId } = req.params;
-        const movie = await Movie.findOne({ [movieId.length === 24 ? '_id' : 'tmdbId']: movieId })
-            .populate({
-                path: 'events',
-                populate: [
-                    {
-                        path: 'host',
-                        model: 'User',
-                        select: '_id username email'
-                    },
-                    {
-                        path: 'attendees',
-                        model: 'User',
-                        select: '_id username email'
-                    }
-                ]
-            });
-        return res.json(movie);
+        const movie = await Movie.findOne({ [movieId.length === 24 ? '_id' : 'tmdbId']: movieId });
+        sendMovie(movie, res);
     }
     catch (err) {
         next(err);
@@ -135,23 +98,8 @@ router.post('/:id/addAttendee', requireUser, async (req, res, next) => {
         await event.save();
 
         const { movieId } = req.params;
-        const movie = await Movie.findOne({ [movieId.length === 24 ? '_id' : 'tmdbId']: movieId })
-            .populate({
-                path: 'events',
-                populate: [
-                    {
-                        path: 'host',
-                        model: 'User',
-                        select: '_id username email'
-                    },
-                    {
-                        path: 'attendees',
-                        model: 'User',
-                        select: '_id username email'
-                    }
-                ]
-            });
-        return res.json(movie);
+        const movie = await Movie.findOne({ [movieId.length === 24 ? '_id' : 'tmdbId']: movieId });
+        sendMovie(movie, res);
     }
     catch (err) {
         const error = new Error('Event not found');
@@ -174,23 +122,8 @@ router.delete('/:id/removeAttendee', requireUser, async (req, res, next) => {
         await event.save();
 
         const { movieId } = req.params;
-        const movie = await Movie.findOne({ [movieId.length === 24 ? '_id' : 'tmdbId']: movieId })
-            .populate({
-                path: 'events',
-                populate: [
-                    {
-                        path: 'host',
-                        model: 'User',
-                        select: '_id username email'
-                    },
-                    {
-                        path: 'attendees',
-                        model: 'User',
-                        select: '_id username email'
-                    }
-                ]
-            });
-        return res.json(movie);
+        const movie = await Movie.findOne({ [movieId.length === 24 ? '_id' : 'tmdbId']: movieId });
+        sendMovie(movie, res);
     }
     catch (err) {
         const error = new Error('Event not found');
