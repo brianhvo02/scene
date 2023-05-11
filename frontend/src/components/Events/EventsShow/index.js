@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useClearMovieErrors } from "../../../store/errors/movieErrors";
 import { addEventAttendee, fetchMovie, getMovie, removeEventAttendee } from "../../../store/movies";
+import EventMap from "./map";
 
 const EventShow = () => {
     
@@ -34,6 +35,7 @@ const EventShow = () => {
 
     return(
         <div className="event-show-page-container">
+            <EventMap theatre={{ lat: 37.660376167528476, lng: -122.07233803465618 }}/>
             <div className="event-show-page-left">
                 <div className="event-show-page-movie-poster">
                     <h1>{event?.title}</h1>
