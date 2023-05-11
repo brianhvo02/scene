@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import Movie from '../models/Movie';
+import { extractAllowedParams } from '../utils';
 
 const router = Router({ mergeParams: true });
 
@@ -16,7 +17,7 @@ router.get('/', async (req, res, next) => {
     try {
         const [ { theaters: theatersRes }, movie ] = await Promise.all([
             fetchFandango('/theaterswithshowtimes', query.toString()), 
-            Movie.findOne({ [movieId.length !== 24 ? 'tmdbId' : '_id']: movieId })
+            Movie.findOne({ [movieId.length === 24 ? '_id' : 'tmdbId']: movieId })
         ]);
 
         const theaters = Object.fromEntries(
@@ -24,7 +25,11 @@ router.get('/', async (req, res, next) => {
                 if (!theater.movies) return [];
 
                 const m = theater.movies.find(m => {
-                    return m.title.includes(movie.title) || movie.alternativeTitles.includes(m.title);
+                    if (m.title.includes(movie.title)) return true;
+                    for (let title in movie.alternativeTitles) {
+                        if (m.title.includes(movie.alternativeTitles[title])) return true;
+                    }
+                    return false;
                 });
 
                 if (!m) return [];
