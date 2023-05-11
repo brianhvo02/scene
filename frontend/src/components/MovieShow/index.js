@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchMovie, getMovie } from "../../store/movies";
+import EventCreateForm from "../EventCreateForm";
 import './index.scss'
 import { useEffect } from "react";
 
@@ -22,7 +23,11 @@ const MovieShow = () => {
                     <h2>{movie?.title}</h2>
                     <h3>Movie Description:</h3>
                     <p>{movie?.overview}</p>
+                    <div className="movie-show-event-button">
+                        <EventCreateForm />
+                    </div>
                 </div>
+                
                 <div className="movie-info-right">
                     <img src={`${MOVIE_LINK.concat(movie?.posterPath)}`} alt=""/>
                 </div>

@@ -18,23 +18,28 @@ router.post('/', requireUser, validateEventInput, async (req, res, next) => {
             body: req.body.body,
             date: req.body.date,
             host: req.user._id,
-            attendees: req.body.attendees
+            attendees: []
         });
 
         let event = await newEvent.save();
 
         let movie = await Movie.findOne({ [movieId.length === 24 ? '_id' : 'tmdbId']: movieId });
         movie.events.push(event);
-        movie = await movie.save()
-            .populate({
-                path: 'events',
-                populate: {
-                    path: 'host',
-                    model: 'User',
-                    select: '_id username email'
-                }
-            });
-        return res.json(movie);
+        movie = await movie.save();
+        movie = await movie.populate({
+            path: 'events',
+            populate: {
+                path: 'host',
+                model: 'User',
+                select: '_id username email'
+            }
+        });
+        return res.json(
+            {
+                eventId: event._id,
+                movies: {[movie.tmdbId]: movie}
+            }
+        );
     }
     catch (err) {
         next(err);

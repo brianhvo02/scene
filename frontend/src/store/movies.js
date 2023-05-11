@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchUrl, customFetch } from "./utils";
 import { receiveMovieErrors } from './errors/movieErrors';
-
+import { receiveEventErrors } from "./errors/eventErrors";
 
 const initialState = {}
 
@@ -10,10 +10,11 @@ const movieSlice = createSlice({
     initialState,
     reducers: {
         receiveMovies: (state, action) => ({...state, ...action.payload.movies}),
+        receiveEvent: (state, action) => ({...state, ...action.payload.event}),
     }
 });
 
-export const { receiveMovies } = movieSlice.actions;
+export const { receiveMovies, receiveEvent } = movieSlice.actions;
 
 export const getMovies = state => {
     return state?.movies ? Object.values(state.movies) : [];
@@ -21,6 +22,23 @@ export const getMovies = state => {
 
 export const getMovie = movieId => state => {
     return state?.movies ? state?.movies[movieId] : null;
+}
+
+
+export const createEvent = (event, movieId) => async dispatch => {
+    try {
+        const res = await customFetch(`/api/movies/${movieId}/events`, {
+            method: 'POST',
+            body: JSON.stringify(event)
+        })
+        dispatch(receiveMovies({movies: res.movies}))
+        return res.eventId;
+    } catch (err) {
+        const res = await err.json();
+        if (res.statusCode === 400) {
+            return dispatch(receiveEventErrors(res.errors));
+        }
+    }
 }
 
 export const fetchDiscoverMovies = user => 
