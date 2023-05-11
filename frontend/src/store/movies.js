@@ -31,7 +31,7 @@ export const createEvent = (event, movieId) => async dispatch => {
             method: 'POST',
             body: JSON.stringify(event)
         })
-        dispatch(receiveMovies({movies: res.movies}))
+        dispatch(receiveMovies(res));
         return res.eventId;
     } catch (err) {
         const res = await err.json();
@@ -58,10 +58,10 @@ export const fetchMovie = movieId =>
 
 export const addEventAttendee = (eventId, movieId) => async dispatch => {
     try {
-        const movies = await customFetch(`/api/movies/${movieId}/events/${eventId}/addAttendees`, {
+        const res = await customFetch(`/api/movies/${movieId}/events/${eventId}/addAttendee`, {
             method: 'POST'
         });
-        return dispatch(receiveMovies({ movies }));
+        return dispatch(receiveMovies(res));
     } catch (err) {
         const res = await err.json();
         if (res.statusCode === 400) {
@@ -72,10 +72,10 @@ export const addEventAttendee = (eventId, movieId) => async dispatch => {
 
 export const removeEventAttendee = (eventId, movieId) => async dispatch => {
     try {
-        const movies = await customFetch(`/api/movies/${movieId}/events/${eventId}/removeAttendee`, {
+        const res = await customFetch(`/api/movies/${movieId}/events/${eventId}/removeAttendee`, {
             method: 'DELETE'
         });
-        return dispatch(receiveMovies({ movies }));
+        return dispatch(receiveMovies(res));
     } catch (err) {
         const res = await err.json();
         if (res.statusCode === 400){
