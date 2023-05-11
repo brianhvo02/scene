@@ -35,7 +35,6 @@ const EventShow = () => {
 
     return(
         <div className="event-show-page-container">
-            <EventMap theatre={{ lat: 37.660376167528476, lng: -122.07233803465618 }}/>
             <div className="event-show-page-left">
                 <div className="event-show-page-movie-poster">
                     <h1>{event?.title}</h1>

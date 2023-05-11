@@ -1,17 +1,18 @@
 import { Router } from 'express';
 import Movie from '../models/Movie';
 import { extractAllowedParams } from '../utils';
-
+import { requireUser } from '../config';
 const router = Router({ mergeParams: true });
 
 const fetchFandango = (route, params) => fetch(`https://www.fandango.com/napi${route}?${params}`, { headers: { 'Referer': 'https://www.fandango.com' } }).then(res => res.json());
-const theatreAllowedParams = [ 'name', 'fullAddress', 'geo' ];
-const ticketAllowedParams = [ 'ticketingDate', 'type', 'date', 'expired', 'ticketingJumpPageURL', 'amenities' ];
+const theaterAllowedParams = [ 'name', 'fullAddress', 'geo' ];
+const ticketAllowedParams = [ 'ticketingDate', 'date', 'ticketingJumpPageURL', 'amenities' ];
 
-router.get('/', async (req, res, next) => {
+router.get('/', requireUser, async (req, res, next) => {
     const { movieId } = req.params;
     const query = new URLSearchParams({
         limit: 10,
+        zipCode: req.user.zipCode,
         ...req.query
     });
     try {
@@ -25,8 +26,10 @@ router.get('/', async (req, res, next) => {
                 if (!theater.movies) return [];
 
                 const m = theater.movies.find(m => {
+                    console.log(m.title, movie.title)
                     if (m.title.includes(movie.title)) return true;
                     for (let title in movie.alternativeTitles) {
+                        console.log(m.title, movie.alternativeTitles[title])
                         if (m.title.includes(movie.alternativeTitles[title])) return true;
                     }
                     return false;
@@ -36,16 +39,20 @@ router.get('/', async (req, res, next) => {
 
                 return [
                     theater.name, {
-                        ...extractAllowedParams(theatreAllowedParams, theater),
+                        ...extractAllowedParams(theaterAllowedParams, theater),
                         tickets: Object.fromEntries(
                             m.variants.map(variant => {
                                 const showtimes = Object.fromEntries(variant.amenityGroups.map(
-                                    group => group.showtimes.map(showtime => [
+                                    group => group.showtimes.map(showtime => (
+                                        !showtime.expired 
+                                            && 
+                                        showtime.type === 'available'
+                                    ) ? [
                                         [showtime.ticketingDate], {
                                             ...extractAllowedParams(ticketAllowedParams, showtime),
                                             amenities: group.amenities.map(amenity => amenity.name)
                                         }
-                                    ])
+                                    ] : [])
                                 ).flat());
 
                                 return [

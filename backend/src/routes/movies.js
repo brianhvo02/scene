@@ -12,7 +12,7 @@ import { extractAllowedParams } from "../utils";
 
 router.use("/:movieId/events", eventRouter);
 router.use("/:movieId/comments", commentRouter);
-router.use("/:movieId/theatres", fandangoRouter);
+router.use("/:movieId/theaters", fandangoRouter);
 router.use("/:movieId/ratings", ratingRouter);
 
 router.get('/:movieId', async (req, res, next) => {

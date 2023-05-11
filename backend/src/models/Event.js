@@ -13,6 +13,10 @@ const eventSchema = new Schema({
         type: Date,
         required: true
     },
+    ticketUrl: {
+        type: String,
+        required: true
+    },
     host: {
         type: Schema.Types.ObjectId,
         ref: 'User',
