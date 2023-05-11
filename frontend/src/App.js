@@ -10,6 +10,9 @@ import HomePage from './components/HomePage';
 import SelectGenresForm from './components/SessionForms/SelectGenresForm';
 import MovieShow from './components/MovieShow';
 import EventShow from './components/Events/EventsShow';
+import Navigation from './components/Navigation/Navigation.js';
+import { useLocation } from 'react-router-dom';
+
 
 function App() {
     const dispatch = useDispatch();
@@ -17,9 +20,13 @@ function App() {
         dispatch(getCurrentUser());
     }, [dispatch]);
 
+    const location = useLocation();
+
+    const isSplashPage = location.pathname === '/';
     return (
+        <>
+        {!isSplashPage ? <Navigation /> : null}
         <Routes>
-            {/* <NavBar/> */}
             <Route exact path="/" Component={SplashPage}/>
             <Route exact path="/home" Component={HomePage}/>
             <Route exact path="/login" Component={LoginForm} />
@@ -28,6 +35,7 @@ function App() {
             <Route exact path="/movie/:movieId" Component={MovieShow}/>
             <Route exact path="movie/:movieId/event/:eventId" Component={EventShow} />
         </Routes>
+        </>
     );
 }
 
