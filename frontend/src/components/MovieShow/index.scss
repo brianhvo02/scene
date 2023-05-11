@@ -11,7 +11,8 @@
     font-family: 'League Gothic', sans-serif;
 
     h2{
-        font-size: 3em;
+        font-size: 80px;
+        font-weight: 600;
         display: flex;
         justify-content: center;
         letter-spacing: 2px;
@@ -28,7 +29,8 @@
             width: auto;
             height: 100%;
             max-width: 630px;
-            padding-top: 25px
+            margin-top: 25px;
+            box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
         }
     }
 
@@ -37,7 +39,7 @@
         margin-right: 20px;
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: end;
         align-items: flex-start;
 
         h3{
@@ -48,12 +50,39 @@
         }
 
         p{
-            font-size: 0.9em;
-            padding-right: 55px;
-            font-family: Calibre, Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            font-weight:lighter;
+            padding-top: 16px;
+            line-height: 1.4;
+            padding-bottom: 16px;
+            padding-right: 64px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
         }
     }
 }
+
+.event-create-button{
+    border: 0px;
+    height: 40px;
+    display: inline-block;
+    border-radius: 20px;
+    border-style: solid;
+    border-width: 2px;
+    background-color: var(--backgroundLightBlue);
+    -webkit-font-smoothing: antialiased;
+    padding: 0px 18px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    vertical-align: middle;
+    text-align: center;
+    color: var(--backgroundBlue);
+    width: 180px;
+}
+
 
 .comments{
     z-index: 5;

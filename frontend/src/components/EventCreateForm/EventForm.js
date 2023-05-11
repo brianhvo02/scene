@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { clearEventErrors, receiveEventErrors, useClearEventErrors } from '../../store/errors/eventErrors';
 import { fetchTheaters, getTheaterSlice } from '../../store/theaters';
 import EventMap from '../Events/EventsShow/map';
-
+import "./index.scss"
 
 const EventForm = () => {
     useClearEventErrors();
@@ -62,13 +62,16 @@ const EventForm = () => {
                 }
                 <div className='event-form-input'>
                     <form className='event-form' onSubmit={e => e.preventDefault()}>
-                        <label>Event Title
+                        <label className='input-label'>
+                            <div className='input-label-text'>Event Title</div>
                             <input type='text' placeholder='Event Title' value={title} onChange={(e) => setTitle(e.target.value)}/>
                         </label>
-                        <label>Event Description
-                            <input type='text' placeholder='Event Description' value={body} onChange={(e) => setBody(e.target.value)} />
+                     <label className='input-label description'>
+                        <div className='input-label-text'>Event Description</div>
+                            <input id="input-description" type='text' placeholder='Event Description' value={body} onChange={(e) => setBody(e.target.value)} />
                         </label>
-                        <label>Event Date
+                    <label className='input-label'>
+                        <div className='input-label-text'>Event Date</div>
                             <input type='date' placeholder='Event Date' value={date} onChange={e => {
                                 if (new Date(`${e.target.value} 00:`) < new Date(new Date().toLocaleDateString())) {
                                     dispatch(receiveEventErrors({

@@ -1,4 +1,42 @@
+.session-form-container{
+    display:flex;
 
+}
+.session-form-left{
+    box-sizing: border-box;
+    width: 420px;
+    max-height: 637px;
+    overflow: hidden;
+    img{ 
+        box-sizing: border-box;
+        display: -webkit-box;
+        float: calc(30%);
+        margin-left: auto;
+        align-items: center;
+        border-radius: 32px;
+        height: 100%;
+        opacity: 1;
+    
+    }
+}
+
+.session-login-form-left {
+    box-sizing: border-box;
+    width: 420px;
+    max-height: 555px;
+    overflow: hidden;
+
+    img {
+        box-sizing: border-box;
+        display: -webkit-box;
+       
+        align-items: center;
+        border-radius: 32px;
+        height: 100%;
+        opacity: 1;
+
+    }
+}
 
 .session-form {
     min-height: 400px;
