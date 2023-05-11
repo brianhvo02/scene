@@ -12,7 +12,7 @@ import { extractAllowedParams } from './utils';
 
 const NUM_SEED_USERS = 10; //done
 const NUM_SEED_MOVIE = 10; //done
-const NUM_SEED_EVENTS = 20; //done
+const NUM_SEED_EVENTS = 30; //done
 const NUM_SEED_COMMENTS = 30;  //done
 const NUM_SEED_RATING = 30; //done
 
@@ -130,11 +130,13 @@ const genres = [878, 12, 28, 80, 53, 10751, 14, 35, 16, 9648, 27, 36];
 
     const ratingsClone = [...ratings];
     const commentsClone = [...rootComments];
+    const eventsClone = [...events];
 
     movies.forEach((movie) => {
         for (let i = 0; i < 3; i++){
             movie.comments.push(commentsClone.shift());
             movie.ratings.push(ratingsClone.shift());
+            movie.events.push(eventsClone.shift());
         }
     });
 
