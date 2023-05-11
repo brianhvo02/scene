@@ -18,8 +18,12 @@ const MovieShow = () => {
     const Comment = ({ body, author, children }) => {
         return (
             <div className='comment'>
-                <p>Body: {body}</p>
-                <p>Author: {author.username}</p>
+                <div className='comment-body-box'>
+                    <p className='comment-username'>{author.username}:</p>
+                    <p className='comment-body'>{body}</p>
+                </div>
+                
+                
                 <div className='children'>
                     {
                         children.map(child => <Comment key={child._id} body={child.body} author={child.author} children={child.childrenComments} />)
