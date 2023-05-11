@@ -33,7 +33,7 @@ function ProfileButton({ user }) {
 
     const openMenu = () => {
       document.querySelector('.hamburger').classList.toggle('open');
-      document.querySelector('.profile-button').classList.toggle('active');
+      document.querySelector('.hamburger-side-menu').classList.toggle('active');
     }
 
     
