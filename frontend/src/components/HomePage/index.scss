@@ -30,8 +30,11 @@
         animation-duration: 1s;
     }
     img{
-        height: auto;
+        height: 474px;
         width: 316px;
+        min-width: 316px;
+        min-height: auto;
+        object-fit: contain;
     }
 }
 
@@ -63,18 +66,26 @@
         z-index: 10;
 
         .thumb-up, .thumb-down{
-            height: 1.7em;
-            opacity: 0.4;
+            height: 2.5em;
+            opacity: 0.6;
             cursor: pointer;
+        }
+
+        .thumb-down{
+            color: rgb(137, 30, 30)
+        }
+
+        .thumb-up{
+            color: rgb(0, 137, 0)
         }
 
         .thumb-down:hover{
             opacity: 1;
-            color: red;
+            color: rgb(204, 35, 35);
         }
         .thumb-up:hover{
             opacity: 1;
-            color: rgb(0, 206, 0);
+            color: rgb(0, 167, 35);
         }
 
     }
