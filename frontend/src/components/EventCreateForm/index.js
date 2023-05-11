@@ -2,6 +2,7 @@ import Modal from "../Modal";
 import EventForm from "./EventForm";
 import { useState } from "react";
 import { createPortal } from "react-dom";
+import "./index.scss"
 
 const EventCreateForm = () => {
     const [modal, setModal] = useState();

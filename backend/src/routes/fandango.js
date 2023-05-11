@@ -26,7 +26,6 @@ router.get('/', requireUser, async (req, res, next) => {
                 if (!theater.movies) return [];
 
                 const m = theater.movies.find(m => {
-                    console.log(m.title, movie.title)
                     if (m.title.includes(movie.title)) return true;
                     for (let title in movie.alternativeTitles) {
                         console.log(m.title, movie.alternativeTitles[title])
@@ -39,26 +38,35 @@ router.get('/', requireUser, async (req, res, next) => {
 
                 return [
                     theater.name, {
-                        ...extractAllowedParams(theaterAllowedParams, theater),
+                        ...extractAllowedParams(theaterAllowedParams, theater, false),
                         tickets: Object.fromEntries(
                             m.variants.map(variant => {
-                                const showtimes = Object.fromEntries(variant.amenityGroups.map(
-                                    group => group.showtimes.map(showtime => (
-                                        !showtime.expired 
-                                            && 
-                                        showtime.type === 'available'
-                                    ) ? [
-                                        [showtime.ticketingDate], {
-                                            ...extractAllowedParams(ticketAllowedParams, showtime),
-                                            amenities: group.amenities.map(amenity => amenity.name)
-                                        }
-                                    ] : [])
-                                ).flat());
+                                const amenityGroup = {}
+                                variant.amenityGroups.forEach(
+                                    group => {
+                                        group.showtimes.forEach(showtime => {
+                                            if (!showtime.expired && showtime.type === 'available') {
+                                                const amenities = group.amenities.map(amenity => amenity.name);
+                                                if (amenityGroup[amenities.join(', ')]) {
+                                                    amenityGroup[amenities.join(', ')].push({
+                                                        ...extractAllowedParams(ticketAllowedParams, showtime),
+                                                        amenities
+                                                    });
+                                                } else {
+                                                    amenityGroup[amenities.join(', ')] = [{
+                                                        ...extractAllowedParams(ticketAllowedParams, showtime),
+                                                        amenities
+                                                    }];
+                                                }
+                                            }
+                                        });
+                                    }
+                                )
 
                                 return [
                                     variant.format, {
                                         type: variant.format,
-                                        showtimes
+                                        showtimes: amenityGroup
                                     }
                                 ];
                             })
