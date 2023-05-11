@@ -10,7 +10,7 @@ const commentSchema = new Schema({
         type: String,
         required: true
     },
-    childrenComment: [{
+    childrenComments: [{
         type: Schema.Types.ObjectId,
         ref: 'Comment',
         required: true

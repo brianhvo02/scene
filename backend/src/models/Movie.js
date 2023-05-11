@@ -31,8 +31,7 @@ const movieSchema = new Schema({
         required: true
     },
     tagline: {
-        type: String,
-        required: true
+        type: String
     },
     certification: {
         type: String,

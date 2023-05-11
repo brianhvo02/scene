@@ -1,6 +1,5 @@
 import { config }from 'dotenv';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
-import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import passport from 'passport';
