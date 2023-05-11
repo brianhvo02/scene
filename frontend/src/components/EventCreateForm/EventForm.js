@@ -43,7 +43,7 @@ const EventForm = () => {
         }
 
         if (status) {
-            dispatch(createEvent({title, body, date, ...info}, movieId))
+            dispatch(createEvent({title, body, ...info}, movieId))
                 .then((eventId) => {
                     navigate(`/movie/${movieId}/event/${eventId}`)
                 });
@@ -125,7 +125,7 @@ const EventForm = () => {
                                                                                     setInfo({
                                                                                         theater: theater.name,
                                                                                         coordinates: theater.geo,
-                                                                                        fullAddress: theater.fullAddress, 
+                                                                                        address: theater.fullAddress, 
                                                                                         ...ticket, 
                                                                                         type});
                                                                                     setStatus(true);
