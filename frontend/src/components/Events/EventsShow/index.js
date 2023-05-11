@@ -2,23 +2,18 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useClearMovieErrors } from "../../../store/errors/movieErrors";
-import { addEventAttendee, getMovie, removeEventAttendee } from "../../../store/movies";
+import { addEventAttendee, fetchMovie, getMovie, removeEventAttendee } from "../../../store/movies";
 
 const EventShow = () => {
     
     useClearMovieErrors();
     const { movieId, eventId} = useParams();
-    console.log(movieId, 'mid')
-    console.log(eventId, 'eid')
 
     const dispatch = useDispatch();
     const [rsvp, setRSVP] = useState(false);
 
-    const movie = useSelector(getMovie(502356))
-    console.log(movie, "movie")
-
-    const event = movie?.events.find(() => event._id === eventId);
-    console.log(event, "event")
+    const movie = useSelector(getMovie(movieId));
+    const event = movie?.events.find(e => e._id === eventId);
 
     const MOVIE_LINK = "https://image.tmdb.org/t/p/original";
 
@@ -31,6 +26,12 @@ const EventShow = () => {
         }
     }
 
+    useEffect(() => {
+        if (movieId) {
+            dispatch(fetchMovie(movieId))
+        }
+    }, [dispatch])
+
     return(
         <div className="event-show-page-container">
             <div className="event-show-page-left">
@@ -39,13 +40,20 @@ const EventShow = () => {
                     <img src={`${MOVIE_LINK.concat(movie?.posterPath)}`} alt={`${movie?.title} movie poster`}/>
                 </div>
                 <div className="event-show-page-description">
-                    <p>Host: {event?.host}</p>
+                    <p>Host: {event?.host.username}</p>
                     <p>{event?.body}</p>
                 </div>
             </div>
             <div className="event-show-page-right">
                 <div className="event-show-page-time-date-rsvp">
-                    <p>{event?.date}</p>
+                    <p>{new Date(event?.date).toLocaleString('en-US', {
+                        weekday: 'short',
+                        month: 'short',
+                        day: '2-digit',
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    })}</p>
                     <p>Please RSVP Below</p>
                     <form className="event-rsvp-form" onSubmit={(e) => handleEventRSVPSubmit(e)}>
                         <input  type="radio" name="rsvp" id="rsvp-yes" value={true}></input>

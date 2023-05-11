@@ -41,7 +41,7 @@ export const fetchMovie = movieId =>
 export const addEventAttendee = (eventId, movieId) => async dispatch => {
     try {
         const movies = await customFetch(`/api/movies/${movieId}/events/${eventId}/addAttendees`, {
-            method: 'PATCH'
+            method: 'POST'
         });
         return dispatch(receiveMovies({ movies }));
     } catch (err) {
@@ -53,7 +53,7 @@ export const addEventAttendee = (eventId, movieId) => async dispatch => {
 }
 
 export const removeEventAttendee = (eventId, movieId) => async dispatch => {
-    try{
+    try {
         const movies = await customFetch(`/api/movies/${movieId}/events/${eventId}/removeAttendee`, {
             method: 'DELETE'
         });
