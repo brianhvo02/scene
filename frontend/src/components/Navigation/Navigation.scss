@@ -1,6 +1,8 @@
-.header-nav-contianer{
-    position: relative;
-    z-index: 5;
+.nav-bar{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 20px 0;
 }
 
 .profile-button-container {
