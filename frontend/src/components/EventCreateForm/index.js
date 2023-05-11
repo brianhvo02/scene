@@ -15,7 +15,7 @@ const EventCreateForm = () => {
                 modal &&
                     createPortal(
                         <Modal closeModal = {()=>setModal('')}>
-                            {modal === 'event' && <EventForm />}
+                            {modal === 'event' && <EventForm closeModal={() => setModal('')} />}
                         </Modal>,
                         document.body
                     )

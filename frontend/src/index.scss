@@ -22,3 +22,26 @@ html, body {
     font-family: 'League Gothic', sans-serif;
     letter-spacing: 1px;
 }
+
+::-webkit-scrollbar {
+    width: 10px;
+    
+    
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: none;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
