@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { logout } from "../../store/session";
 import './Navigation.scss'
 
 
@@ -9,45 +12,49 @@ function ProfileButton({ user }) {
     const menuRef = useRef(null);
     
 
+    // const openMenu = () => {
+    //     setShowMenu((prevShowMenu) => !prevShowMenu);
+    //   };
+    
+    // useEffect(() => {
+    //     const handleOutsideClick = (event) => {
+    //       if (menuRef.current && !menuRef.current.contains(event.target)) {
+    //         setShowMenu(false);
+    //       }
+    //     };
+    
+    //     document.addEventListener("click", handleOutsideClick);
+    
+    //     return () => {
+    //       document.removeEventListener("click", handleOutsideClick);
+    //     };
+    //   }, []);
+
+
     const openMenu = () => {
-        setShowMenu((prevShowMenu) => !prevShowMenu);
-      };
+      document.querySelector('.hamburger').classList.toggle('open');
+      document.querySelector('.profile-button').classList.toggle('active');
+    }
+
     
-    useEffect(() => {
-        const handleOutsideClick = (event) => {
-          if (menuRef.current && !menuRef.current.contains(event.target)) {
-            setShowMenu(false);
-          }
-        };
-    
-        document.addEventListener("click", handleOutsideClick);
-    
-        return () => {
-          document.removeEventListener("click", handleOutsideClick);
-        };
-      }, []);
-    
-      const logout = (e) => {
-        e.preventDefault();
+      const handleClick = (e) => {
+        dispatch(logout());
       };
     
       return (
         <div className="profile-button" ref={menuRef}>
-          <button onClick={openMenu} className="profile-icon" >
-            Profile
-            <i className="fa-regular fa-user"></i>
+          <button onClick={openMenu} className="hamburger" >
+            <div id="bar1" class="bar"></div>
+            <div id="bar2" class="bar"></div>
+            <div id="bar3" class="bar"></div>
           </button>
-          {showMenu && (
+          <nav className="hamburger-side-menu">
             <ul className="profile-dropdown">
-              <li>{user.username}</li>
-              <li>{user.email}</li>
-              <li>
-                <button onClick={logout} className="button">
-                  Log Out
-                </button>
-              </li>
+              <li>{user?.username}</li>
+              <li>{user?.email}</li>
+              <li onClick={handleClick} className="logout-button">Logout</li>
             </ul>
-          )}
+          </nav>
         </div>
       );
     }

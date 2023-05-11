@@ -15,7 +15,7 @@ const sessionSlice = createSlice({
     initialState,
     reducers: {
         receiveCurrentUser: (state, action) => ({ user: action.payload }),
-        logoutUser: () => initialState
+        logoutUser: () => ({user: null})
     }
 });
 

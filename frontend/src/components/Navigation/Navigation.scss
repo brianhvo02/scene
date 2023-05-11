@@ -1,3 +1,16 @@
+.logo{
+  height: 6%;
+  width: 6%;
+  top: 5%;
+  left: 95%;
+}
+
+.header-nav-container{
+  padding: 0px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
 .nav-bar{
     display: flex;
     align-items: center;
@@ -5,33 +18,133 @@
     margin: 20px 0;
 }
 
-.profile-button-container {
-    z-index: 5;
+
+.hamburger{
+  cursor: pointer;
 }
 
-.profile-button {
-    position: relative;
-  }
+.profile-dropdown > li {
+  cursor: pointer;
+}
+
+.hamburger-side-menu{
+  position: absolute;
+  top: 100px;
+  right: 50px;
+  width: 250px;
+}
+
+.profile-button{
+  position: fixed;
+  top: 2%;
+  right: -500px;
+  width: 350px;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 16px;
+  transition: .5s;
+  z-index: 50;
+}
+
+.profile-button ul li{
+  color: #fff;
+  text-align: right;
+  text-transform: uppercase;
+  list-style-type: none;
+  font-size: 1.5em;
+  padding: 20px 30px;
+  // border-bottom: 1pt solid #252525;
+}
+
+.hamburger, .bar{
+  position: fixed
+}
+
+.hamburger{
+  display: block;
+  top: 5%;
+  left: 95%;
+  width: 47px;
+  height: 47px;
+  transform: translateY(-50%);
+  border: 0;
+  background-color: #C6D4ED;
+  border-radius: 100%;
+}
+
+.bar{
+  top: 12px;
+  // left: 0.5px;
+  background: #fff;
+  width: 75%;
+  height: 4px;
+  transition: all .3s ease-in;
+  border: solid black;
+}
+
+#bar2{
+  top: 20px;
+  width: 75%;
+}
+
+#bar3{
+  top: 28px;
+  width: 75%;
+
+}
+
+.profile-button.active{
+  right: 0;
+}
+
+.hamburger.open #bar1{
+  background-color: #fff;
+  transform: rotate(45deg) translate(6px, 5px);
+}
+
+.hamburger.open #bar2{
+  background-color: transparent;
+  border: transparent;
+}
+
+.hamburger.open #bar3{
+  background-color: #fff;
+  transform: rotate(-45deg) translate(6px, -5px);
+}
+
+
+
+
+
+
+
+
+// .profile-button {
+//     position: relative;
+//   }
   
-  .profile-icon {
-    font-size: 1.5rem;
-    cursor: pointer;
-  }
+// .profile-icon {
+//   font-size: 1.5rem;
+//   cursor: pointer;
+//   color: white;
+//   background: none;
+//   border: none;
+// }
   
-  .profile-dropdown {
-    position: absolute;
-    border: 1px solid grey;
-    border-radius: 5px;
-    padding: 5px;
-    top: 100%;
-    right: 0;
-    display: flex;
-    flex-direction: column;
-    background: white;
-    z-index: 1;
-  }
-  
-  .profile-dropdown li {
-    text-align: right;
-    margin: 5px;
-  }
+// .profile-dropdown {
+//   position: absolute;
+//   border: 1px solid grey;
+//   border-radius: 5px;
+//   padding: 5px;
+//   top: 100%;
+//   right: 0;
+//   display: flex;
+//   flex-direction: column;
+//   background: white;
+//   z-index: 5;
+// }
+
+// .profile-dropdown li {
+//   text-align: right;
+//   margin: 5px;
+// }

@@ -3,20 +3,21 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import ProfileButton from './ProfileButton';
-
+import { useProtected } from '../../store/session';
 
 
 const Navigation = () => {
     const sessionUser = useSelector(state => state.session.user);
+    useProtected();
     
 
     return (
     <header className='header-nav-container'>
         <div className='nav-bar'>
-            <div className='left-nav'>
+            <div className='nav-left'>
                 <div className='nav-logo'>
                     <NavLink className='nav-logo-container' to="/">
-                        <img className="logo" />
+                        <img className="logo" src="/light-logo.png" />
                     </NavLink>
                 </div>
             </div>

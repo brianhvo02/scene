@@ -127,10 +127,12 @@
 
 .background-image{
     position:absolute;
-    width: 98vw;
+    width: 100%;
     height: 100vh;
     opacity: 0.3;
     z-index: 1;
+    top:0;
+    left: 0;
 }
 
 .homepage-container{
