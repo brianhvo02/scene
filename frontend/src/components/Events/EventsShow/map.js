@@ -73,6 +73,10 @@ const EventMap = ({ theaters, selected, setSelected, canSelect = true }) => {
                 });
 
                 map.fitBounds(bounds);
+                const listener = google.maps.event.addListener(map, "idle", function() { 
+                    if (map.getZoom() > 14 && !canSelect) map.setZoom(14); 
+                    google.maps.event.removeListener(listener); 
+                });
 
                 setMarkers(markers);
             });
