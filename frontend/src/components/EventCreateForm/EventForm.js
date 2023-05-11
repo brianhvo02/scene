@@ -7,8 +7,9 @@ import { fetchTheaters, getTheaterSlice } from '../../store/theaters';
 import EventMap from '../Events/EventsShow/map';
 import "./index.scss"
 
-const EventForm = () => {
+const EventForm = (props) => {
     useClearEventErrors();
+    const {closeModal} = props
     const dispatch = useDispatch();
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
@@ -19,6 +20,7 @@ const EventForm = () => {
     const [date, setDate] = useState('');
     const [info, setInfo] = useState({});
     const [theater, setTheater] = useState({ name: '' });
+    const [selected, setSelected] = useState(false)
     const {movieId} = useParams();
     const navigate = useNavigate();
 
@@ -94,68 +96,76 @@ const EventForm = () => {
                         {
                             !!filteredTheaters.length &&
                             <>
-                                <select onChange={e => 
-                                    setTheater(theaters[e.target.value])
-                                } value={theater.name} >
-                                    <option value={''} disabled>Select a theater</option>
-                                    {
-                                        filteredTheaters.map(theater => 
-                                            <option key={theater.name} value={theater.name}>{theater.name}</option>
-                                        )
-                                    }
-                                </select>
-                                <EventMap theaters={filteredTheaters} selected={theater.name} setSelected={setTheater} />
-
+                                <div className='theater-map-pick-box'>
+                                <div className={`theater-map-container${theater.name ? "-theater-selected" : ""}`}>
+                                    <div className='select-tab'>
+                                        <select onChange={e => 
+                                            setTheater(theaters[e.target.value])
+                                        } value={theater.name} >
+                                            <option value={''} disabled>Select a theater</option>
+                                            {
+                                                filteredTheaters.map(theater => 
+                                                    <option key={theater.name} value={theater.name}>{theater.name}</option>
+                                                )
+                                            }
+                                        </select>
+                                    </div>
+                                    <EventMap className="google-map-container" theaters={filteredTheaters} selected={theater.name} setSelected={setTheater} />
+                                </div>
                                 {
                                     !!theater.name.length &&
-                                    <div>
-                                        <h2>{theater.name}</h2>
-                                        <p>{theater.fullAddress}</p>
+                                    <div className='ticket-pick'>
+                                        <h2 className='theater-name'>{theater.name}</h2>
+                                        <p className='theater-address'>{theater.fullAddress}</p>
                                         {
                                             Object.keys(theater.tickets).map(type => 
-                                                <div key={type}>
-                                                    <h3>{type}</h3>
-                                                    {
-                                                        Object.keys(theater.tickets[type].showtimes)
-                                                            .map(amenities =>
-                                                                <div key={type + amenities}>
-                                                                    <h4>{amenities}</h4>
-                                                                    {
-                                                                        theater.tickets[type].showtimes[amenities].map(ticket => 
-                                                                            <button 
-                                                                                key={type + amenities + ticket.date}
-                                                                                onClick={() => {
-                                                                                    setInfo({
-                                                                                        theater: theater.name,
-                                                                                        coordinates: theater.geo,
-                                                                                        address: theater.fullAddress, 
-                                                                                        ...ticket, 
-                                                                                        type});
-                                                                                    setStatus(true);
-                                                                                }}
-                                                                                style={{
-                                                                                    color: (
-                                                                                        info.date === ticket.date
-                                                                                            &&
-                                                                                        info.amenities.join(', ') === amenities
-                                                                                    )
-                                                                                        ? 'blue'
-                                                                                        : 'red'
-                                                                                }}
-                                                                            >{ticket.date}</button>
-                                                                        )
-                                                                    }
-                                                                </div>
-                                                        )
-                                                    }
+                                                <div className='ticket-container' key={type}>
+                                                    <div className='ticket-type'><h3>{type}</h3></div>
+                                                    <div className='show-time-box'>
+                                                        {
+                                                            Object.keys(theater.tickets[type].showtimes)
+                                                                .map(amenities =>
+                                                                    
+                                                                    <div className='show-time' key={type + amenities}>
+                                                                        <h4>{amenities}</h4>
+                                                                        {
+                                                                            theater.tickets[type].showtimes[amenities].map(ticket => 
+                                                                                <button className={`time-button${
+                                                                                   ( info.date === ticket.date && info.amenities.join(', ') === amenities)
+                                                                                    ? "-selected" : ""}`}
+                                                                                    key={type + amenities + ticket.date}
+                                                                                    onClick={() => {
+                                                                                        setInfo({
+                                                                                            theater: theater.name,
+                                                                                            coordinates: theater.geo,
+                                                                                            address: theater.fullAddress, 
+                                                                                            ...ticket, 
+                                                                                            type});
+                                                                                        setStatus(true);
+                                                
+                                                                                    }}
+                                                                                >{ticket.date}</button>
+                                                                            )
+                                                                        }
+                                                                    </div>
+                                                                    
+                                                            ) 
+                                                        
+                                                        }
+                                                    </div>
                                                 </div>
                                             )
                                         }
                                     </div>
                                 }
+                                </div>
                             </>
                         }
-                        <button className='event-submit-button' onClick={handleSubmit} disabled={!status}>Create</button>
+                        <div className='event-create-footer'>
+                            <button className='event-create-button' onClick={()=>closeModal()} >Cancel</button>
+                            <button className='event-create-button' id="event-create-button" onClick={handleSubmit} disabled={!status}>Create</button>
+                        </div>
+                        
                     </form>
                 </div>
         </div>

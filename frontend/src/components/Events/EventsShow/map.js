@@ -1,6 +1,6 @@
 import { Loader } from "@googlemaps/js-api-loader";
 import { cloneElement, useEffect, useMemo, useRef, useState } from "react";
-
+import "./map.scss"
 const EventMap = ({ theaters, selected, setSelected, canSelect = true }) => {
     const mapRef = useRef();
 
@@ -95,10 +95,7 @@ const EventMap = ({ theaters, selected, setSelected, canSelect = true }) => {
         }
     }, [theater, pinBackgroundRef, pinRefs, markers])
 
-    return <div ref={mapRef} style={{
-        height: '20em',
-        width: '20em'
-    }}/>
+    return <div className="google-map" ref={mapRef}/>
 }
 
 export default EventMap;

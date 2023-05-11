@@ -3,7 +3,7 @@
 }
 .event-form-container{
     
-    padding: 20px 10px 24px;
+    padding: 24px 24px 24px;
 }
 
 .event-form-heading{
@@ -63,4 +63,209 @@
 
 #input-description{
     height: 80px;
+}
+
+.theater-map-pick-box{
+    display: flex;
+}
+
+
+.theater-map-container{
+    display: flex;
+    margin-top: 12px;
+    margin-left: 8px;
+    margin-bottom: 4px;
+    width: 784px;
+        
+    .select-tab{
+        width: 30%;
+        height: 20px;
+        select {
+            background-color: var(--backgrounLightBlue);
+            width: 210px;
+            border: none;
+            word-wrap: break-word;
+            color: var(--textDefault);
+            display: block;
+            font-family: Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 18px;
+            font-weight: 400;
+            margin-left: 8px;
+            text-align: left;
+            
+        };
+    }
+    
+
+    .google-map-container{
+        width: 70%;
+
+    }
+
+}
+
+.theater-map-container-theater-selected {
+    display: flex;
+    flex-direction: column;
+    margin-top: 12px;
+    width: 30%;
+    .select-tab {
+        width: 30%;
+        height: 20px;
+
+        select {
+            background-color: var(--backgrounLightBlue);
+            width: 210px;
+            border: none;
+            word-wrap: break-word;
+            color: var(--textDefault);
+            display: block;
+            font-family: Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 18px;
+            font-weight: 400;
+            margin-left: 8px;
+            text-align: left;
+
+        }
+        
+    }
+    
+
+    .google-map {
+        margin-top: 16px;
+        height: 300px;
+        width: 220px;
+        border-radius: 16px;
+    }
+    
+
+    
+
+}
+
+.ticket-pick{
+    margin-top: 8px;
+    overflow-wrap: break-word;
+    overflow-y: scroll;
+    height: 340px;
+
+    .theater-name{
+        margin: 8px;
+        font-size: 24px;
+        font-weight: 600;
+    }
+
+    .theater-address{
+        margin: 8px;
+        font-size: 16px;
+        color: #4b3b87;
+        
+    }
+    
+    
+
+}
+
+.ticket-container{
+    display: flex;
+    margin: 8px;
+    border: 2px solid var(--backgroundBlue);
+    border-radius: 16px;
+    box-sizing: border-box;
+    padding: 8px;
+    background-color: var(--backgroundBlue);
+    color: white;
+    
+    .ticket-type{
+        text-align: left;
+        width: 100px;
+
+        h3{
+            margin-top: 16px;
+            margin: 4px;
+            font-size: 16px;
+            font-weight: 200;
+        
+        }
+    }
+    
+}
+.show-time-box{
+    display: flex;
+    flex-direction: column;
+}
+.show-time{
+
+    width: 440px;
+    text-align: left;
+    align-items: start;
+    h4{
+        margin-top: 8px;
+        text-align: left;
+        font-size: 10px;
+        font-weight: 200;
+        margin-bottom: 8px;
+    }
+
+}
+
+
+.time-button{
+    box-sizing: border-box;
+    background-color: var(--backgroundBlue);
+    border-radius: 12px;
+    border: 1px solid white;
+    margin-left: 2px;
+    margin-right: 2px;
+    display: inline-block;
+    border-style: solid;
+    -webkit-font-smoothing: antialiased;
+    cursor: pointer;
+    vertical-align: middle;
+    text-align: center;
+    color: white;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 4px;
+    padding-right: 4px;
+
+    &:hover{
+        background-color: black ;
+    }
+
+}
+
+.time-button-selected {
+    box-sizing: border-box;
+    background-color: var(--backgroundLightBlue);
+    border-radius: 12px;
+    border: 1px solid var(--backgrounLightBlue);
+    margin-left: 2px;
+    margin-right: 2px;
+    display: inline-block;
+    border-style: solid;
+    -webkit-font-smoothing: antialiased;
+    cursor: pointer;
+    vertical-align: middle;
+    text-align: center;
+    color: var(--backgroundBlue);
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+.event-create-footer{
+    display: flex;
+    justify-content: space-between;
+}
+
+#event-create-button{
+    border: 2px solid var(--backgroundBlue);
+    color: white;
+    background-color: var(--backgroundBlue);
+
+    &:hover{
+        background-color: #0b1330;
+    }
 }
