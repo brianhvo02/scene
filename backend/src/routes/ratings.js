@@ -19,9 +19,8 @@ router.post('/', requireUser, validateRatingInput, async(req, res, next) => {
         let movie = await Movie.findOne({ [movieId.length !== 24 ? 'tmdbId' : '_id']: movieId });
 
         movie.ratings.push(rating);
-        movie.save();
-        rating = await rating.populate('rater','_id username')
-        return res.json(rating);
+        movie = await movie.save();
+        sendMovie(movie, res);
     }
     catch(err) {
         next(err);

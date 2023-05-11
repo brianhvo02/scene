@@ -28,7 +28,6 @@ router.get('/', requireUser, async (req, res, next) => {
                 const m = theater.movies.find(m => {
                     if (m.title.includes(movie.title)) return true;
                     for (let title in movie.alternativeTitles) {
-                        console.log(m.title, movie.alternativeTitles[title])
                         if (m.title.includes(movie.alternativeTitles[title])) return true;
                     }
                     return false;
