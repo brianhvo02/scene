@@ -47,6 +47,10 @@ const SignupForm = () => {
     }
 
     return (
+        <div className='session-form-container'>
+            <div className='session-form-left'>
+                <img src='movie-illustration.jpg'></img>
+            </div>
         <form className="session-form" onSubmit={handleSubmit}>
             <div className="logo-container">
                 <img className="mlogo" src="./logo.png" />
@@ -113,6 +117,7 @@ const SignupForm = () => {
             </div>
             </div>
         </form>
+        </div>
     )
 }
 
