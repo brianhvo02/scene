@@ -12,11 +12,17 @@ import Movie from '../models/Movie';
 router.post('/', requireUser, validateEventInput, async (req, res, next) => {
     try {
         const { movieId } = req.params;
-
+        
         const newEvent = new Event({
             title: req.body.title,
             body: req.body.body,
-            date: req.body.date,
+            date: new Date(req.body.ticketingdate.replace('+', ' ')),
+            ticketUrl: req.body.ticketingjumppageurl,
+            ticketType: req.body.type,
+            amenities: req.body.amenities,
+            theater: req.body.theater,
+            address: req.body.address,
+            coordinates: req.body.coordinates,
             host: req.user._id,
             attendees: []
         });
