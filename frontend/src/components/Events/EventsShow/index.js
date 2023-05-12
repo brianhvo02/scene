@@ -106,7 +106,9 @@ const EventShow = () => {
                             }]} selected={event?.theater} canSelect={false} />
                         }
                     </div>
-                    {event?.host._id === sessionUser?._id ? <button className="delete-event-button" onClick={() => handleDeleteEventButton(event, movie)}>Delete Event</button> : null }
+                    <div className="button-container">
+                        {event?.host._id !== sessionUser?._id ? <button className="delete-event-button" onClick={() => handleDeleteEventButton(event, movie)}>Delete Event</button> : null }
+                    </div>
                 </div>
             </div>
         </div>
