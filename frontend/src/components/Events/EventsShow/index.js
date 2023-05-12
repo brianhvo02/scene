@@ -80,7 +80,7 @@ const EventShow = () => {
                     })}</p>
                     <p>Please RSVP Below: </p>
                     {sessionUser && movie && (
-                        <button className="rsvp-button" onClick={handleEventRSVPClick}>{ going ? "UnRSVP!" : "RSVP!"}</button>
+                        <button className="rsvp-button" onClick={handleEventRSVPClick}>{ going ? "UnRSVP" : "RSVP"}</button>
                         )
                     }
                     {going ? <p>See you there!</p> : <p>Sorry you're not coming!</p>}                

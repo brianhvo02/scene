@@ -52,21 +52,38 @@ const MovieShow = () => {
                     </div>
                     <div className='events-near'>
                         <h3>Events near you</h3>
+                        <div className='events-card-box'>
                         {
                             movie?.events?.map(event =>
-                                <Link key={event._id} to={`./event/${event._id}`}>{event.title}</Link>
+                                <Link className='event-show-box' key={event._id} to={`./event/${event._id}`}>
+                                    <div className='event-show-title'>{event.title}</div>
+                                    <div className='event-show-date'>{new Date(event.date).toLocaleString('en-US', {
+                                        weekday: 'short',
+                                        month: 'short',
+                                        day: '2-digit',
+                                        year: 'numeric',
+                                        hour: '2-digit',
+                                        minute: '2-digit'
+                                    })}</div>
+                                    <div className='event-show-theater'>{event.theater}</div>
+                                    {/* <div className='event-show-host'>{event.host.username}</div> */}
+                                </Link>
                             )
                         }
+                        </div>
                     </div>
                 </div>
                 <div className='movie-info-right'>
                     <img src={`${MOVIE_LINK.concat(movie?.posterPath)}`} alt=''/>
                 </div>
             </div>
-            <div className='background-gradient'></div>]
-            <div className='comments'>
+            <div className='background-gradient'></div>
+            <div className='comments-box'>
+                <div className='comments'>
                 {comments}
+                </div>
             </div>
+            
         </>
     )
 }

@@ -10,6 +10,11 @@
         cursor: pointer;
         height: 2em;
         z-index: 5;
+
+        &:hover{
+            scale: 1.25;
+            transition: 0.5s;
+        }
     }
     .movie-poster{
         cursor: pointer;
@@ -17,6 +22,7 @@
         img{
             height: 75vh;
             width: auto;
+            box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
         }
     }
 }
@@ -32,6 +38,8 @@
     img{
         height: auto;
         width: 316px;
+        border-radius: 24px;
+        box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     }
 }
 
@@ -45,7 +53,7 @@
 
     #movie-title{
         margin: 10px 0px;
-        font-size: 1.5em;
+        font-size: 36px;
         padding-top: 0px;
 
         h2{
@@ -63,6 +71,7 @@
         z-index: 10;
 
         .thumb-up, .thumb-down{
+            margin-bottom: 20px;
             height: 1.7em;
             opacity: 0.4;
             cursor: pointer;
