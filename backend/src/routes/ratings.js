@@ -3,12 +3,13 @@ const router = Router({ mergeParams: true });
 import Rating from "../models/Rating";
 import { requireUser } from "../config";
 import Movie from "../models/Movie";
+import { sendMovie } from './movies';
 import validateRatingInput from '../validations/rating';
 
 
 router.post('/', requireUser, validateRatingInput, async(req, res, next) => {
     try {
-        const {movieId} = req.params;
+        const { movieId } = req.params;
 
         const newRating = new Rating({
             rating: req.body.rating,
@@ -34,7 +35,7 @@ router.get('/:id', async (req,res, next) => {
     }
     catch(err) {
         const error = new Error('Rating not found');
-        error.statusCode= 404;
+        error.statusCode = 404;
         error.errors = { message: 'No rating found with that id' };
         return next(error);
     }
