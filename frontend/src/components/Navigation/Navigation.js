@@ -21,7 +21,7 @@ const Navigation = () => {
             <div className='nav-left'>
                 <div className='back-button' onClick={goBack}><MdOutlineArrowBackIos/></div>
                 <div className='nav-logo'>
-                    <NavLink className='nav-logo-container' to="/">
+                    <NavLink className='nav-logo-container' to="/home">
                         <img className="logo" src="/scene-dark-logo-no-text.png" />
                     </NavLink>
                 </div>

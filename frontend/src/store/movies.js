@@ -70,7 +70,7 @@ export const fetchPopularMovies = () =>
     fetchUrl(`/api/tmdb/movies/popular`, receiveMovies);
 
 export const fetchMovie = movieId =>
-    fetchUrl(`/api/movies/${movieId}`, receiveMovies);
+    movieId ? fetchUrl(`/api/movies/${movieId}`, receiveMovies) : null;
 
 export const addEventAttendee = (eventId, movieId) => async dispatch => {
     try {
