@@ -87,7 +87,7 @@ const MovieShow = () => {
                 <div className='movie-info-left'>
                     <h2>{movie?.title}</h2>
                     <h3>Movie Description:</h3>
-                    <p id="popcorn-score-container">Popcorn Score: <img src="/popcorn-svgrepo-com.svg" alt="popcorn svg"/> <span className="popcorn-score">{averageRating}%</span></p>
+                    {averageRating > 0 ? <p id="popcorn-score-container">Popcorn Score: <img src="/popcorn-svgrepo-com.svg" alt="popcorn svg"/> <span className="popcorn-score">{averageRating}%</span></p> : null}
                     <p>{movie?.overview}</p>
                     <div className='movie-show-event-button'>
                         <EventCreateForm />
