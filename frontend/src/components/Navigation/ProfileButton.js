@@ -44,9 +44,9 @@ function ProfileButton({ user }) {
       return (
         <div className="profile-button" ref={menuRef}>
           <button onClick={openMenu} className="hamburger" >
-            <div id="bar1" class="bar"></div>
-            <div id="bar2" class="bar"></div>
-            <div id="bar3" class="bar"></div>
+            <div id="bar1" className="bar"></div>
+            <div id="bar2" className="bar"></div>
+            <div id="bar3" className="bar"></div>
           </button>
           <nav className="hamburger-side-menu">
             <ul className="profile-dropdown">
