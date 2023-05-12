@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight, faThumbsDown, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import './index.scss';
+import Loading from "../Loading/Loading";
 
 const DiscoverCarousel = ({ setSelectedMovie }) => {
     const dispatch = useDispatch();
@@ -40,6 +41,7 @@ const DiscoverCarousel = ({ setSelectedMovie }) => {
     const MOVIE_LINK = "https://image.tmdb.org/t/p/original";
 
     return(
+        movies[currentIndex] ?
         <>
             <FontAwesomeIcon icon={faChevronLeft} onClick={handlePrevClick} className="arrow"/>
             <img src={movies[currentIndex]?.backdropPath ? MOVIE_LINK.concat(movies[currentIndex]?.backdropPath) : ''} className="background-image"/>
@@ -51,7 +53,8 @@ const DiscoverCarousel = ({ setSelectedMovie }) => {
                 </div>
             </div>
             <FontAwesomeIcon icon={faChevronRight} onClick={handleNextClick} className="arrow"/>
-        </>
+        </> :
+        <Loading />
     )
 }
 
