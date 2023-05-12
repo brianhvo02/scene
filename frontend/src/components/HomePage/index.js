@@ -10,6 +10,7 @@ const HomePage = () => {
     
     return(
         <div className="homepage-container">
+
             <h2 className="homepage-heading">Discover New Movies</h2>
             <div className="discover-carousel">
                 <DiscoverCarousel setSelectedMovie={setSelectedMovie}/>
@@ -28,8 +29,6 @@ const HomePage = () => {
                         <h2 className="homepage-heading">Recommendations</h2>
                         <RecommendationsPopup movie={selectedMovie} /> 
                     </>) : null}
-
-                    
             </div>
         </div>
     )

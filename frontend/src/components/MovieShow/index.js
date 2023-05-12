@@ -8,6 +8,14 @@ import { useEffect, useMemo, useState } from 'react';
 import RatingsComponent from '../Ratings';
 import Loading from '../Loading/Loading';
 
+const scrollToTop = () => {
+    window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+    });
+}
+
 const MovieShow = () => {
     const currentUser = useSelector(state => state.session.user);
     const { movieId } = useParams();
@@ -17,7 +25,7 @@ const MovieShow = () => {
     const [averageRating, setAverageRating] = useState(0)
 
     useEffect(() => {
-        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+        scrollToTop();
     }, [])
 
     const [commentBody, setCommentBody] = useState('');
@@ -26,7 +34,7 @@ const MovieShow = () => {
     const [replyComment, setReplyComment] = useState();
     const [replyUser, setReplyUser] = useState('');
     const [edit, setEdit] = useState();
-
+    
     useEffect(() => {
         dispatch(fetchMovie(movieId))
         .finally(()=>(setLoading(false)))
@@ -60,6 +68,7 @@ const MovieShow = () => {
                                                 setEdit(id);
                                                 setReplyComment();
                                                 setReplyUser();
+                                                scrollToTop();
                                             }
                                         }>Edit</button>
                                 }
@@ -76,6 +85,7 @@ const MovieShow = () => {
                                             setReplyComment(id);
                                             setReplyUser(author.username);
                                             setEdit();
+                                            scrollToTop();
                                         }
                                     }>Reply</button>
                             </>
@@ -100,7 +110,7 @@ const MovieShow = () => {
     const content = () =>{
        return (
         <>
-            <img src={movie ? `${MOVIE_LINK.concat(movie?.backdropPath)}` : ''} alt='' className='background-image'/>
+            <img src={movie?.backdropPath ? `${MOVIE_LINK.concat(movie?.backdropPath)}` : '/backdrop.png'} alt='' className='background-image'/>
             <div className='movie-info-container'>
                 <div className='movie-info-left'>
                     <h2>{movie?.title}</h2>
@@ -140,7 +150,7 @@ const MovieShow = () => {
                     </div>
                 </div>
                 <div className='movie-info-right'>
-                    <img src={movie ? `${MOVIE_LINK.concat(movie.posterPath)}` : ''} alt=''/>
+                    <img src={movie?.posterPath ? `${MOVIE_LINK.concat(movie.posterPath)}` : ''} alt=''/>
                 </div>
             </div>
             <div className='background-gradient'></div>

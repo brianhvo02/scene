@@ -18,7 +18,9 @@ const EventShow = () => {
     const event = useMemo(() => movie?.events.find(e => e._id === eventId), [movie]);
     const eventDate = useMemo(() => new Date(event?.date), [event]);
     const eventCreatedDate = useMemo(() => new Date(event?.createdAt), [event]);
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(true);
+
+    const isOwner = useMemo(() => event?.host._id === sessionUser?._id, [event, sessionUser]);
 
     useEffect(() => {
         window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -49,12 +51,12 @@ const EventShow = () => {
     const content = () => {
         return(
             <>
-                <img src={movie ? `${MOVIE_LINK.concat(movie?.backdropPath)}` : ''} alt={`${movie?.title} movie backdrop`} className="background-image"/>       
+                <img src={movie?.backdropPath ? `${MOVIE_LINK.concat(movie.backdropPath)}` : ''} alt={`${movie?.title} movie backdrop`} className="background-image"/>       
                 <h1 className="event-title">{event?.title}</h1>
                 <div className="event-show-page-container">
                     <div className="event-show-page-left">
                         <div className="event-show-page-movie-poster">
-                            <img src={movie ? `${MOVIE_LINK.concat(movie.posterPath)}` : ''} alt={`${movie?.title} movie poster`}/>
+                            <img src={movie?.posterPath ? `${MOVIE_LINK.concat(movie.posterPath)}` : ''} alt={`${movie?.title} movie poster`}/>
                             <h2 className="event-title-movie-title">{movie?.title}</h2>
                         </div>
                         <div className="event-show-page-description">
@@ -93,9 +95,9 @@ const EventShow = () => {
                             <p>Please RSVP Below: </p>
                             {
                                 sessionUser && movie && 
-                                <button className="rsvp-button" onClick={handleEventRSVPClick}>{ going ? "UnRSVP" : "RSVP"}</button>
+                                <button className="rsvp-button" onClick={handleEventRSVPClick} disabled={isOwner}>{isOwner ? 'You\'re hosting!' : going ? "UnRSVP" : "RSVP"}</button>
                             }
-                            {going ? <p>See you there!</p> : <p>Sorry you're not coming!</p>} 
+                            {isOwner ? '' : going ? <p>See you there!</p> : <p>Sorry you're not coming!</p>}  
                             <div className='attendees-count'>You can make <strong >{event?.attendees.length}</strong> new friends at this event!</div>               
                         </div>
                         <div className="event-show-page-maps-container">
