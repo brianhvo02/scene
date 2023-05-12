@@ -9,7 +9,8 @@ const MoviePoster = ({ movie }) => {
     const MOVIE_LINK = "https://image.tmdb.org/t/p/original";
 
     const handleMoviePosterClick = (movie) => {
-        if (movie.id) navigate(`/movie/${movie.id}`);
+        const id = movie.id || movie._id;
+        if (id) navigate(`/movie/${id}`);
     }
 
     return(
