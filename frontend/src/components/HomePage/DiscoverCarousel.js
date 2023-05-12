@@ -41,7 +41,6 @@ const DiscoverCarousel = ({ setSelectedMovie }) => {
     const MOVIE_LINK = "https://image.tmdb.org/t/p/original";
 
     return(
-        movies[currentIndex] ?
         <>
             <FontAwesomeIcon icon={faChevronLeft} onClick={handlePrevClick} className="arrow"/>
             <img src={movies[currentIndex]?.backdropPath ? MOVIE_LINK.concat(movies[currentIndex]?.backdropPath) : ''} className="background-image"/>
@@ -53,8 +52,7 @@ const DiscoverCarousel = ({ setSelectedMovie }) => {
                 </div>
             </div>
             <FontAwesomeIcon icon={faChevronRight} onClick={handleNextClick} className="arrow"/>
-        </> :
-        <Loading />
+        </>
     )
 }
 
