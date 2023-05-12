@@ -147,11 +147,11 @@ export const updateRating = (rating, movieId) => async dispatch => {
     }
 }
 
-export const createComment = (body, movieId) => async dispatch => {
+export const createComment = (body, movieId, parentComment) => async dispatch => {
     try {
         const res = await customFetch(`/api/movies/${movieId}/comments`, {
             method: 'POST',
-            body: JSON.stringify({ body })
+            body: JSON.stringify({ body, parentComment })
         });
         return dispatch(receiveMovies(res));
     } catch (err) {
@@ -165,7 +165,8 @@ export const createComment = (body, movieId) => async dispatch => {
 export const deleteComment = (commentId, movieId) => async dispatch => {
     try{
         const res = await customFetch(`/api/movies/${movieId}/comments/${commentId}`,{
-            method: 'DELETE'
+            method: 'PATCH',
+            body: JSON.stringify({ body: '[DELETED]' })
         });
         return dispatch(receiveMovies(res));
     }

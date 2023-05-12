@@ -21,14 +21,13 @@ const MovieShow = () => {
 
     const [commentBody, setCommentBody] = useState('');
     const [activeComment, setActiveComment] = useState();
+    const [replyComment, setReplyComment] = useState();
+    const [replyUser, setReplyUser] = useState('');
+    const [edit, setEdit] = useState(false);
 
     useEffect(() => {
         dispatch(fetchMovie(movieId));
     }, [dispatch]);
-
-    const openReply = () => {
-
-    }
 
     useEffect(() => {
         let total = 0;
@@ -48,7 +47,7 @@ const MovieShow = () => {
                     </span>
                     <span>
                         {
-                            activeComment === id &&
+                            (activeComment === id || replyComment === id) && body !== '[DELETED]' &&
                             <>
                                 {
                                     author._id === currentUser._id &&
@@ -57,9 +56,15 @@ const MovieShow = () => {
                                             () => dispatch(deleteComment(id, movie.tmdbId))
                                         }>Remove</button>
                                 }
-                                <button className='event-create-button' 
+                                <button className='event-create-button'
+                                    style={{
+
+                                    }}
                                     onClick={
-                                        () => openReply()
+                                        () => {
+                                            setReplyComment(id);
+                                            setReplyUser(author.username);
+                                        }
                                     }>Reply</button>
                             </>
                         }
@@ -124,14 +129,23 @@ const MovieShow = () => {
             <div className='comments-box'>
                 <div className='comments'>
                     <div className='create-comment'>
-                        <textarea className='comment comment-body' placeholder='Add a comment...' value={commentBody} onChange={e => setCommentBody(e.target.value)} />
+                        <textarea className='comment comment-body' placeholder={replyComment ? `Reply to ${replyUser}` : 'Add a comment...'} value={commentBody} onChange={e => setCommentBody(e.target.value)} />
                         {
-                            commentBody &&
+                            (commentBody || replyUser) &&
                             <>
-                                <button className='event-create-button' onClick={() => setCommentBody('')}>Cancel</button>
+                                <button className='event-create-button' onClick={() => {
+                                    setCommentBody('');
+                                    setReplyComment();
+                                    setReplyUser();
+                                }}>Cancel</button>
                                 <button className='event-create-button' 
                                     onClick={
-                                        () => dispatch(createComment(commentBody, movie.tmdbId))
+                                        () => dispatch(createComment(commentBody, movie.tmdbId, replyComment))
+                                            .then(() => {
+                                                setCommentBody('');
+                                                setReplyComment();
+                                                setReplyUser();
+                                            })
                                     }>Comment</button>
                             </>
                         }
