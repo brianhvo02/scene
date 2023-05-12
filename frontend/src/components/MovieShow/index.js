@@ -6,6 +6,7 @@ import { GiPopcorn } from 'react-icons/gi';
 import './index.scss'
 import { useEffect, useMemo, useState } from 'react';
 import RatingsComponent from '../Ratings';
+import Loading from '../Loading/Loading';
 
 const MovieShow = () => {
     const currentUser = useSelector(state => state.session.user);
@@ -21,9 +22,11 @@ const MovieShow = () => {
 
     const [commentBody, setCommentBody] = useState('');
     const [activeComment, setActiveComment] = useState();
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        dispatch(fetchMovie(movieId));
+        dispatch(fetchMovie(movieId))
+        .finally(()=>(setLoading(false)))
     }, [dispatch]);
 
     const openReply = () => {
@@ -80,7 +83,8 @@ const MovieShow = () => {
         ), 
     [movie, activeComment]);
 
-    return (
+    const content = () =>{
+       return (
         <>
             <img src={movie ? `${MOVIE_LINK.concat(movie?.backdropPath)}` : ''} alt='' className='background-image'/>
             <div className='movie-info-container'>
@@ -131,8 +135,8 @@ const MovieShow = () => {
                         {
                             commentBody &&
                             <>
-                                <button className='event-create-button' onClick={() => setCommentBody('')}>Cancel</button>
-                                <button className='event-create-button' 
+                                <button className='comment-event-create-button' onClick={() => setCommentBody('')}>Cancel</button>
+                                <button className='comment-event-create-button' 
                                     onClick={
                                         () => dispatch(createComment(commentBody, movie.tmdbId))
                                     }>Comment</button>
@@ -144,7 +148,10 @@ const MovieShow = () => {
             </div>
             
         </>
-    )
+    )  
+    }
+   
+    return loading ? <Loading /> : content()
 }
 
 export default MovieShow;
