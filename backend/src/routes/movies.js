@@ -26,6 +26,7 @@ router.get('/:movieId', async (req, res, next) => {
     } else if (!movie) {
         const allowedParams = ["tmdb_id", "title", "overview", "poster_path", "backdrop_path", "genre_ids", "alternative_titles", "runtime", "tagline", "certification"];
         const movieRes = await fetchTMDB(`/movie/${movieId}`, 'append_to_response=alternative_titles,release_dates');
+        // return res.json(movieRes);
         movieRes.tmdb_id = movieRes.id;
         movieRes.genre_ids = movieRes.genres.map(genre => genre.id);
         movieRes.certification = movieRes.release_dates.results

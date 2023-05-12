@@ -3,13 +3,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchMovie, getMovie } from '../../store/movies';
 import EventCreateForm from '../EventCreateForm';
 import './index.scss'
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import RatingsComponent from '../Ratings';
 
 const MovieShow = () => {
     const { movieId } = useParams();
     const movie = useSelector(getMovie(movieId));
     const MOVIE_LINK = 'https://image.tmdb.org/t/p/original';
     const dispatch = useDispatch();
+    useEffect(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
+    }, [])
+
+    const [commentBody, setCommentBody] = useState('');
 
     useEffect(() => {
         dispatch(fetchMovie(movieId));
@@ -18,8 +24,10 @@ const MovieShow = () => {
     const Comment = ({ body, author, children }) => {
         return (
             <div className='comment'>
-                <p>Body: {body}</p>
-                <p>Author: {author.username}</p>
+                <div className='comment-body-box'>
+                    <p className='comment-username'>{author.username}:</p>
+                    <p className='comment-body'>{body}</p>
+                </div>
                 <div className='children'>
                     {
                         children.map(child => <Comment key={child._id} body={child.body} author={child.author} children={child.childrenComments} />)
@@ -48,21 +56,51 @@ const MovieShow = () => {
                     </div>
                     <div className='events-near'>
                         <h3>Events near you</h3>
+                        <div className='events-card-box'>
                         {
                             movie?.events?.map(event =>
-                                <Link key={event._id} to={`./event/${event._id}`}>{event.title}</Link>
+                                <Link className='event-show-box' key={event._id} to={`./event/${event._id}`}>
+                                    <div className='event-show-title'>{event.title}</div>
+                                    <div className='event-show-date'>{new Date(event.date).toLocaleString('en-US', {
+                                        weekday: 'short',
+                                        month: 'short',
+                                        day: '2-digit',
+                                        year: 'numeric',
+                                        hour: '2-digit',
+                                        minute: '2-digit'
+                                    })}</div>
+                                    <div className='event-show-theater'>{event.theater}</div>
+                                    {/* <div className='event-show-host'>{event.host.username}</div> */}
+                                </Link>
                             )
                         }
+                        </div>
+                    </div>
+                    <div>
+                        <RatingsComponent movie={movie}/>
                     </div>
                 </div>
                 <div className='movie-info-right'>
                     <img src={`${MOVIE_LINK.concat(movie?.posterPath)}`} alt=''/>
                 </div>
             </div>
-            <div className='background-gradient'></div>]
-            <div className='comments'>
+            <div className='background-gradient'></div>
+            <div className='comments-box'>
+                <div className='comments'>
+                <div className='create-comment'>
+                    <textarea className='comment comment-body' placeholder='Add a comment...' value={commentBody} onChange={e => setCommentBody(e.target.value)} />
+                    {
+                        commentBody &&
+                        <>
+                            <button className='event-create-button' onClick={() => setCommentBody('')}>Cancel</button>
+                            <button className='event-create-button' onClick={() => console.log(commentBody)}>Comment</button>
+                        </>
+                    }
+                </div>
                 {comments}
+                </div>
             </div>
+            
         </>
     )
 }

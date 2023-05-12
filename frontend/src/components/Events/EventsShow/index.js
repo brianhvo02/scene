@@ -12,23 +12,26 @@ const EventShow = () => {
     const { movieId, eventId } = useParams();
 
     const dispatch = useDispatch();
-    const [going, setGoing] = useState(false);
     const sessionUser = useSelector(state => state.session.user);
     const movie = useSelector(getMovie(movieId));
-    const event = movie?.events.find(e => e._id === eventId);
+    const event = useMemo(() => movie?.events.find(e => e._id === eventId), [movie]);
     const eventDate = useMemo(() => new Date(event?.date), [event]);
     const eventCreatedDate = useMemo(() => new Date(event?.createdAt), [event]);
 
-    if(event?.attendees.includes(sessionUser.id)){
-        setGoing(true);
-    }
+    useEffect(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
+    }, []);
 
     const MOVIE_LINK = "https://image.tmdb.org/t/p/original";
 
-    const handleEventRSVPClick = () => {
-        dispatch(addEventAttendee(movieId, eventId));
-    }
+    const going = useMemo(() => !!event?.attendees.find(attendee => attendee._id === sessionUser._id), [event, sessionUser]);
 
+    const handleEventRSVPClick = () => 
+        dispatch(
+            going
+                ? removeEventAttendee(eventId, movieId)
+                : addEventAttendee(eventId, movieId)
+        );
 
     useEffect(() => {
         if (movieId) dispatch(fetchMovie(movieId));
@@ -79,9 +82,9 @@ const EventShow = () => {
                         minute: '2-digit'
                     })}</p>
                     <p>Please RSVP Below: </p>
-                    {sessionUser && movie && (
-                        <button className="rsvp-button" onClick={handleEventRSVPClick}>{ going ? "UnRSVP!" : "RSVP!"}</button>
-                        )
+                    {
+                        sessionUser && movie && 
+                        <button className="rsvp-button" onClick={handleEventRSVPClick}>{ going ? "UnRSVP" : "RSVP"}</button>
                     }
                     {going ? <p>See you there!</p> : <p>Sorry you're not coming!</p>}                
                 </div>
