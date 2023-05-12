@@ -38,71 +38,71 @@ const EventShow = () => {
 
     return(
         <>
-        <img src={`${MOVIE_LINK.concat(movie?.backdropPath)}`} alt={`${movie?.title} movie backdrop`} className="background-image"/>       
-        <h1 className="event-title">{event?.title}</h1>
-        <div className="event-show-page-container">
-            <div className="event-show-page-left">
-                <div className="event-show-page-movie-poster">
-                    <img src={movie ? `${MOVIE_LINK.concat(movie.posterPath)}` : ''} alt={`${movie?.title} movie poster`}/>
-                    <h2 className="event-title-movie-title">{movie?.title}</h2>
-                </div>
-                <div className="event-show-page-description">
-                    <p>Host: {event?.host.username}</p>
-                    <p>Created: {eventCreatedDate.toLocaleString('en-US', {
-                        weekday: 'short',
-                        month: 'short',
-                        day: '2-digit',
-                        year: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit'
-                    })}</p>
-                    <p>{event?.body}</p>
-                    <div>
-                        <h3>Amenities</h3>
-                        <ul>
-                            {
-                                event?.amenities.map((amenity, i) =>
-                                    <li key={'amenity_' + i}>{amenity}</li>
-                                )
-                            }
-                        </ul>
+            <img src={`${MOVIE_LINK.concat(movie?.backdropPath)}`} alt={`${movie?.title} movie backdrop`} className="background-image"/>       
+            <h1 className="event-title">{event?.title}</h1>
+            <div className="event-show-page-container">
+                <div className="event-show-page-left">
+                    <div className="event-show-page-movie-poster">
+                        <img src={movie ? `${MOVIE_LINK.concat(movie.posterPath)}` : ''} alt={`${movie?.title} movie poster`}/>
+                        <h2 className="event-title-movie-title">{movie?.title}</h2>
                     </div>
+                    <div className="event-show-page-description">
+                        <p>Host: {event?.host.username}</p>
+                        <p>Created: {eventCreatedDate.toLocaleString('en-US', {
+                            weekday: 'short',
+                            month: 'short',
+                            day: '2-digit',
+                            year: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        })}</p>
+                        <p>{event?.body}</p>
+                        <div>
+                            <h3>Amenities</h3>
+                            <ul>
+                                {
+                                    event?.amenities.map((amenity, i) =>
+                                        <li key={'amenity_' + i}>{amenity}</li>
+                                    )
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    
                 </div>
-                
-            </div>
-            <div className="event-show-page-right">
-                <div className="event-show-page-time-date-rsvp">
-                    <p id="date">{eventDate.toLocaleString('en-US', {
-                        weekday: 'short',
-                        month: 'short',
-                        day: '2-digit',
-                        year: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit'
-                    })}</p>
-                    <p>Please RSVP Below: </p>
-                    {
-                        sessionUser && movie && 
-                        <button className="rsvp-button" onClick={handleEventRSVPClick}>{ going ? "UnRSVP" : "RSVP"}</button>
-                    }
-                    {going ? <p>See you there!</p> : <p>Sorry you're not coming!</p>}                
-                </div>
-                <div className="event-show-page-maps-container">
-                    <h3>{event?.theater}</h3>
-                    <p>Ticket Type: {event?.ticketType}</p>
-                    <a href={event?.ticketUrl} target='_blank' rel='noreferrer'>Get a ticket</a>
-                    <div className="map">
+                <div className="event-show-page-right">
+                    <div className="event-show-page-time-date-rsvp">
+                        <p id="date">{eventDate.toLocaleString('en-US', {
+                            weekday: 'short',
+                            month: 'short',
+                            day: '2-digit',
+                            year: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        })}</p>
+                        <p>Please RSVP Below: </p>
                         {
-                            event &&
-                            <EventMap theaters={[{
-                                name: event.theater,
-                                geo: event.coordinates
-                            }]} selected={event.theater} canSelect={false} />
+                            sessionUser && movie && 
+                            <button className="rsvp-button" onClick={handleEventRSVPClick}>{ going ? "UnRSVP" : "RSVP"}</button>
                         }
+                        {going ? <p>See you there!</p> : <p>Sorry you're not coming!</p>}                
+                    </div>
+                    <div className="event-show-page-maps-container">
+                        <h3>{event?.theater}</h3>
+                        <p>Ticket Type: {event?.ticketType}</p>
+                        <a href={event?.ticketUrl} target='_blank' rel='noreferrer'>Get a ticket</a>
+                        <div className="map">
+                            {
+                                event &&
+                                <EventMap theaters={[{
+                                    name: event.theater,
+                                    geo: event.coordinates
+                                }]} selected={event.theater} canSelect={false} />
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         </>
 
     )

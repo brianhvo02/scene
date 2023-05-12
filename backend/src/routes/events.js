@@ -31,7 +31,10 @@ router.post('/', requireUser, validateEventInput, async (req, res, next) => {
         let event = await newEvent.save();
 
         let movie = await Movie.findOne({ [movieId.length === 24 ? '_id' : 'tmdbId']: movieId });
-        sendMovie(movie, res);
+        movie.events.push(event);
+        await movie.save();
+
+        sendMovie(movie, res, event._id);
     }
     catch (err) {
         next(err);
@@ -39,9 +42,9 @@ router.post('/', requireUser, validateEventInput, async (req, res, next) => {
 });
 
 
-router.get('/:id', async (req, res, next) => {
+router.get('/:eventId', async (req, res, next) => {
     try {
-        const event = await Event.findById(req.params.id);
+        const event = await Event.findById(req.params.eventId);
         return res.json(event);
     }
     catch (err) {
@@ -52,9 +55,10 @@ router.get('/:id', async (req, res, next) => {
     }
 });
 
-router.delete('/:id', requireUser, async (req, res, next) => {
+router.delete('/:eventId', requireUser, async (req, res, next) => {
     try {
-        const event = await Event.findById(req.params.id);
+        const { movieId, eventId } = req.params;
+        const event = await Event.findById(eventId);
         if (!event) {
             const error = new Error('Event not found');
             error.statusCode = 404;
@@ -67,9 +71,8 @@ router.delete('/:id', requireUser, async (req, res, next) => {
             error.errors = { message: 'You are not authorized to delete this event' };
             return next(error);
         }
-        await Event.findByIdAndDelete(req.params.id);
+        await Event.findByIdAndDelete(eventId);
 
-        const { movieId } = req.params;
         const movie = await Movie.findOne({ [movieId.length === 24 ? '_id' : 'tmdbId']: movieId });
         sendMovie(movie, res);
     }
@@ -99,7 +102,6 @@ router.post('/:eventId/addAttendee', requireUser, async (req, res, next) => {
         }
         event.attendees.push(req.user);
         await event.save();
-
         
         const movie = await Movie.findOne({ [movieId.length === 24 ? '_id' : 'tmdbId']: movieId });
         sendMovie(movie, res);

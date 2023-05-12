@@ -1,36 +1,64 @@
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchMovie, getMovie } from '../../store/movies';
+import { createComment, deleteComment, fetchMovie, getMovie } from '../../store/movies';
 import EventCreateForm from '../EventCreateForm';
 import './index.scss'
 import { useEffect, useMemo, useState } from 'react';
 import RatingsComponent from '../Ratings';
 
 const MovieShow = () => {
+    const currentUser = useSelector(state => state.session.user);
     const { movieId } = useParams();
     const movie = useSelector(getMovie(movieId));
     const MOVIE_LINK = 'https://image.tmdb.org/t/p/original';
     const dispatch = useDispatch();
     useEffect(() => {
-        window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
+        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     }, [])
 
     const [commentBody, setCommentBody] = useState('');
+    const [activeComment, setActiveComment] = useState();
 
     useEffect(() => {
         dispatch(fetchMovie(movieId));
     }, [dispatch]);
 
-    const Comment = ({ body, author, children }) => {
+    const openReply = () => {
+
+    }
+
+    useEffect(() => console.log(activeComment), [activeComment]);
+
+    const Comment = ({ id, body, author, children }) => {
         return (
             <div className='comment'>
-                <div className='comment-body-box'>
-                    <p className='comment-username'>{author.username}:</p>
-                    <p className='comment-body'>{body}</p>
+                <div className='comment-body-box' onMouseEnter={() => setActiveComment(id)} onMouseLeave={() => setActiveComment()}>
+                    <span>
+                        <p className='comment-username'>{author.username}:</p>
+                        <p className='comment-body'>{body}</p>
+                    </span>
+                    <span>
+                        {
+                            activeComment === id &&
+                            <>
+                                {
+                                    author._id === currentUser._id &&
+                                    <button className='event-create-button' 
+                                        onClick={
+                                            () => dispatch(deleteComment(id, movie.tmdbId))
+                                        }>Remove</button>
+                                }
+                                <button className='event-create-button' 
+                                    onClick={
+                                        () => openReply()
+                                    }>Reply</button>
+                            </>
+                        }
+                    </span>
                 </div>
                 <div className='children'>
                     {
-                        children.map(child => <Comment key={child._id} body={child.body} author={child.author} children={child.childrenComments} />)
+                        children.map(child => <Comment key={child._id} id={child._id} body={child.body} author={child.author} children={child.childrenComments} />)
                     }
                 </div>
             </div>
@@ -39,13 +67,13 @@ const MovieShow = () => {
 
     const comments = useMemo(() => 
         movie?.comments?.map(comment =>
-            <Comment key={comment._id} body={comment.body} author={comment.author} children={comment.childrenComments} />
+            <Comment key={comment._id} id={comment._id} body={comment.body} author={comment.author} children={comment.childrenComments} />
         ), 
-    [movie]);
+    [movie, activeComment]);
 
     return (
         <>
-            <img src={`${MOVIE_LINK.concat(movie?.backdropPath)}`} alt='' className='background-image'/>
+            <img src={movie ? `${MOVIE_LINK.concat(movie?.backdropPath)}` : ''} alt='' className='background-image'/>
             <div className='movie-info-container'>
                 <div className='movie-info-left'>
                     <h2>{movie?.title}</h2>
@@ -81,23 +109,26 @@ const MovieShow = () => {
                     </div>
                 </div>
                 <div className='movie-info-right'>
-                    <img src={`${MOVIE_LINK.concat(movie?.posterPath)}`} alt=''/>
+                    <img src={movie ? `${MOVIE_LINK.concat(movie.posterPath)}` : ''} alt=''/>
                 </div>
             </div>
             <div className='background-gradient'></div>
             <div className='comments-box'>
                 <div className='comments'>
-                <div className='create-comment'>
-                    <textarea className='comment comment-body' placeholder='Add a comment...' value={commentBody} onChange={e => setCommentBody(e.target.value)} />
-                    {
-                        commentBody &&
-                        <>
-                            <button className='event-create-button' onClick={() => setCommentBody('')}>Cancel</button>
-                            <button className='event-create-button' onClick={() => console.log(commentBody)}>Comment</button>
-                        </>
-                    }
-                </div>
-                {comments}
+                    <div className='create-comment'>
+                        <textarea className='comment comment-body' placeholder='Add a comment...' value={commentBody} onChange={e => setCommentBody(e.target.value)} />
+                        {
+                            commentBody &&
+                            <>
+                                <button className='event-create-button' onClick={() => setCommentBody('')}>Cancel</button>
+                                <button className='event-create-button' 
+                                    onClick={
+                                        () => dispatch(createComment(commentBody, movie.tmdbId))
+                                    }>Comment</button>
+                            </>
+                        }
+                    </div>
+                    {comments}
                 </div>
             </div>
             

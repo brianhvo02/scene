@@ -120,21 +120,26 @@
     margin-bottom: 8px;
     margin-top: 8px;
     box-sizing: border-box;
-    
-    .comment-username{
-        
-        font-size: 18px;
-        margin-right: 24px;
-        font-weight: 600;
-        
-    }
+    justify-content: space-between;
 
-    .comment-body{
-        text-align: center;
-        font-size: 16px;
-        font-weight: 400;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    span {
+        display: flex;
+        
+        .comment-username {
+            font-size: 18px;
+            margin-right: 24px;
+            font-weight: 600;
+        }
+    
+        .comment-body {
+            text-align: center;
+            font-size: 16px;
+            font-weight: 400;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
     }
+    
+    
 
 }
 
@@ -220,3 +225,16 @@
     
 }
 
+.comment-body-box {
+    align-items: center;
+    
+    .event-create-button {
+        
+
+        height: auto;
+        padding: 8px;
+        width: auto;
+        font-size: 10px;
+        margin-left: 16px;
+    }
+}

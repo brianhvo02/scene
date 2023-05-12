@@ -42,7 +42,7 @@ router.get('/:movieId', async (req, res, next) => {
     sendMovie(movie, res);
 });
 
-export const sendMovie = async (movie, res) => {
+export const sendMovie = async (movie, res, eventId) => {
     movie = await movie.populate([{
         path: 'events',
         populate: [
@@ -95,6 +95,7 @@ export const sendMovie = async (movie, res) => {
     ));
     
     return res.json({
+        eventId,
         movies: {
             [movie.tmdbId]: movie
         }

@@ -26,7 +26,6 @@ export const getMovie = movieId => state => {
     return state?.movies ? state?.movies[movieId] : null;
 }
 
-
 export const createEvent = (event, movieId) => async dispatch => {
     try {
         const res = await customFetch(`/api/movies/${movieId}/events`, {
@@ -133,16 +132,32 @@ export const updateRating = (rating, movieId) => async dispatch => {
     }
 }
 
-export const createComment = movieId => async dispatch => {
+export const createComment = (body, movieId) => async dispatch => {
     try {
         const res = await customFetch(`/api/movies/${movieId}/comments`, {
-            method: 'POST'
+            method: 'POST',
+            body: JSON.stringify({ body })
         });
         return dispatch(receiveMovies(res));
     } catch (err) {
         const res = await err.json();
         if (res.statusCode === 400) {
             return dispatch(receiveMovieErrors(res.errors));
+        }
+    }
+}
+
+export const deleteComment = (commentId, movieId) => async dispatch => {
+    try{
+        const res = await customFetch(`/api/movies/${movieId}/comments/${commentId}`,{
+            method: 'DELETE'
+        });
+        return dispatch(receiveMovies(res));
+    }
+    catch (err){
+        const res = await err.json();
+        if (res.statusCode === 400) {
+            return dispatch(receiveRatingErrors(res.errors));
         }
     }
 }
