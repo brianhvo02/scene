@@ -11,12 +11,10 @@ const movieSchema = new Schema({
         required: true
     },
     overview: {
-        type: String,
-        required: true
+        type: String
     },
     posterPath: {
-        type: String,
-        required: true
+        type: String
     },
     backdropPath: {
         type: String
