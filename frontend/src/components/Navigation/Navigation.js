@@ -17,7 +17,7 @@ const Navigation = () => {
             <div className='nav-left'>
                 <div className='nav-logo'>
                     <NavLink className='nav-logo-container' to="/">
-                        <img className="logo" src="/light-logo.png" />
+                        <img className="logo" src="/scene-dark-logo-no-text.png" />
                     </NavLink>
                 </div>
             </div>
