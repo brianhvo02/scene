@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { fetchUrl, customFetch } from "./utils";
 import { receiveMovieErrors } from './errors/movieErrors';
 import { receiveEventErrors } from "./errors/eventErrors";
+import { receiveRatingErrors } from './errors/ratingErrors'
 
 const initialState = {}
 
@@ -11,6 +12,7 @@ const movieSlice = createSlice({
     reducers: {
         receiveMovies: (state, action) => ({...state, ...action.payload.movies}),
         receiveEvent: (state, action) => ({...state, ...action.payload.event}),
+        receiveRating: (state, action) => ({...state, ...action.payload.rating})
     }
 });
 
@@ -31,7 +33,7 @@ export const createEvent = (event, movieId) => async dispatch => {
             method: 'POST',
             body: JSON.stringify(event)
         })
-        dispatch(receiveMovies({movies: res.movies}))
+        dispatch(receiveMovies(res));
         return res.eventId;
     } catch (err) {
         const res = await err.json();
@@ -58,10 +60,10 @@ export const fetchMovie = movieId =>
 
 export const addEventAttendee = (eventId, movieId) => async dispatch => {
     try {
-        const movies = await customFetch(`/api/movies/${movieId}/events/${eventId}/addAttendees`, {
+        const res = await customFetch(`/api/movies/${movieId}/events/${eventId}/addAttendee`, {
             method: 'POST'
         });
-        return dispatch(receiveMovies({ movies }));
+        return dispatch(receiveMovies(res));
     } catch (err) {
         const res = await err.json();
         if (res.statusCode === 400) {
@@ -72,14 +74,62 @@ export const addEventAttendee = (eventId, movieId) => async dispatch => {
 
 export const removeEventAttendee = (eventId, movieId) => async dispatch => {
     try {
-        const movies = await customFetch(`/api/movies/${movieId}/events/${eventId}/removeAttendee`, {
+        const res = await customFetch(`/api/movies/${movieId}/events/${eventId}/removeAttendee`, {
             method: 'DELETE'
         });
-        return dispatch(receiveMovies({ movies }));
+        return dispatch(receiveMovies(res));
     } catch (err) {
         const res = await err.json();
         if (res.statusCode === 400){
             return dispatch(receiveMovieErrors(res.errors));
+        }
+    }
+}
+
+export const addRating = (rating, movieId) => async dispatch => {
+    try{
+        const movies = await customFetch(`/api/movies/${movieId}/ratings`, {
+            method: "POST",
+            body: JSON.stringify(rating)
+        })
+        console.log(movies, 'movies in store')
+        return dispatch(receiveMovies({ movies }))
+    }
+    catch (err){
+        const res = await err.json();
+        if (res.statusCode === 400) {
+            return dispatch(receiveRatingErrors(res.errors));
+        }
+    }
+}
+
+export const deleteRating = (ratingId, movieId) => async dispatch => {
+    try{
+        const movies = await customFetch(`/api/movies/${movieId}/rating/${ratingId}`,{
+            method: 'DELETE'
+        });
+        return dispatch(receiveMovies({ movies }));
+    }
+    catch (err){
+        const res = await err.json();
+        if (res.statusCode === 400) {
+            return dispatch(receiveRatingErrors(res.errors));
+        }
+    }
+}
+
+export const updateRating = (rating, movieId) => async dispatch => {
+    try{
+        const movies = await customFetch(`/api/movies/${movieId}/ratings/${rating?._id}`,{
+            method: "PATCH",
+            body: JSON.stringify(rating)
+        });
+        return dispatch(receiveMovies({movies}));
+    }
+    catch (err){
+        const res = await err.json();
+        if (res.statusCode === 400) {
+            return dispatch(receiveRatingErrors(res.errors));
         }
     }
 }

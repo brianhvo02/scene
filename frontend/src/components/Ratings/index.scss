@@ -1,0 +1,49 @@
+.rating-inputs{
+    display: flex;
+
+    *{
+        font-size: 50px;
+    }
+
+    .filled{
+        color: gold;
+    }
+
+    .empty{
+        color: grey;
+    }
+}
+
+
+.ratings-container{
+    h3{
+        margin-bottom: 20px;
+    }
+
+    .rating-form{
+        margin-top: 10px;
+
+        .submit-rating-button{
+            border: 0px;
+            height: 40px;
+            display: inline-block;
+            border-radius: 20px;
+            border-style: solid;
+            border-width: 2px;
+            background-color: var(--backgroundLightBlue);
+            -webkit-font-smoothing: antialiased;
+            padding: 0px 18px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            vertical-align: middle;
+            text-align: center;
+            color: var(--backgroundBlue);
+            width: 180px;
+        }
+    }
+}
+
+

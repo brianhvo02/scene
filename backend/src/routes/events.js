@@ -8,6 +8,7 @@ import { isProduction } from '../config';
 import validateEventInput from '../validations/event';
 import { requireUser } from '../config';
 import Movie from '../models/Movie';
+import { sendMovie } from './movies';
 
 router.post('/', requireUser, validateEventInput, async (req, res, next) => {
     try {
@@ -77,31 +78,34 @@ router.delete('/:id', requireUser, async (req, res, next) => {
     }
 });
 
-router.post('/:id/addAttendee', requireUser, async (req, res, next) => {
+router.post('/:eventId/addAttendee', requireUser, async (req, res, next) => {
     try {
-        const event = await Event.findById(req.params.id)
+        const { movieId, eventId } = req.params;
+
+        const event = await Event.findById(eventId)
             .populate('host', '_id');
 
         if (event.attendees.includes(req.user._id)) {
             const error = new Error('User already an attendee');
-            error.statusCode = 404;
+            error.statusCode = 422;
             error.errors = { message: 'The logged in user is already attending this event' };
             return next(error);
         }
         if (event.host._id.equals(req.user._id)) {
             const error = new Error('User is the host');
-            error.statusCode = 404;
+            error.statusCode = 422;
             error.errors = { message: 'The logged in user is hosting this event' };
             return next(error);
         }
         event.attendees.push(req.user);
         await event.save();
 
-        const { movieId } = req.params;
+        
         const movie = await Movie.findOne({ [movieId.length === 24 ? '_id' : 'tmdbId']: movieId });
         sendMovie(movie, res);
     }
     catch (err) {
+        console.log(err)
         const error = new Error('Event not found');
         error.statusCode = 404;
         error.errors = { message: 'No event found with that id' };
@@ -109,9 +113,11 @@ router.post('/:id/addAttendee', requireUser, async (req, res, next) => {
     }
 });
 
-router.delete('/:id/removeAttendee', requireUser, async (req, res, next) => {
+router.delete('/:eventId/removeAttendee', requireUser, async (req, res, next) => {
     try {
-        const event = await Event.findById(req.params.id);
+        const { movieId, eventId } = req.params;
+
+        const event = await Event.findById(eventId);
         if (!event.attendees.includes(req.user._id)) {
             const error = new Error('User is not an attendee');
             error.statusCode = 404;
@@ -120,12 +126,12 @@ router.delete('/:id/removeAttendee', requireUser, async (req, res, next) => {
         }
         event.attendees.remove(req.user);
         await event.save();
-
-        const { movieId } = req.params;
+        
         const movie = await Movie.findOne({ [movieId.length === 24 ? '_id' : 'tmdbId']: movieId });
         sendMovie(movie, res);
     }
     catch (err) {
+        console.log(err)
         const error = new Error('Event not found');
         error.statusCode = 404;
         error.errors = { message: 'No event found with that id' };

@@ -4,6 +4,7 @@ import { fetchMovie, getMovie } from '../../store/movies';
 import EventCreateForm from '../EventCreateForm';
 import './index.scss'
 import { useEffect, useMemo, useState } from 'react';
+import RatingsComponent from '../Ratings';
 
 const MovieShow = () => {
     const { movieId } = useParams();
@@ -74,6 +75,9 @@ const MovieShow = () => {
                             )
                         }
                         </div>
+                    </div>
+                    <div>
+                        <RatingsComponent movie={movie}/>
                     </div>
                 </div>
                 <div className='movie-info-right'>
