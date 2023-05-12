@@ -97,7 +97,8 @@ const EventShow = () => {
                                 sessionUser && movie && 
                                 <button className="rsvp-button" onClick={handleEventRSVPClick} disabled={isOwner}>{isOwner ? 'You\'re hosting!' : going ? "UnRSVP" : "RSVP"}</button>
                             }
-                            {isOwner ? '' : going ? <p>See you there!</p> : <p>Sorry you're not coming!</p>}                
+                            {isOwner ? '' : going ? <p>See you there!</p> : <p>Sorry you're not coming!</p>}  
+                            <div className='attendees-count'>You can make <strong >{event?.attendees.length}</strong> new friends at this event!</div>               
                         </div>
                         <div className="event-show-page-maps-container">
                             <h3>{event?.theater}</h3>
