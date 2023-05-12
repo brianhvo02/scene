@@ -152,7 +152,7 @@ const Comment = ({ id, body, author, children }) => {
 Scene was made with love from these fine gentlemen/software engineers:
 + [Brian Huy Vo](): Team Lead
 + [Eduardo Bac Sierra](): Backend Lead
-+ [NingXiao](): Frontend Lead
++ [Ningxiao Cao](): Frontend Lead
 + [Joshua Lee](): Flex Lead
 
 ## Future Features
