@@ -58,12 +58,12 @@ const EventShow = () => {
                         minute: '2-digit'
                     })}</p>
                     <p>{event?.body}</p>
-                    <div>
+                    <div className='amenities-box'>
                         <h3>Amenities</h3>
                         <ul>
                             {
                                 event?.amenities.map((amenity, i) =>
-                                    <li key={'amenity_' + i}>{amenity}</li>
+                                    <li className='amenities-list' key={'amenity_' + i}>{amenity}</li>
                                 )
                             }
                         </ul>
