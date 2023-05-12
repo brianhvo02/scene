@@ -1,6 +1,6 @@
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { createComment, deleteComment, fetchMovie, getMovie } from '../../store/movies';
+import { createComment, deleteComment, editComment, fetchMovie, getMovie } from '../../store/movies';
 import EventCreateForm from '../EventCreateForm';
 import { GiPopcorn } from 'react-icons/gi';
 import './index.scss'
@@ -23,15 +23,14 @@ const MovieShow = () => {
     const [commentBody, setCommentBody] = useState('');
     const [activeComment, setActiveComment] = useState();
     const [loading, setLoading] = useState(true)
+    const [replyComment, setReplyComment] = useState();
+    const [replyUser, setReplyUser] = useState('');
+    const [edit, setEdit] = useState();
 
     useEffect(() => {
         dispatch(fetchMovie(movieId))
         .finally(()=>(setLoading(false)))
     }, [dispatch]);
-
-    const openReply = () => {
-
-    }
 
     useEffect(() => {
         let total = 0;
@@ -51,8 +50,19 @@ const MovieShow = () => {
                     </span>
                     <span>
                         {
-                            activeComment === id &&
+                            (activeComment === id || replyComment === id || edit === id) && body !== '[DELETED]' &&
                             <>
+                                {
+                                    author._id === currentUser._id &&
+                                    <button className='event-create-button' 
+                                        onClick={
+                                            () => {
+                                                setEdit(id);
+                                                setReplyComment();
+                                                setReplyUser();
+                                            }
+                                        }>Edit</button>
+                                }
                                 {
                                     author._id === currentUser._id &&
                                     <button className='event-create-button' 
@@ -60,9 +70,13 @@ const MovieShow = () => {
                                             () => dispatch(deleteComment(id, movie.tmdbId))
                                         }>Remove</button>
                                 }
-                                <button className='event-create-button' 
+                                <button className='event-create-button'
                                     onClick={
-                                        () => openReply()
+                                        () => {
+                                            setReplyComment(id);
+                                            setReplyUser(author.username);
+                                            setEdit();
+                                        }
                                     }>Reply</button>
                             </>
                         }
@@ -131,14 +145,31 @@ const MovieShow = () => {
             <div className='comments-box'>
                 <div className='comments'>
                     <div className='create-comment'>
-                        <textarea className='comment comment-body' placeholder='Add a comment...' value={commentBody} onChange={e => setCommentBody(e.target.value)} />
+                        <textarea className='comment comment-body' placeholder={
+                            replyComment 
+                                ? `Reply to ${replyUser}` 
+                                : edit 
+                                    ? 'Editing your comment...' 
+                                    : 'Add a comment...'
+                        } value={commentBody} onChange={e => setCommentBody(e.target.value)} />
                         {
-                            commentBody &&
+                            (commentBody || replyUser || edit) &&
                             <>
-                                <button className='comment-event-create-button' onClick={() => setCommentBody('')}>Cancel</button>
-                                <button className='comment-event-create-button' 
+                                <button className='event-create-button' onClick={() => {
+                                    setCommentBody('');
+                                    setReplyComment();
+                                    setReplyUser();
+                                    setEdit();
+                                }}>Cancel</button>
+                                <button className='event-create-button' 
                                     onClick={
-                                        () => dispatch(createComment(commentBody, movie.tmdbId))
+                                        () => dispatch((edit ? editComment : createComment)(commentBody, movie.tmdbId, edit || replyComment))
+                                            .then(() => {
+                                                setCommentBody('');
+                                                setReplyComment();
+                                                setReplyUser();
+                                                setEdit();
+                                            })
                                     }>Comment</button>
                             </>
                         }

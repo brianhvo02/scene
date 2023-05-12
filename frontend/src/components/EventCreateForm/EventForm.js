@@ -47,7 +47,7 @@ const EventForm = (props) => {
         if (status) {
             dispatch(createEvent({title, body, ...info}, movieId))
                 .then((eventId) => {
-                    navigate(`/movie/${movieId}/event/${eventId}`)
+                    if (eventId) navigate(`/movie/${movieId}/event/${eventId}`);
                 });
         }
     }
