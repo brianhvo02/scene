@@ -35,11 +35,14 @@
         transform: translateY(-10px);
         animation-duration: 1s;
     }
-    img{
-        height: auto;
+    img {
+        height: 474px;
         width: 316px;
         border-radius: 24px;
         box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        min-width: 316px;
+        min-height: auto;
+        object-fit: contain;
     }
 }
 
@@ -72,18 +75,26 @@
 
         .thumb-up, .thumb-down{
             margin-bottom: 20px;
-            height: 1.7em;
-            opacity: 0.4;
+            height: 2.5em;
+            opacity: 0.6;
             cursor: pointer;
+        }
+
+        .thumb-down{
+            color: rgb(137, 30, 30)
+        }
+
+        .thumb-up{
+            color: rgb(0, 137, 0)
         }
 
         .thumb-down:hover{
             opacity: 1;
-            color: red;
+            color: rgb(204, 35, 35);
         }
         .thumb-up:hover{
             opacity: 1;
-            color: rgb(0, 206, 0);
+            color: rgb(0, 167, 35);
         }
 
     }
