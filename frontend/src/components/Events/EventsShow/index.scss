@@ -52,11 +52,14 @@
         .event-show-page-movie-poster {    
 
             .event-title-movie-title{
-                font-size: 30px;
+                font-size: 36px;
                 margin-top: 10px;
+                margin-bottom: 10px;
             }
             img {
+                border-radius: 16px;
                 width: 20rem;
+                box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
             }
         }
 
@@ -68,6 +71,32 @@
                 margin-bottom: 5px;
             }
         }
+    }
+
+    .amenities-box{
+        display: flex;
+        
+    }
+
+    .amenities-list{
+
+        box-sizing: border-box;
+        background-color: var(--backgroundBlue);
+        border-radius: 12px;
+        border: 1px solid white;
+        margin-left: 4px;
+        margin-right: 4px;
+        display: inline-block;
+        border-style: solid;
+        -webkit-font-smoothing: antialiased;
+        vertical-align: middle;
+        text-align: center;
+        font-size: 12px;
+        color: var(--backgroundLightBlue);
+        padding-top: 4px;
+        padding-bottom: 4px;
+        padding-left: 8px;
+        padding-right: 8px;
     }
 
     .event-show-page-right{
@@ -83,9 +112,9 @@
         }
 
         #date{
-            font-size: 30px;
+            font-size: 36px;
             font-weight: 600;
-            margin-bottom: 4px;
+            margin-bottom: 16px;
         }
         
 
@@ -96,7 +125,7 @@
                     font-weight: 600;
         
                     font-size: 24px;
-                    border: 2px solid white;
+                    border: none;
                     background: var(--backgroundLightBlue);
                     color: var(--backgroundBlue);
                     letter-spacing: 2px;
@@ -104,6 +133,11 @@
                     cursor:pointer;
                     margin-top: 10px;
                     margin-bottom: 10px;
+
+                    &:hover {
+                        scale: 1.05;
+                        transition: 0.5s;
+                    }
                 }
 
                 .rsvp-button:active{
@@ -135,6 +169,19 @@
                     border: 2px solid white;
                 }
             }
+        }
+    }
+
+}
+
+.event-show-page-maps-container{
+    margin-top: 40px;
+    width: auto;
+   
+    .map{
+        
+        .google-map{
+            height: 300px;
         }
     }
 

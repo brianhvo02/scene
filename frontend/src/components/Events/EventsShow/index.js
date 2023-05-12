@@ -1,17 +1,17 @@
 import './index.scss';
 import { useState, useEffect, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useClearMovieErrors } from "../../../store/errors/movieErrors";
-import { addEventAttendee, fetchMovie, getMovie, removeEventAttendee, deleteEvent } from "../../../store/movies";
+import { addEventAttendee, fetchMovie, getMovie, removeEventAttendee } from "../../../store/movies";
 import EventMap from "./map";
 
 const EventShow = () => {
+    
     useClearMovieErrors();
     const { movieId, eventId } = useParams();
-    
+
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     const sessionUser = useSelector(state => state.session.user);
     const movie = useSelector(getMovie(movieId));
     const event = useMemo(() => movie?.events.find(e => e._id === eventId), [movie]);
@@ -19,7 +19,7 @@ const EventShow = () => {
     const eventCreatedDate = useMemo(() => new Date(event?.createdAt), [event]);
 
     useEffect(() => {
-        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+        window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
     }, []);
 
     const MOVIE_LINK = "https://image.tmdb.org/t/p/original";
@@ -37,14 +37,9 @@ const EventShow = () => {
         if (movieId) dispatch(fetchMovie(movieId));
     }, [dispatch]);
 
-    const handleDeleteEventButton = () => {
-        dispatch(deleteEvent(event?._id, movie?._id))
-            .then(() => navigate(-1))
-    }
-
     return(
         <>
-            <img src={`${MOVIE_LINK.concat(movie?.backdropPath)}`} alt={`${movie?.title} movie backdrop`} className="background-image"/>       
+            <img src={movie ? `${MOVIE_LINK.concat(movie.backdropPath)}` : ''} alt={`${movie?.title} movie backdrop`} className="background-image"/>       
             <h1 className="event-title">{event?.title}</h1>
             <div className="event-show-page-container">
                 <div className="event-show-page-left">
@@ -63,12 +58,12 @@ const EventShow = () => {
                             minute: '2-digit'
                         })}</p>
                         <p>{event?.body}</p>
-                        <div>
+                        <div className='amenities-box'>
                             <h3>Amenities</h3>
                             <ul>
                                 {
                                     event?.amenities.map((amenity, i) =>
-                                        <li key={'amenity_' + i}>{amenity}</li>
+                                        <li className='amenities-list' key={'amenity_' + i}>{amenity}</li>
                                     )
                                 }
                             </ul>
@@ -106,9 +101,7 @@ const EventShow = () => {
                                 }]} selected={event.theater} canSelect={false} />
                             }
                         </div>
-                    </div>
-                    <div className="button-container">
-                        {event?.host._id !== sessionUser?._id ? <button className="delete-event-button" onClick={() => handleDeleteEventButton(event, movie)}>Delete Event</button> : null }
+
                     </div>
                 </div>
             </div>
