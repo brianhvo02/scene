@@ -42,7 +42,7 @@ const DiscoverCarousel = ({ setSelectedMovie }) => {
     return(
         <>
             <FontAwesomeIcon icon={faChevronLeft} onClick={handlePrevClick} className="arrow"/>
-            <img src={MOVIE_LINK.concat(movies[currentIndex]?.backdropPath)} className="background-image"/>
+            <img src={movies ? MOVIE_LINK.concat(movies[currentIndex]?.backdropPath) : ''} className="background-image"/>
             <div className="movie-poster-container">
                 <MoviePoster movie={movies[currentIndex]} className="movie-poster-component" />
                 <div className="like-options">

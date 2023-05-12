@@ -101,7 +101,7 @@ const genres = [878, 12, 28, 80, 53, 10751, 14, 35, 16, 9648, 27, 36];
 
         const child = new Comment({
             author: users[Math.floor(Math.random() * NUM_SEED_USERS)],
-            body: faker.random.words(),
+            body: faker.commerce.productDescription(),
             childrenComment: []
         });
         createChildComment(child, level + 1);
@@ -113,7 +113,7 @@ const genres = [878, 12, 28, 80, 53, 10751, 14, 35, 16, 9648, 27, 36];
     const rootComments = Array.from(Array(NUM_SEED_COMMENTS).keys()).map(() => {
         const root = new Comment({
             author: users[Math.floor(Math.random() * NUM_SEED_USERS)],
-            body: faker.random.words(),
+            body: faker.commerce.productDescription(),
             childrenComment: []
         });
         createChildComment(root, 0);

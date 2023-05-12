@@ -49,7 +49,7 @@ const EventShow = () => {
     const content = () => {
         return(
             <>
-                <img src={`${MOVIE_LINK.concat(movie?.backdropPath)}`} alt={`${movie?.title} movie backdrop`} className="background-image"/>       
+                <img src={movie ? `${MOVIE_LINK.concat(movie?.backdropPath)}` : ''} alt={`${movie?.title} movie backdrop`} className="background-image"/>       
                 <h1 className="event-title">{event?.title}</h1>
                 <div className="event-show-page-container">
                     <div className="event-show-page-left">
