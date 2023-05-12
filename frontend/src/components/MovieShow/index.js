@@ -110,7 +110,7 @@ const MovieShow = () => {
     const content = () =>{
        return (
         <>
-            <img src={movie?.backdropPath ? `${MOVIE_LINK.concat(movie?.backdropPath)}` : ''} alt='' className='background-image'/>
+            <img src={movie?.backdropPath ? `${MOVIE_LINK.concat(movie?.backdropPath)}` : '/backdrop.png'} alt='' className='background-image'/>
             <div className='movie-info-container'>
                 <div className='movie-info-left'>
                     <h2>{movie?.title}</h2>
