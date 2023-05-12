@@ -6,7 +6,7 @@ import './index.scss'
 
 const MoviePoster = ({ movie }) => {
     const navigate = useNavigate();
-    const MOVIE_LINK = "https://image.tmdb.org/t/p/";
+    const MOVIE_LINK = "https://image.tmdb.org/t/p/original";
 
     const handleMoviePosterClick = (movie) => {
         navigate(`/movie/${movie.id}`)
