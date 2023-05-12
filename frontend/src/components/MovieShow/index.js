@@ -110,7 +110,7 @@ const MovieShow = () => {
     const content = () =>{
        return (
         <>
-            <img src={movie ? `${MOVIE_LINK.concat(movie?.backdropPath)}` : ''} alt='' className='background-image'/>
+            <img src={movie?.backdropPath ? `${MOVIE_LINK.concat(movie?.backdropPath)}` : ''} alt='' className='background-image'/>
             <div className='movie-info-container'>
                 <div className='movie-info-left'>
                     <h2>{movie?.title}</h2>
@@ -150,7 +150,7 @@ const MovieShow = () => {
                     </div>
                 </div>
                 <div className='movie-info-right'>
-                    <img src={movie ? `${MOVIE_LINK.concat(movie.posterPath)}` : ''} alt=''/>
+                    <img src={movie?.posterPath ? `${MOVIE_LINK.concat(movie.posterPath)}` : ''} alt=''/>
                 </div>
             </div>
             <div className='background-gradient'></div>
