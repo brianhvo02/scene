@@ -17,7 +17,7 @@ const PopcornRating = ({ ratingsValue, disabled, onChange }) => {
                 onMouseLeave={() => {if(!disabled) setActiveRating(ratingsValue)}}
                 onClick={() => {if(!disabled) onChange(1)}}
             >
-                <GiPopcorn />
+                <GiPopcorn className="popcorn-icon"/>
             </div>
             <div
                 className={activeRating >= 2 ? "filled" : " empty"}
@@ -25,7 +25,7 @@ const PopcornRating = ({ ratingsValue, disabled, onChange }) => {
                 onMouseLeave={() => {if(!disabled) setActiveRating(ratingsValue)}}
                 onClick={() => {if(!disabled) onChange(2)}}
             >
-                <GiPopcorn />
+                <GiPopcorn className="popcorn-icon"/>
             </div>
             <div
                 className={activeRating >= 3 ? "filled" : " empty"}
@@ -33,7 +33,7 @@ const PopcornRating = ({ ratingsValue, disabled, onChange }) => {
                 onMouseLeave={() => {if(!disabled) setActiveRating(ratingsValue)}}
                 onClick={() => {if(!disabled) onChange(3)}}
             >
-                <GiPopcorn />
+                <GiPopcorn className="popcorn-icon"/>
             </div>
             <div
                 className={activeRating >= 4 ? "filled" : " empty"}
@@ -41,7 +41,7 @@ const PopcornRating = ({ ratingsValue, disabled, onChange }) => {
                 onMouseLeave={() => {if(!disabled) setActiveRating(ratingsValue)}}
                 onClick={() => {if(!disabled) onChange(4)}}
             >
-                <GiPopcorn />
+                <GiPopcorn className="popcorn-icon"/>
             </div>
             <div
                 className={activeRating >= 5 ? "filled" : " empty"}
@@ -49,7 +49,7 @@ const PopcornRating = ({ ratingsValue, disabled, onChange }) => {
                 onMouseLeave={() => {if(!disabled) setActiveRating(ratingsValue)}}
                 onClick={() => {if(!disabled) onChange(5)}}
             >
-                <GiPopcorn />
+                <GiPopcorn className="popcorn-icon"/>
             </div>
         </div>
     )

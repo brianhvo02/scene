@@ -59,6 +59,26 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 
         }
+
+        #popcorn-score-container{
+            margin-bottom: -12px;
+            display: flex;
+            align-items: center;
+
+            .popcorn-score{
+                font-size: 20px;
+                margin-left: 5px;
+            }
+
+            img{
+                height: 20px;
+                margin-left: 10px;
+            }
+
+            #popcorn-icon{
+                color: gold;
+            }
+        }
     }
 }
 

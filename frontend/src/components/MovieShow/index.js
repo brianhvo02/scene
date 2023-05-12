@@ -2,6 +2,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchMovie, getMovie } from '../../store/movies';
 import EventCreateForm from '../EventCreateForm';
+import { GiPopcorn } from 'react-icons/gi';
 import './index.scss'
 import { useEffect, useMemo, useState } from 'react';
 import RatingsComponent from '../Ratings';
@@ -11,6 +12,8 @@ const MovieShow = () => {
     const movie = useSelector(getMovie(movieId));
     const MOVIE_LINK = 'https://image.tmdb.org/t/p/original';
     const dispatch = useDispatch();
+    const [averageRating, setAverageRating] = useState(0)
+
     useEffect(() => {
         window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
     }, [])
@@ -20,6 +23,14 @@ const MovieShow = () => {
     useEffect(() => {
         dispatch(fetchMovie(movieId));
     }, [dispatch]);
+
+    useEffect(() => {
+        let total = 0;
+        movie?.ratings?.map(rating => {
+            total += rating?.rating
+        }) 
+        setAverageRating((((Math.floor(total / movie?.ratings?.length))/ 5)) * 100)
+    }, [movie])
 
     const Comment = ({ body, author, children }) => {
         return (
@@ -50,6 +61,7 @@ const MovieShow = () => {
                 <div className='movie-info-left'>
                     <h2>{movie?.title}</h2>
                     <h3>Movie Description:</h3>
+                    <p id="popcorn-score-container">Popcorn Score: <img src="/popcorn-svgrepo-com.svg" alt="popcorn svg"/> <span className="popcorn-score">{averageRating}%</span></p>
                     <p>{movie?.overview}</p>
                     <div className='movie-show-event-button'>
                         <EventCreateForm />
@@ -76,9 +88,7 @@ const MovieShow = () => {
                         }
                         </div>
                     </div>
-                    <div>
-                        <RatingsComponent movie={movie}/>
-                    </div>
+                    <RatingsComponent movie={movie}/>
                 </div>
                 <div className='movie-info-right'>
                     <img src={`${MOVIE_LINK.concat(movie?.posterPath)}`} alt=''/>
