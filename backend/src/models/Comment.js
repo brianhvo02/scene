@@ -10,11 +10,14 @@ const commentSchema = new Schema({
         type: String,
         required: true
     },
+    parentComment: {
+        type: Schema.Types.ObjectId,
+        ref: 'Comment'
+    },
     childrenComments: [{
         type: Schema.Types.ObjectId,
         ref: 'Comment',
-        required: true,
-        autopopulate: true
+        required: true
     }]
 }, {
     timestamps: true

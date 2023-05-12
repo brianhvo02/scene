@@ -3,6 +3,7 @@ import DiscoverCarousel from './DiscoverCarousel';
 import RecommendationsPopup from './RecommendationsPopup';
 import { useState } from 'react';
 import './index.scss'
+import { HiOutlineChevronDoubleDown } from 'react-icons/hi';
 
 const HomePage = () => {
     const [selectedMovie, setSelectedMovie] = useState(); 
@@ -13,6 +14,12 @@ const HomePage = () => {
             <div className="discover-carousel">
                 <DiscoverCarousel setSelectedMovie={setSelectedMovie}/>
             </div>
+            {selectedMovie ? 
+                <div className="arrow-bounce bounce">
+                    <HiOutlineChevronDoubleDown className='arrow-bounce-down'/>
+                </div>
+            : null
+            }
             <div className="background-gradient"></div>
             <div className="recommendations">
                 {selectedMovie ? 
