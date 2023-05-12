@@ -162,6 +162,22 @@ export const createComment = (body, movieId, parentComment) => async dispatch =>
     }
 }
 
+export const editComment = (body, movieId, commentId) => async dispatch => {
+    try{
+        const res = await customFetch(`/api/movies/${movieId}/comments/${commentId}`,{
+            method: 'PATCH',
+            body: JSON.stringify({ body })
+        });
+        return dispatch(receiveMovies(res));
+    }
+    catch (err){
+        const res = await err.json();
+        if (res.statusCode === 400) {
+            return dispatch(receiveRatingErrors(res.errors));
+        }
+    }
+}
+
 export const deleteComment = (commentId, movieId) => async dispatch => {
     try{
         const res = await customFetch(`/api/movies/${movieId}/comments/${commentId}`,{
