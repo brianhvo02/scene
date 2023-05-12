@@ -32,14 +32,10 @@ const MovieShow = () => {
 
     useEffect(() => {
         let total = 0;
-        if (movie?.ratings.length === 0) {
-            return setAverageRating("No ratings yet");
-        } else {
         movie?.ratings?.map(rating => {
             total += rating?.rating
         }) 
         setAverageRating((((Math.floor(total / movie?.ratings?.length))/ 5)) * 100)
-        }
     }, [movie])
 
     const Comment = ({ id, body, author, children }) => {
@@ -91,7 +87,10 @@ const MovieShow = () => {
                 <div className='movie-info-left'>
                     <h2>{movie?.title}</h2>
                     <h3>Movie Description:</h3>
-                    <p id="popcorn-score-container">Popcorn Score: <img src="/popcorn-svgrepo-com.svg" alt="popcorn svg"/> <span className="popcorn-score">{averageRating}%</span></p>
+                    { averageRating > 0 ?  <p id="popcorn-score-container">Popcorn Score: <img src="/popcorn-svgrepo-com.svg" alt="popcorn svg"/> <span className="popcorn-score">{averageRating}%</span></p>
+                    :
+                    <p id="popcorn-score-container">Popcorn Score: <img src="/popcorn-svgrepo-com.svg" alt="popcorn svg"/> <span className="popcorn-score">No Rating</span></p>    
+                    }
                     <p>{movie?.overview}</p>
                     <div className='movie-show-event-button'>
                         <EventCreateForm />
