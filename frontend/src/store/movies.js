@@ -88,12 +88,11 @@ export const removeEventAttendee = (eventId, movieId) => async dispatch => {
 
 export const addRating = (rating, movieId) => async dispatch => {
     try{
-        const movies = await customFetch(`/api/movies/${movieId}/ratings`, {
+        const res = await customFetch(`/api/movies/${movieId}/ratings`, {
             method: "POST",
             body: JSON.stringify(rating)
-        })
-        console.log(movies, 'movies in store')
-        return dispatch(receiveMovies({ movies }))
+        });
+        return dispatch(receiveMovies(res));
     }
     catch (err){
         const res = await err.json();
@@ -105,10 +104,10 @@ export const addRating = (rating, movieId) => async dispatch => {
 
 export const deleteRating = (ratingId, movieId) => async dispatch => {
     try{
-        const movies = await customFetch(`/api/movies/${movieId}/rating/${ratingId}`,{
+        const res = await customFetch(`/api/movies/${movieId}/rating/${ratingId}`,{
             method: 'DELETE'
         });
-        return dispatch(receiveMovies({ movies }));
+        return dispatch(receiveMovies(res));
     }
     catch (err){
         const res = await err.json();
@@ -120,11 +119,11 @@ export const deleteRating = (ratingId, movieId) => async dispatch => {
 
 export const updateRating = (rating, movieId) => async dispatch => {
     try{
-        const movies = await customFetch(`/api/movies/${movieId}/ratings/${rating?._id}`,{
+        const res = await customFetch(`/api/movies/${movieId}/ratings/${rating?._id}`,{
             method: "PATCH",
             body: JSON.stringify(rating)
         });
-        return dispatch(receiveMovies({movies}));
+        return dispatch(receiveMovies(res));
     }
     catch (err){
         const res = await err.json();
@@ -136,10 +135,10 @@ export const updateRating = (rating, movieId) => async dispatch => {
 
 export const createComment = movieId => async dispatch => {
     try {
-        const movies = await customFetch(`/api/movies/${movieId}/comments`, {
+        const res = await customFetch(`/api/movies/${movieId}/comments`, {
             method: 'POST'
         });
-        return dispatch(receiveMovies({ movies }));
+        return dispatch(receiveMovies(res));
     } catch (err) {
         const res = await err.json();
         if (res.statusCode === 400) {

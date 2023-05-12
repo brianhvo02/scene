@@ -7,7 +7,6 @@ import { addEventAttendee, fetchMovie, getMovie, removeEventAttendee } from "../
 import EventMap from "./map";
 
 const EventShow = () => {
-    
     useClearMovieErrors();
     const { movieId, eventId } = useParams();
 
@@ -19,7 +18,7 @@ const EventShow = () => {
     const eventCreatedDate = useMemo(() => new Date(event?.createdAt), [event]);
 
     useEffect(() => {
-        window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
+        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     }, []);
 
     const MOVIE_LINK = "https://image.tmdb.org/t/p/original";
@@ -44,7 +43,7 @@ const EventShow = () => {
         <div className="event-show-page-container">
             <div className="event-show-page-left">
                 <div className="event-show-page-movie-poster">
-                    <img src={`${MOVIE_LINK.concat(movie?.posterPath)}`} alt={`${movie?.title} movie poster`}/>
+                    <img src={movie ? `${MOVIE_LINK.concat(movie.posterPath)}` : ''} alt={`${movie?.title} movie poster`}/>
                     <h2 className="event-title-movie-title">{movie?.title}</h2>
                 </div>
                 <div className="event-show-page-description">
@@ -101,7 +100,6 @@ const EventShow = () => {
                             }]} selected={event.theater} canSelect={false} />
                         }
                     </div>
-
                 </div>
             </div>
         </div>
