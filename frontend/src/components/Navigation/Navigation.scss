@@ -3,8 +3,8 @@ body {
 }
 
 .logo{
-  height: 6%;
-  width: 6%;
+  height: 5vh;
+  width: 5vh;
   top: 5%;
   left: 95%;
 }
@@ -39,8 +39,8 @@ body {
 
 .hamburger-side-menu{
   position: absolute;
-  top: 60px;
-  height: 91vh;
+  top: 5.5vh;
+  height: 93.5vh;
   // height: 100vh;
   right: -300px;
   width: 250px;
@@ -60,6 +60,7 @@ body {
   // border-radius: 16px;
   // transition: .5s;
   z-index: 50;
+  padding-right: 4vh;
 }
 
 .profile-button ul li{
@@ -72,16 +73,14 @@ body {
   // border-bottom: 1pt solid #252525;
 }
 
-.hamburger, .bar{
-  // position: absolute;
-}
+
 
 .hamburger{
   // display: block;
   // top: 5%;
   // left: 95%;
-  width: 47px;
-  height: 47px;
+  width: 5vh;
+  height: 5vh;
   // transform: translateY(-50%);
   border: 0;
   background-color: #C6D4ED;
@@ -89,23 +88,24 @@ body {
 }
 
 .bar{
-  top: 12px;
-  // left: 0.5px;
+  position: relative;
+  top: -3px;
+  left: 6px;
   background: #fff;
-  width: 75%;
+  width: 70%;
   height: 4px;
   transition: all .3s ease-in;
-  border: solid black;
+  // border: solid black;;
 }
 
 #bar2{
-  top: 20px;
-  width: 75%;
+  top: 1px;
+  // width: 2%;
 }
 
 #bar3{
-  top: 28px;
-  width: 75%;
+  top: 5px;
+  // width: 75%;
 
 }
 
@@ -126,6 +126,11 @@ body {
 .hamburger.open #bar3{
   background-color: #fff;
   transform: rotate(-45deg) translate(6px, -5px);
+}
+
+.nav-logo{
+  position: relative;
+  padding-left: 4vh;
 }
 
 
