@@ -1,16 +1,17 @@
 import './index.scss';
 import { useState, useEffect, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useClearMovieErrors } from "../../../store/errors/movieErrors";
-import { addEventAttendee, fetchMovie, getMovie, removeEventAttendee } from "../../../store/movies";
+import { addEventAttendee, fetchMovie, getMovie, removeEventAttendee, deleteEvent } from "../../../store/movies";
 import EventMap from "./map";
 
 const EventShow = () => {
     useClearMovieErrors();
     const { movieId, eventId } = useParams();
-
+    
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const sessionUser = useSelector(state => state.session.user);
     const movie = useSelector(getMovie(movieId));
     const event = useMemo(() => movie?.events.find(e => e._id === eventId), [movie]);
@@ -35,6 +36,11 @@ const EventShow = () => {
     useEffect(() => {
         if (movieId) dispatch(fetchMovie(movieId));
     }, [dispatch]);
+
+    const handleDeleteEventButton = () => {
+        dispatch(deleteEvent(event?._id, movie?._id))
+            .then(() => navigate(-1))
+    }
 
     return(
         <>
@@ -100,6 +106,9 @@ const EventShow = () => {
                                 }]} selected={event.theater} canSelect={false} />
                             }
                         </div>
+                    </div>
+                    <div className="button-container">
+                        {event?.host._id !== sessionUser?._id ? <button className="delete-event-button" onClick={() => handleDeleteEventButton(event, movie)}>Delete Event</button> : null }
                     </div>
                 </div>
             </div>
