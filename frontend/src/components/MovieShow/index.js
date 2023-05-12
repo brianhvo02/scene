@@ -10,6 +10,9 @@ const MovieShow = () => {
     const movie = useSelector(getMovie(movieId));
     const MOVIE_LINK = 'https://image.tmdb.org/t/p/original';
     const dispatch = useDispatch();
+    useEffect(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
+    }, [])
 
     useEffect(() => {
         dispatch(fetchMovie(movieId));

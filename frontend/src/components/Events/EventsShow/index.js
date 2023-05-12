@@ -19,6 +19,10 @@ const EventShow = () => {
     const eventDate = useMemo(() => new Date(event?.date), [event]);
     const eventCreatedDate = useMemo(() => new Date(event?.createdAt), [event]);
 
+    useEffect(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
+    }, [])
+    
     if(event?.attendees.includes(sessionUser.id)){
         setGoing(true);
     }
