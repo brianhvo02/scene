@@ -30,12 +30,12 @@ router.get('/:movieId', async (req, res, next) => {
         movieRes.tmdb_id = movieRes.id;
         movieRes.genre_ids = movieRes.genres.map(genre => genre.id);
         movieRes.certification = movieRes.release_dates.results
-            .find(result => result['iso_3166_1'] === 'US').release_dates
+            .find(result => result['iso_3166_1'] === 'US')?.release_dates
             .map(({ certification }) => certification)
             .find(cert => cert.length > 0);
         movieRes.alternative_titles = movieRes.alternative_titles.titles
             .filter(title => title['iso_3166_1'] === 'US')
-            .map(({ title }) => title);
+            ?.map(({ title }) => title);
         movie = new Movie(extractAllowedParams(allowedParams, movieRes));
         movie = await movie.save();
     }
