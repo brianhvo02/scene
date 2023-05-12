@@ -132,8 +132,8 @@ const MovieShow = () => {
                         {
                             commentBody &&
                             <>
-                                <button className='event-create-button' onClick={() => setCommentBody('')}>Cancel</button>
-                                <button className='event-create-button' 
+                                <button className='comment-event-create-button' onClick={() => setCommentBody('')}>Cancel</button>
+                                <button className='comment-event-create-button' 
                                     onClick={
                                         () => dispatch(createComment(commentBody, movie.tmdbId))
                                     }>Comment</button>
