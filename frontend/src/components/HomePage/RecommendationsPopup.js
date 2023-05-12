@@ -9,7 +9,7 @@ const RecommendationsPopup = ({ movie }) => {
 
     useEffect(() => {
         dispatch(fetchRecommendedMovies(movie?.id));
-    }, [dispatch])
+    }, [movie])
 
     return(
         <div className="recommendations-container">
