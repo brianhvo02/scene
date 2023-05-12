@@ -19,6 +19,10 @@ const EventShow = () => {
     const eventDate = useMemo(() => new Date(event?.date), [event]);
     const eventCreatedDate = useMemo(() => new Date(event?.createdAt), [event]);
 
+    useEffect(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
+    }, [])
+    
     if(event?.attendees.includes(sessionUser.id)){
         setGoing(true);
     }
@@ -80,7 +84,7 @@ const EventShow = () => {
                     })}</p>
                     <p>Please RSVP Below: </p>
                     {sessionUser && movie && (
-                        <button className="rsvp-button" onClick={handleEventRSVPClick}>{ going ? "UnRSVP!" : "RSVP!"}</button>
+                        <button className="rsvp-button" onClick={handleEventRSVPClick}>{ going ? "UnRSVP" : "RSVP"}</button>
                         )
                     }
                     {going ? <p>See you there!</p> : <p>Sorry you're not coming!</p>}                

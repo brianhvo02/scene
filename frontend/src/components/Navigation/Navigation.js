@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // import logo from '../../../public/logo.png'
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
@@ -9,7 +9,7 @@ import { useProtected } from '../../store/session';
 const Navigation = () => {
     const sessionUser = useSelector(state => state.session.user);
     useProtected();
-    
+  
 
     return (
     <header className='header-nav-container'>

@@ -10,6 +10,9 @@ const MovieShow = () => {
     const movie = useSelector(getMovie(movieId));
     const MOVIE_LINK = 'https://image.tmdb.org/t/p/original';
     const dispatch = useDispatch();
+    useEffect(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
+    }, [])
 
     const [commentBody, setCommentBody] = useState('');
 
@@ -52,19 +55,34 @@ const MovieShow = () => {
                     </div>
                     <div className='events-near'>
                         <h3>Events near you</h3>
+                        <div className='events-card-box'>
                         {
                             movie?.events?.map(event =>
-                                <Link key={event._id} to={`./event/${event._id}`}>{event.title}</Link>
+                                <Link className='event-show-box' key={event._id} to={`./event/${event._id}`}>
+                                    <div className='event-show-title'>{event.title}</div>
+                                    <div className='event-show-date'>{new Date(event.date).toLocaleString('en-US', {
+                                        weekday: 'short',
+                                        month: 'short',
+                                        day: '2-digit',
+                                        year: 'numeric',
+                                        hour: '2-digit',
+                                        minute: '2-digit'
+                                    })}</div>
+                                    <div className='event-show-theater'>{event.theater}</div>
+                                    {/* <div className='event-show-host'>{event.host.username}</div> */}
+                                </Link>
                             )
                         }
+                        </div>
                     </div>
                 </div>
                 <div className='movie-info-right'>
                     <img src={`${MOVIE_LINK.concat(movie?.posterPath)}`} alt=''/>
                 </div>
             </div>
-            <div className='background-gradient'></div>]
-            <div className='comments'>
+            <div className='background-gradient'></div>
+            <div className='comments-box'>
+                <div className='comments'>
                 <div className='create-comment'>
                     <textarea className='comment comment-body' placeholder='Add a comment...' value={commentBody} onChange={e => setCommentBody(e.target.value)} />
                     {
@@ -76,7 +94,9 @@ const MovieShow = () => {
                     }
                 </div>
                 {comments}
+                </div>
             </div>
+            
         </>
     )
 }
