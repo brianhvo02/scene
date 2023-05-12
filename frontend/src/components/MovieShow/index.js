@@ -110,19 +110,19 @@ const MovieShow = () => {
     const content = () =>{
        return (
         <>
-            <img src={movie ? `${MOVIE_LINK.concat(movie?.backdropPath)}` : ''} alt='' className='background-image'/>
+            <img src={movie?.backdropPath ? `${MOVIE_LINK.concat(movie?.backdropPath)}` : ''} alt='' className='background-image'/>
             <div className='movie-info-container'>
                 <div className='movie-info-left'>
                     <h2>{movie?.title}</h2>
-                    <h3>Movie Description:</h3>
                     { averageRating > 0 ?  <p id="popcorn-score-container">Popcorn Score: <img src="/popcorn-svgrepo-com.svg" alt="popcorn svg"/> <span className="popcorn-score">{averageRating}%</span></p>
                     :
                     <p id="popcorn-score-container">Popcorn Score: <img src="/popcorn-svgrepo-com.svg" alt="popcorn svg"/> <span className="popcorn-score">No Rating</span></p>    
                     }
+                    <h3>Movie Description:</h3>
+                    
                     <p>{movie?.overview}</p>
-                    <div className='movie-show-event-button'>
-                        <EventCreateForm />
-                    </div>
+                    <RatingsComponent movie={movie} />
+                    
                     <div className='events-near'>
                         <h3>Events near you</h3>
                         <div className='events-card-box'>
@@ -145,10 +145,12 @@ const MovieShow = () => {
                         }
                         </div>
                     </div>
-                    <RatingsComponent movie={movie}/>
+                    <div className='movie-show-event-button'>
+                        <EventCreateForm />
+                    </div>
                 </div>
                 <div className='movie-info-right'>
-                    <img src={movie ? `${MOVIE_LINK.concat(movie.posterPath)}` : ''} alt=''/>
+                    <img src={movie?.posterPath ? `${MOVIE_LINK.concat(movie.posterPath)}` : ''} alt=''/>
                 </div>
             </div>
             <div className='background-gradient'></div>
