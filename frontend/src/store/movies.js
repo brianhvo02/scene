@@ -16,7 +16,7 @@ const movieSlice = createSlice({
     }
 });
 
-export const { receiveMovies, receiveEvent } = movieSlice.actions;
+export const { receiveMovies, receiveEvent, receiveRating } = movieSlice.actions;
 
 export const getMovies = state => {
     return state?.movies ? Object.values(state.movies) : [];
@@ -36,6 +36,21 @@ export const createEvent = (event, movieId) => async dispatch => {
         dispatch(receiveMovies(res));
         return res.eventId;
     } catch (err) {
+        const res = await err.json();
+        if (res.statusCode === 400) {
+            return dispatch(receiveEventErrors(res.errors));
+        }
+    }
+}
+
+export const deleteEvent = (eventId, movieId) => async dispatch => {
+    try{
+        const res = await customFetch(`/api/movies/${movieId}/events/${eventId}`,{
+            method: "DELETE"
+        })
+        return dispatch(receiveMovies(res));
+    }
+    catch (err){
         const res = await err.json();
         if (res.statusCode === 400) {
             return dispatch(receiveEventErrors(res.errors));
