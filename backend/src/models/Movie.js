@@ -19,8 +19,7 @@ const movieSchema = new Schema({
         required: true
     },
     backdropPath: {
-        type: String,
-        required: true
+        type: String
     },
     alternativeTitles: [{
         type: String,
@@ -34,8 +33,7 @@ const movieSchema = new Schema({
         type: String
     },
     certification: {
-        type: String,
-        required: true
+        type: String
     },
     genreIds: [{
         type: Number,
@@ -44,7 +42,6 @@ const movieSchema = new Schema({
     ratings: [{
         type: Schema.Types.ObjectId,
         ref: 'Rating',
-        
     }],
     comments: [{
         type: Schema.Types.ObjectId,

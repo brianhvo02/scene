@@ -29,11 +29,10 @@ router.post('/', requireUser, validateCommentInput, async (req, res, next) => {
         });
 
         let comment = await newComment.save();
-        let movie = await Movie.findOne({ [movieId.length !== 24 ? 'tmdbId' : '_id']: movieId });
+        let movie = await Movie.findOne({ [movieId.length == 24 ? '_id' : 'tmdbId']: movieId });
         movie.comments.push(comment);
-        movie.save();
-        comment = await comment.populate('user', '_id username');
-        return res.json(comment);
+        await movie.save();
+        sendMovie(movie, res);
     }
     catch (err) {
         next(err);
@@ -60,7 +59,7 @@ router.delete('/:id', requireUser, async (req, res, next) => {
             let movie = await Movie.findOne({ [movieId.length !== 24 ? 'tmdbId' : '_id']: movieId });
             await movie.comments.remove(req.params.id);
             await movie.save();
-            return res.json(comment);
+            sendMovie(movie, res);
     }
     catch (err) {
         next(err);

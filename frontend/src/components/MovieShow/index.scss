@@ -144,3 +144,34 @@
         color: inherit;
     }
 }
+
+.create-comment {
+    width: 100%;
+    margin-right: 16px;
+    
+    .comment-body {
+        width: calc(100% - 64px);
+        height: 30px;
+        padding: 8px;
+        margin-bottom: 8px;
+        margin-top: 8px;
+        font-size: 16px;
+        font-weight: 400;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #C6D4ED;
+    }
+
+    .event-create-button:nth-child(2) {
+        margin-left: 32px;
+    }
+
+    .comment-body::placeholder {
+        color: rgba(198, 212, 237, 0.3);
+    }
+
+    .cancel-comment {
+        height: 30px;
+        color: #C6D4ED;
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+}

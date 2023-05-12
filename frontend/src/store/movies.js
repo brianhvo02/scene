@@ -84,4 +84,18 @@ export const removeEventAttendee = (eventId, movieId) => async dispatch => {
     }
 }
 
+export const createComment = movieId => async dispatch => {
+    try {
+        const movies = await customFetch(`/api/movies/${movieId}/comments`, {
+            method: 'POST'
+        });
+        return dispatch(receiveMovies({ movies }));
+    } catch (err) {
+        const res = await err.json();
+        if (res.statusCode === 400) {
+            return dispatch(receiveMovieErrors(res.errors));
+        }
+    }
+}
+
 export default movieSlice.reducer;

@@ -3,13 +3,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchMovie, getMovie } from '../../store/movies';
 import EventCreateForm from '../EventCreateForm';
 import './index.scss'
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 const MovieShow = () => {
     const { movieId } = useParams();
     const movie = useSelector(getMovie(movieId));
     const MOVIE_LINK = 'https://image.tmdb.org/t/p/original';
     const dispatch = useDispatch();
+
+    const [commentBody, setCommentBody] = useState('');
 
     useEffect(() => {
         dispatch(fetchMovie(movieId));
@@ -22,8 +24,6 @@ const MovieShow = () => {
                     <p className='comment-username'>{author.username}:</p>
                     <p className='comment-body'>{body}</p>
                 </div>
-                
-                
                 <div className='children'>
                     {
                         children.map(child => <Comment key={child._id} body={child.body} author={child.author} children={child.childrenComments} />)
@@ -65,6 +65,16 @@ const MovieShow = () => {
             </div>
             <div className='background-gradient'></div>]
             <div className='comments'>
+                <div className='create-comment'>
+                    <textarea className='comment comment-body' placeholder='Add a comment...' value={commentBody} onChange={e => setCommentBody(e.target.value)} />
+                    {
+                        commentBody &&
+                        <>
+                            <button className='event-create-button' onClick={() => setCommentBody('')}>Cancel</button>
+                            <button className='event-create-button' onClick={() => console.log(commentBody)}>Comment</button>
+                        </>
+                    }
+                </div>
                 {comments}
             </div>
         </>
