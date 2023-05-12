@@ -32,10 +32,14 @@ const MovieShow = () => {
 
     useEffect(() => {
         let total = 0;
+        if (movie?.ratings.length === 0) {
+            return setAverageRating("No ratings yet");
+        } else {
         movie?.ratings?.map(rating => {
             total += rating?.rating
         }) 
         setAverageRating((((Math.floor(total / movie?.ratings?.length))/ 5)) * 100)
+        }
     }, [movie])
 
     const Comment = ({ id, body, author, children }) => {
