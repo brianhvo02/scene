@@ -279,14 +279,18 @@
     }
 
     .event-show-title{
-    font-size: 32px;
-    text-align: center;
-    margin-bottom: 4px;
+        font-size: 24px;
+        text-align: center;
+        margin-bottom: 4px;
     }
 
     .event-show-date{
-        font-size: 20px;
+        font-size: 16px;
         margin-bottom: 4px;
+    }
+
+    .event-show-theater{
+        font-size: 14px;
     }
     
 }
