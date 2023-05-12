@@ -35,10 +35,10 @@ const EventForm = (props) => {
     const handleSubmit = () => {
         const errors = [];
 
-        if (title < 10) errors.push('Provide a minimum length of 10 characters title for your event.');
-        if (title > 50) errors.push('Provide no more than 50 characters for your event title.');
-        if (body < 10) errors.push('Provide a minimum length of 15 characters body for your event.');
-        if (body > 50) errors.push('Provide no more than 500 characters for your event body.');
+        if (title.length < 10) errors.push('Provide a minimum length of 10 characters title for your event.');
+        if (title.length > 50) errors.push('Provide no more than 50 characters for your event title.');
+        if (body.length < 10) errors.push('Provide a minimum length of 15 characters body for your event.');
+        if (body.length > 50) errors.push('Provide no more than 500 characters for your event body.');
 
         if (errors.length) {
             return dispatch(receiveEventErrors({ errors }));
@@ -47,7 +47,7 @@ const EventForm = (props) => {
         if (status) {
             dispatch(createEvent({title, body, ...info}, movieId))
                 .then((eventId) => {
-                    navigate(`/movie/${movieId}/event/${eventId}`)
+                    if (eventId) navigate(`/movie/${movieId}/event/${eventId}`);
                 });
         }
     }

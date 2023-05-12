@@ -70,7 +70,7 @@ export const fetchPopularMovies = () =>
     fetchUrl(`/api/tmdb/movies/popular`, receiveMovies);
 
 export const fetchMovie = movieId =>
-    fetchUrl(`/api/movies/${movieId}`, receiveMovies);
+    movieId ? fetchUrl(`/api/movies/${movieId}`, receiveMovies) : null;
 
 export const addEventAttendee = (eventId, movieId) => async dispatch => {
     try {
@@ -147,11 +147,11 @@ export const updateRating = (rating, movieId) => async dispatch => {
     }
 }
 
-export const createComment = (body, movieId) => async dispatch => {
+export const createComment = (body, movieId, parentComment) => async dispatch => {
     try {
         const res = await customFetch(`/api/movies/${movieId}/comments`, {
             method: 'POST',
-            body: JSON.stringify({ body })
+            body: JSON.stringify({ body, parentComment })
         });
         return dispatch(receiveMovies(res));
     } catch (err) {
@@ -162,10 +162,27 @@ export const createComment = (body, movieId) => async dispatch => {
     }
 }
 
+export const editComment = (body, movieId, commentId) => async dispatch => {
+    try{
+        const res = await customFetch(`/api/movies/${movieId}/comments/${commentId}`,{
+            method: 'PATCH',
+            body: JSON.stringify({ body })
+        });
+        return dispatch(receiveMovies(res));
+    }
+    catch (err){
+        const res = await err.json();
+        if (res.statusCode === 400) {
+            return dispatch(receiveRatingErrors(res.errors));
+        }
+    }
+}
+
 export const deleteComment = (commentId, movieId) => async dispatch => {
     try{
         const res = await customFetch(`/api/movies/${movieId}/comments/${commentId}`,{
-            method: 'DELETE'
+            method: 'PATCH',
+            body: JSON.stringify({ body: '[DELETED]' })
         });
         return dispatch(receiveMovies(res));
     }

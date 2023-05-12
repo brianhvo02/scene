@@ -15,7 +15,7 @@ const MoviePoster = ({ movie }) => {
     return(
         <div className="movie-poster-container">
             <div className="movie-poster">
-                <img src={movie?.posterPath ? `${MOVIE_LINK.concat(movie?.posterPath)}` : '/light-logo.png'} onClick={() => handleMoviePosterClick(movie)}/>
+                <img src={movie?.posterPath ? `${MOVIE_LINK.concat(movie?.posterPath)}` : '/movie-poster.png'} onClick={() => handleMoviePosterClick(movie)}/>
             </div>
             <div >
                 <h2 id="movie-title">{movie?.title}</h2>

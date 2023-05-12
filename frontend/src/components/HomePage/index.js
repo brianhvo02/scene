@@ -13,12 +13,10 @@ const HomePage = () => {
             <h2 className="homepage-heading">Discover New Movies</h2>
             <div className="discover-carousel">
                 <DiscoverCarousel setSelectedMovie={setSelectedMovie}/>
-
             </div>
             {selectedMovie ? 
                 <div className="arrow-bounce bounce">
                     <HiOutlineChevronDoubleDown className='arrow-bounce-down'/>
-                   
                 </div>
             : null
             }

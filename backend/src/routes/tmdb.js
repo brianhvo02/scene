@@ -40,7 +40,7 @@ router.get('/movies/popular', async (req, res) => {
 router.get('/movies/:movieId/recommendations', async (req, res) => {
     const { movieId } = req.params;
     const { results } = await fetchTMDB(`/movie/${movieId}/recommendations`);
-    const movies = results ? Object.fromEntries(results.map(result => [result.id, extractAllowedParams(allowedParams, result)])): null;
+    const movies = results ? Object.fromEntries(results.map(result => [result.id, extractAllowedParams(allowedParams, result)])) : null;
     res.status(200).json({ movies });
 });
 
