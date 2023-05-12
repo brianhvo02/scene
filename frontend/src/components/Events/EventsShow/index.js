@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { useClearMovieErrors } from "../../../store/errors/movieErrors";
 import { addEventAttendee, fetchMovie, getMovie, removeEventAttendee } from "../../../store/movies";
 import EventMap from "./map";
+import Loading from '../../Loading/Loading';
 
 const EventShow = () => {
     
@@ -17,6 +18,7 @@ const EventShow = () => {
     const event = useMemo(() => movie?.events.find(e => e._id === eventId), [movie]);
     const eventDate = useMemo(() => new Date(event?.date), [event]);
     const eventCreatedDate = useMemo(() => new Date(event?.createdAt), [event]);
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
@@ -34,10 +36,13 @@ const EventShow = () => {
         );
 
     useEffect(() => {
-        if (movieId) dispatch(fetchMovie(movieId));
+        if (movieId) dispatch(fetchMovie(movieId))
+            .finally(() => (setLoading(false)))
+
     }, [dispatch]);
 
-    return(
+    const content = () => {
+        return(
         <>
             <img src={movie ? `${MOVIE_LINK.concat(movie.backdropPath)}` : ''} alt={`${movie?.title} movie backdrop`} className="background-image"/>       
             <h1 className="event-title">{event?.title}</h1>
@@ -108,6 +113,8 @@ const EventShow = () => {
         </>
 
     )
+    }
+    return loading ? <Loading /> : content()
 }
 
 export default EventShow;
