@@ -79,7 +79,6 @@ const EventShow = () => {
                                 </ul>
                             </div>
                         </div>
-                        
                     </div>
                     <div className="event-show-page-right">
                         <div className="event-show-page-time-date-rsvp">
@@ -112,7 +111,7 @@ const EventShow = () => {
                                 }
                             </div>
                             <div className="button-container">
-                                {event?.host._id === sessionUser?._id ? <button className="delete-event-button" onClick={() => handleDeleteEventButton(event, movie)}>Delete Event</button> : null }
+                                {event?.host._id === sessionUser?._id ? <button id="delete-event-button" onClick={() => handleDeleteEventButton(event, movie)}>Delete Event</button> : null }
                             </div>
                         </div>
                     </div>
