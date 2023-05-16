@@ -13,9 +13,9 @@ router.get('/', async (req, res, next) => {
         page: 1,
         ...req.query
     })
-    const { results } = await fetchTMDB("/search/movie", query.toString())
+    const { results, total_pages: totalPages } = await fetchTMDB("/search/movie", query.toString())
     const movies = Object.fromEntries(results.map(result => [result.id, extractAllowedParams(allowedParams, result)]))
-    res.status(200).json({movies})
+    res.status(200).json({movies, totalPages})
 });
 
 export default router;

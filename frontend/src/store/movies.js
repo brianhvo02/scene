@@ -63,8 +63,8 @@ export const fetchDiscoverMovies = user =>
 export const fetchRecommendedMovies = movieId => 
     fetchUrl(`/api/tmdb/movies/${movieId}/recommendations`, receiveMovies);
 
-export const fetchSearchedMovies = query => 
-    fetchUrl(`/api/search?query=${query}`, receiveMovies);
+export const fetchSearchedMovies = (query, page = 1) => 
+    fetchUrl(`/api/search?query=${query}&page=${page}`, receiveMovies);
 
 
 export const fetchNowPlayingMovies = () => 
