@@ -1,24 +1,23 @@
 import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { RxMagnifyingGlass } from 'react-icons/rx';
-import { fetchSearchedMovies } from "../../store/movies";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 const Search = () => {
     const [query, setQuery] = useState("");
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    
     const handleSubmit = (e) =>{
         e.preventDefault();
-        dispatch(fetchSearchedMovies(query));
-        navigate("/search")
+        navigate(`/search?query=${query}`);
     }
 
 
     const update = (e) => {
         e.preventDefault();
-        setQuery(e.currentTarget.value)
+        setQuery(e.currentTarget.value);
     }
 
     return (

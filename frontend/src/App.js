@@ -12,6 +12,7 @@ import MovieShow from './components/MovieShow';
 import EventShow from './components/Events/EventsShow';
 import Navigation from './components/Navigation/Navigation.js';
 import { useLocation } from 'react-router-dom';
+import SearchShow from './components/Search';
 
 
 function App() {
