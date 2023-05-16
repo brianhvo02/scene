@@ -60,6 +60,16 @@
 
         }
 
+        .certification, .runtime{
+            margin: 0px 10px;
+        }
+
+        #tagline{
+            margin-top: -15px;
+            font-size: 16px;
+            margin-bottom: -15px;
+        }
+
         #popcorn-score-container{
             margin-bottom: -12px;
             display: flex;
@@ -68,6 +78,7 @@
             .popcorn-score{
                 font-size: 20px;
                 margin-left: 5px;
+                margin-right: 10px;
             }
 
             img{

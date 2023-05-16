@@ -114,9 +114,10 @@ const MovieShow = () => {
             <div className='movie-info-container'>
                 <div className='movie-info-left'>
                     <h2>{movie?.title}</h2>
-                    { averageRating > 0 ?  <p id="popcorn-score-container">Popcorn Score: <img src="/popcorn-svgrepo-com.svg" alt="popcorn svg"/> <span className="popcorn-score">{averageRating}%</span></p>
+                    <p id="tagline">{movie?.tagline}</p>
+                    { averageRating > 0 ?  <p id="popcorn-score-container">Popcorn Score: <img src="/popcorn-svgrepo-com.svg" alt="popcorn svg"/> <span className="popcorn-score">{averageRating}%</span> | <span className="certification">{movie?.certification}</span> | <span className="runtime">{movie?.runtime} mins</span></p>
                     :
-                    <p id="popcorn-score-container">Popcorn Score: <img src="/popcorn-svgrepo-com.svg" alt="popcorn svg"/> <span className="popcorn-score">No Rating</span></p>    
+                    <p id="popcorn-score-container">Popcorn Score: <img src="/popcorn-svgrepo-com.svg" alt="popcorn svg"/> <span className="popcorn-score">No Rating</span> | <span className="certification">{movie?.certification}</span> | <span className="runtime">{movie?.runtime} mins</span></p>    
                     }
                     <h3>Movie Description:</h3>
                     
