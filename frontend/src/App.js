@@ -27,6 +27,7 @@ function App() {
         <>
         {!isSplashPage ? <Navigation /> : null}
         <Routes>
+            <Route exact path="/search" Component={SearchShow}/>
             <Route exact path="/" Component={SplashPage}/>
             <Route exact path="/home" Component={HomePage}/>
             <Route exact path="/login" Component={LoginForm} />

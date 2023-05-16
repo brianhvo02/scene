@@ -13,7 +13,7 @@ import tmdbRouter from './routes/tmdb';
 import fandangoRouter from './routes/fandango';
 import usersRouter from './routes/users';
 import moviesRouter from './routes/movies';
-
+import searchRouter from './routes/search';
 
 import { isProduction, mongoURI as db } from './config';
 
@@ -44,6 +44,7 @@ app.use('/api/csrf', csrfRouter);
 app.use('/api/tmdb', tmdbRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/movies', moviesRouter);
+app.use('/api/search', searchRouter);
 
 if (isProduction) {
     app.get('/', (req, res) => {

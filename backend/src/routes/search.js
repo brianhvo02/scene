@@ -17,3 +17,5 @@ router.get('/search', async (req, res, next) => {
     const movies = Object.fromEntries(results.map(result => [result.id, extractAllowedParams(allowedParams, result)]))
     res.status(200).json({movies})
 });
+
+export default router;

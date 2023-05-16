@@ -3,6 +3,7 @@ import { fetchUrl, customFetch } from "./utils";
 import { receiveMovieErrors } from './errors/movieErrors';
 import { receiveEventErrors } from "./errors/eventErrors";
 import { receiveRatingErrors } from './errors/ratingErrors'
+import { Query } from "mongoose";
 
 const initialState = {}
 
@@ -62,6 +63,10 @@ export const fetchDiscoverMovies = user =>
 
 export const fetchRecommendedMovies = movieId => 
     fetchUrl(`/api/tmdb/movies/${movieId}/recommendations`, receiveMovies);
+
+export const fetchSearchedMovies = query => 
+    fetchUrl(`/api/search?query=${query}`, receiveMovies);
+
 
 export const fetchNowPlayingMovies = () => 
     fetchUrl(`/api/tmdb/movies/now_playing`, receiveMovies);
