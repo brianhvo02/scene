@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { fetchSearchedMovies } from "../../store/movies";
 import { getMovies } from '../../store/movies';
 import SearchMovieCard from './SearchMovieCard';
-
+import "./index.scss"
 const SearchShow = () => {
     const dispatch = useDispatch();
     const [searchParams, setSearchParams] = useSearchParams();
@@ -25,7 +25,7 @@ const SearchShow = () => {
 
 
     return(
-        <>
+        <div className='movie-search-card-container'>
         {movies.map( movie => 
             <SearchMovieCard key={movie.id} movie={movie}/>
         )}
@@ -33,7 +33,7 @@ const SearchShow = () => {
         Array.from(Array(totalPages).keys()).map( i => {
             return <a key= {`page-${i}`} onClick={() => setSearchParams({...Object.fromEntries(searchParams), page: i + 1})} className={`page-count ${page === i + 1 ? "active" : "not-active"}`}>{i + 1}</a>
         })}
-        </>
+        </div>
     )
 }
 
