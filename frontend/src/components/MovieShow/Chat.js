@@ -41,6 +41,12 @@ const Chat = ({ movieId }) => {
         disableInput(true);
     }
 
+    const handleKeyPress = (e) => {
+        if (e.key === "Enter"){
+            handleSubmit();
+        }
+    }
+
     const lastMessage = useRef();
     const messagesRef = useRef();
 
@@ -59,16 +65,16 @@ const Chat = ({ movieId }) => {
     }, [lastMessage.current]);
 
     return (
-        <div className='chat'>
+        <div className='chat' >
             <FontAwesomeIcon icon={faClapperboard} bounce={chat[chat.length - 1]?.bot && !chatIsOpen} onClick={() => toggleChat(prev => !prev)}/>
             <div className={`chatbox ${chatIsOpen ? 'open' : ''}`}>
                 <h1>Chat with SceneBot</h1>
                 <div className='chat-messages' ref={messagesRef}>
                     {messages}
                 </div>
-                <div>
-                    <textarea value={input} onChange={e => setInput(e.target.value)} />
-                    <button onClick={handleSubmit} disabled={disabledInput}>Send</button>
+                <div className="user-input-container">
+                    <textarea value={input} onChange={e => setInput(e.target.value)} onKeyDown={(e) => handleKeyPress(e)} id="user-input-text"/>
+                    <button onClick={handleSubmit} disabled={disabledInput} id="send-button">Send</button>
                 </div>
             </div>
         </div>
