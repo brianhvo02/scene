@@ -5,7 +5,7 @@ import { extractAllowedParams, snakeToCamel } from '../utils';
 const router = Router();
 
 export const fetchTMDB = (route, params) => fetch(`https://api.themoviedb.org/3${route}?api_key=${tmdbAPIKey}&${params}`).then(res => res.json());
-const allowedParams = ["id", "title", "overview", "poster_path", "backdrop_path", "genre_ids", "alternative_titles", "runtime", "tagline"];
+export const allowedParams = ["id", "title", "overview", "poster_path", "backdrop_path", "genre_ids", "alternative_titles", "runtime", "tagline"];
 
 router.get('/genres', async (req, res) => {
     const { genres } = await fetchTMDB('/genre/movie/list');

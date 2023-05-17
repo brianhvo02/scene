@@ -9,13 +9,14 @@ import Loading from "../Loading/Loading";
 
 const DiscoverCarousel = ({ setSelectedMovie }) => {
     const dispatch = useDispatch();
-    const movies = useSelector(getMovies);
+    // const movies = useSelector(getMovies);
+    const [movies, setMovies] = useState([])
     const sessionUser = useSelector(state => state.session.user);
 
     const [currentIndex, setCurrentIndex] = useState(0);
 
     useEffect(()=> {
-        dispatch(fetchDiscoverMovies(sessionUser));
+        dispatch(fetchDiscoverMovies(sessionUser)).then(({movies}) => setMovies(Object.values(movies)));
     }, [dispatch])
 
     const handlePrevClick = () => {

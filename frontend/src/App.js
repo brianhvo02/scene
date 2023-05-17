@@ -12,6 +12,7 @@ import MovieShow from './components/MovieShow';
 import EventShow from './components/Events/EventsShow';
 import Navigation from './components/Navigation/Navigation.js';
 import { useLocation } from 'react-router-dom';
+import SearchShow from './components/Search';
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
         <>
         {!isSplashPage ? <Navigation /> : null}
         <Routes>
+            <Route exact path="/search" Component={SearchShow}/>
             <Route exact path="/" Component={SplashPage}/>
             <Route exact path="/home" Component={HomePage}/>
             <Route exact path="/login" Component={LoginForm} />

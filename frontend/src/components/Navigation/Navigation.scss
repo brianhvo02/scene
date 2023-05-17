@@ -158,9 +158,21 @@ body {
   padding-left: 4vh;
 }
 
+.nav-search-bar-container {
+  box-sizing: border-box;
+  flex: 1 1 auto;
+  min-height: 0;
+  min-width: 407px;
+  padding-left: 240px;
+  padding-right: 286px;
+}
 
-
-
+#profile-pic{
+  height: 100px;
+  width: 100px;
+  object-fit: cover;
+  border-radius: 100%;
+}
 
 
 

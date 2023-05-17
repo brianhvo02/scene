@@ -5,6 +5,10 @@ import jwt from 'jsonwebtoken';
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import User from './models/User';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
+import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
+
+const client = new S3Client({region: "us-west-1"});
 
 config();
 export const 
@@ -23,19 +27,24 @@ passport.use(new LocalStrategy({
     });
     if (user) {
         bcrypt.compare(password, user.hashedPassword, (err, isMatch) => {
-            if (err || !isMatch) done(null, false);
-            else done(null, user);
+            if (err || !isMatch) return done(null, false);
+            return done(null, user);
         });
     } else done(null, false);
 }));
 
 export const loginUser = async user => {
+    const command = new GetObjectCommand({
+        Bucket: "scene-dev",
+        Key: `${user.username}.jpg`
+    });
     const userInfo = {
         _id: user._id,
         username: user.username,
         email: user.email,
         genreIds: user.genreIds,
-        likedMovies: user.likedMovies
+        likedMovies: user.likedMovies,
+        photoUrl: await getSignedUrl(client, command, {expiresIn: 3600})
     };
     const token = await new Promise((resolve, reject) => jwt.sign(
         userInfo,
