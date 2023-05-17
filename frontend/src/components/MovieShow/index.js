@@ -7,6 +7,8 @@ import './index.scss'
 import { useEffect, useMemo, useState } from 'react';
 import RatingsComponent from '../Ratings';
 import Loading from '../Loading/Loading';
+import { fetchGenres, useGenreSlice } from '../../store/genres';
+import _ from "lodash";
 
 const scrollToTop = () => {
     window.scrollTo({
@@ -20,9 +22,12 @@ const MovieShow = () => {
     const currentUser = useSelector(state => state.session.user);
     const { movieId } = useParams();
     const movie = useSelector(getMovie(movieId));
+    const genres = useGenreSlice();
     const MOVIE_LINK = 'https://image.tmdb.org/t/p/original';
     const dispatch = useDispatch();
     const [averageRating, setAverageRating] = useState(0)
+
+    console.log(genres);
 
     useEffect(() => {
         scrollToTop();
@@ -37,7 +42,8 @@ const MovieShow = () => {
     
     useEffect(() => {
         dispatch(fetchMovie(movieId))
-        .finally(()=>(setLoading(false)))
+            .finally(()=>(setLoading(false)));
+        dispatch(fetchGenres());
     }, [dispatch]);
 
     useEffect(() => {
@@ -47,6 +53,7 @@ const MovieShow = () => {
         }) 
         setAverageRating((((Math.floor(total / movie?.ratings?.length))/ 5)) * 100)
     }, [movie])
+
 
     const Comment = ({ id, body, author, children }) => {
         return (
@@ -108,18 +115,23 @@ const MovieShow = () => {
     [movie, activeComment]);
 
     const content = () =>{
-       return (
+        return (
         <>
             <img src={movie?.backdropPath ? `${MOVIE_LINK.concat(movie?.backdropPath)}` : '/backdrop.png'} alt='' className='background-image'/>
             <div className='movie-info-container'>
                 <div className='movie-info-left'>
                     <h2>{movie?.title}</h2>
-                    { averageRating > 0 ?  <p id="popcorn-score-container">Popcorn Score: <img src="/popcorn-svgrepo-com.svg" alt="popcorn svg"/> <span className="popcorn-score">{averageRating}%</span></p>
+                    <div className="genre-container">
+                        {movie?.genreIds.map((genreId,idx) => {
+                            return <span className="genre">{genres?.[genreId]?.name} <span> {idx === movie?.genreIds.length - 1 ? "" : "|"} </span> </span> 
+                        })}
+                    </div>
+                    <p id="tagline">{movie?.tagline}</p>
+                    { averageRating > 0 ?  <p id="popcorn-score-container">Popcorn Score: <img src="/popcorn-svgrepo-com.svg" alt="popcorn svg"/> <span className="popcorn-score">{averageRating}%</span> | <span className="certification">{movie?.certification}</span> | <span className="runtime">{movie?.runtime} mins</span></p>
                     :
-                    <p id="popcorn-score-container">Popcorn Score: <img src="/popcorn-svgrepo-com.svg" alt="popcorn svg"/> <span className="popcorn-score">No Rating</span></p>    
+                    <p id="popcorn-score-container">Popcorn Score: <img src="/popcorn-svgrepo-com.svg" alt="popcorn svg"/> <span className="popcorn-score">No Rating</span> | <span className="certification">{movie?.certification ? movie?.certification : "NR"}</span> | <span className="runtime">{movie?.runtime} mins</span></p>    
                     }
                     <h3>Movie Description:</h3>
-                    
                     <p>{movie?.overview}</p>
                     <RatingsComponent movie={movie} />
                     
@@ -193,7 +205,7 @@ const MovieShow = () => {
         </>
     )  
     }
-   
+
     return loading ? <Loading /> : content()
 }
 
