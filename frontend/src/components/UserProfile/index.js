@@ -4,13 +4,13 @@ import {useEffect, useState} from "react";
 import LikedMovies from "./LikedMovies";
 import {useGenreSlice, fetchGenres} from "../../store/genres";
 import {Link} from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 
 
 const UserProfile = () => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.session.user);
-
+    const navigate = useNavigate();
 
     const genres = useGenreSlice();
 
@@ -31,7 +31,8 @@ const UserProfile = () => {
                 <div className='events-card-box'>
                 {
                     user?.events?.map(event =>
-                        <Link className='event-show-box' key={event._id} to={`./event/${event._id}`}>
+                        <div className='event-show-box' key={event._id} onClick={() => navigate(`/movie/${event.tmdb}/event/${event._id}`)}>
+                            {console.log(event.tmdb)}
                             <div className='event-show-title'>{event.title}</div>
                             <div className='event-show-date'>{new Date(event.date).toLocaleString('en-US', {
                                 weekday: 'short',
@@ -43,7 +44,7 @@ const UserProfile = () => {
                             })}
                             </div>
                             <div className='event-show-theater'>{event.theater}</div>
-                        </Link>
+                        </div>
                     )
                 }
                 </div>
