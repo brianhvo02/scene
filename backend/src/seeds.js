@@ -9,6 +9,9 @@ import bcrypt, { hashSync } from 'bcryptjs'
 import { faker } from '@faker-js/faker';
 import { fetchTMDB } from './routes/tmdb';
 import { extractAllowedParams } from './utils';
+import BardAPI, { Configuration } from 'bard-api';
+import { config } from 'dotenv';
+config();
 
 const NUM_SEED_USERS = 10; //done
 const NUM_SEED_MOVIE = 10; //done
@@ -18,14 +21,21 @@ const NUM_SEED_RATING = 30; //done
 
 const genres = [878, 12, 28, 80, 53, 10751, 14, 35, 16, 9648, 27, 36];
 
+const configuration = new Configuration({ apiKey: process.env.BARD_API_KEY });
+const bard = new BardAPI(configuration);
+
 (async () => {
+    const eventNames = await bard.generateQuery('what are 30 creative event names to go to the movie theater in an array')
+        .then(res => res.slice(res.indexOf('['), res.indexOf(']') + 1))
+        .then(res => JSON.parse(res));
+
     const users = Array.from(Array(NUM_SEED_USERS).keys()).map(i => {
         if (i === 0) return new User({
             username: 'DemoUser',
             email: 'DemoUser@appacademy.io',
             hashedPassword: bcrypt.hashSync('password', 10),
             zipCode: 94103,
-            genreIds: [12, 80, 54, 10751, 16],
+            genreIds: [12, 80, 53, 10751, 16],
             likedMovies: [1102776, 315162, 640146]
         });
 
@@ -64,7 +74,7 @@ const genres = [878, 12, 28, 80, 53, 10751, 14, 35, 16, 9648, 27, 36];
         return new Movie(extractAllowedParams(allowedParams, movieRes));
     }));
 
-    const events = Array.from(Array(NUM_SEED_EVENTS).keys()).map(() => {
+    const events = Array.from(Array(NUM_SEED_EVENTS).keys()).map(i => {
         const attendees = []
         const host = users[Math.floor(Math.random() * NUM_SEED_USERS)]
         
@@ -72,10 +82,9 @@ const genres = [878, 12, 28, 80, 53, 10751, 14, 35, 16, 9648, 27, 36];
             const attendee = users[Math.floor(Math.random() * NUM_SEED_USERS)];
             if(attendee !== host) attendees.push(attendee);
         }
-        
+        const movie = movies[i % movies.length];
         const event = new Event({
-            title: faker.hacker.adjective(),
-            body: faker.hacker.phrase(),
+            title: eventNames.shift(),
             date: faker.date.future(),
             ticketUrl: 'https://www.fandango.com/century-san-francisco-centre-9-and-xd-aaudv/theater-page',
             ticketType: 'Standard',
@@ -89,9 +98,11 @@ const genres = [878, 12, 28, 80, 53, 10751, 14, 35, 16, 9648, 27, 36];
                 latitude: 37.78401353523759,
                 longitude: -122.4055097368778,
             },
+            movie,
             host: host,
             attendees: attendees
         });
+        movie.events.push(event);
         host.events.push(event);
         return event;
     });
@@ -132,13 +143,11 @@ const genres = [878, 12, 28, 80, 53, 10751, 14, 35, 16, 9648, 27, 36];
 
     const ratingsClone = [...ratings];
     const commentsClone = [...rootComments];
-    const eventsClone = [...events];
 
     movies.forEach((movie) => {
         for (let i = 0; i < 3; i++){
             movie.comments.push(commentsClone.shift());
             movie.ratings.push(ratingsClone.shift());
-            movie.events.push(eventsClone.shift());
         }
     });
 

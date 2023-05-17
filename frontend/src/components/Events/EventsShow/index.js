@@ -14,7 +14,8 @@ const EventShow = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const sessionUser = useSelector(state => state.session.user);
-    const movie = useSelector(getMovie(movieId));
+    const [realMovieId, setRealMovieId] = useState(movieId);
+    const movie = useSelector(getMovie(realMovieId));
     const event = useMemo(() => movie?.events?.find(e => e._id === eventId), [movie]);
     const eventDate = useMemo(() => new Date(event?.date), [event]);
     const eventCreatedDate = useMemo(() => new Date(event?.createdAt), [event]);
@@ -28,7 +29,7 @@ const EventShow = () => {
 
     const MOVIE_LINK = "https://image.tmdb.org/t/p/original";
 
-    const going = useMemo(() => !!event?.attendees.find(attendee => attendee._id === sessionUser._id), [event, sessionUser]);
+    const going = useMemo(() => !!event?.attendees.find(attendee => attendee._id === sessionUser?._id), [event, sessionUser]);
 
     const handleEventRSVPClick = () => 
         dispatch(
@@ -39,6 +40,7 @@ const EventShow = () => {
 
     useEffect(() => {
         if (movieId) dispatch(fetchMovie(movieId))
+            .then(({movies}) => setRealMovieId(Object.keys(movies)[0]))
             .finally(() => (setLoading(false)))
 
     }, [dispatch]);

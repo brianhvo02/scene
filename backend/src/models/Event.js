@@ -6,8 +6,7 @@ const eventSchema = new Schema({
         required: true
     },
     body: {
-        type: String,
-        required:true
+        type: String
     },
     date: {
         type: Date,
@@ -52,8 +51,10 @@ const eventSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     }],
-    tmdb: {
-        type: String
+    movie: {
+        type: Schema.Types.ObjectId,
+        ref: 'Movie',
+        required: true
     }
 }, {
     timestamps: true

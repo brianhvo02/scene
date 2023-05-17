@@ -21,7 +21,8 @@ const scrollToTop = () => {
 const MovieShow = () => {
     const currentUser = useSelector(state => state.session.user);
     const { movieId } = useParams();
-    const movie = useSelector(getMovie(movieId));
+    const [realMovieId, setRealMovieId] = useState(movieId);
+    const movie = useSelector(getMovie(realMovieId));
     const genres = useGenreSlice();
     const MOVIE_LINK = 'https://image.tmdb.org/t/p/original';
     const dispatch = useDispatch();
@@ -42,6 +43,7 @@ const MovieShow = () => {
     
     useEffect(() => {
         dispatch(fetchMovie(movieId))
+            .then(({movies}) => setRealMovieId(Object.keys(movies)[0]))
             .finally(()=>(setLoading(false)));
         dispatch(fetchGenres());
     }, [dispatch]);
@@ -134,7 +136,6 @@ const MovieShow = () => {
                     <h3>Movie Description:</h3>
                     <p>{movie?.overview}</p>
                     <RatingsComponent movie={movie} />
-                    
                     <div className='events-near'>
                         <h3>Events near you</h3>
                         <div className='events-card-box'>
