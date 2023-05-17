@@ -33,9 +33,8 @@ function ProfileButton({ user }) {
           </button>
           <nav className="hamburger-side-menu">
             <ul className="profile-dropdown">
-              <li>{user?.username}</li>
-              <li>{user?.email}</li>
-              <li onClick={() => navigate('/user')}>Profile</li>
+              <li onClick={() => navigate('/user')}>{user?.username}</li>
+              <li onClick={() => navigate('/home')}>Discover</li>
               <li onClick={handleClick} id="logout-button">Logout</li>
             </ul>
           </nav>
