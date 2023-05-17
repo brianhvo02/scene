@@ -5,6 +5,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import ProfileButton from './ProfileButton';
 import { useProtected } from '../../store/session';
 import { MdOutlineArrowBackIos } from 'react-icons/md';
+import Search from '../Search/Search';
 
 
 const Navigation = () => {
@@ -26,6 +27,7 @@ const Navigation = () => {
                     </NavLink>
                 </div>
             </div>
+            <div className='nav-search-bar-container'><Search/></div>
             <div className='nav-right'>
                 <div className='profile-button-container'>
                     <ProfileButton user={sessionUser}/>

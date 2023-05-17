@@ -6,6 +6,7 @@ import eventRouter from "./events";
 import commentRouter from "./comments";
 import fandangoRouter from "./fandango";
 import ratingRouter from "./ratings";
+import chatRouter from "./chat";
 import { fetchTMDB } from "./tmdb";
 import { extractAllowedParams } from "../utils";
 
@@ -14,6 +15,7 @@ router.use("/:movieId/events", eventRouter);
 router.use("/:movieId/comments", commentRouter);
 router.use("/:movieId/theaters", fandangoRouter);
 router.use("/:movieId/ratings", ratingRouter);
+router.use("/:movieId/chat", chatRouter);
 
 router.get('/:movieId', async (req, res, next) => {
     const { movieId } = req.params;

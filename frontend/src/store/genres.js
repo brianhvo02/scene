@@ -15,6 +15,10 @@ const genreSlice = createSlice({
 
 const { receiveGenres } = genreSlice.actions;
 
+const getGenreSlice = state => {
+    return state?.genres ? state.genres : {};
+}
+
 export const getGenres = state => {
     return state?.genres ? Object.values(state.genres) : [];
 }
@@ -27,5 +31,7 @@ export const fetchGenres = () =>
     fetchUrl('/api/tmdb/genres', receiveGenres);
 
 export const useGenres = () => useSelector(getGenres);
+
+export const useGenreSlice = () => useSelector(getGenreSlice);
 
 export default genreSlice.reducer;
