@@ -8,7 +8,7 @@ import { useEffect, useMemo, useState } from 'react';
 import RatingsComponent from '../Ratings';
 import Loading from '../Loading/Loading';
 import { fetchGenres, useGenreSlice } from '../../store/genres';
-import _ from "lodash";
+import Chat from './Chat';
 
 const scrollToTop = () => {
     window.scrollTo({
@@ -201,7 +201,7 @@ const MovieShow = () => {
                     {comments}
                 </div>
             </div>
-            
+            <Chat movieId={movieId} />
         </>
     )  
     }
