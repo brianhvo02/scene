@@ -38,7 +38,6 @@ export const loginUser = async user => {
         Bucket: "scene-dev",
         Key: `${user.username}.jpg`
     });
-    console.log(`${user.username}.jpg`);
     const userInfo = {
         _id: user._id,
         username: user.username,

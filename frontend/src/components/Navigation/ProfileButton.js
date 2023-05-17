@@ -50,6 +50,7 @@ function ProfileButton({ user }) {
           </button>
           <nav className="hamburger-side-menu">
             <ul className="profile-dropdown">
+              <li><img src={user?.photoUrl} alt="profile-picture" id="profile-pic"/></li>
               <li>{user?.username}</li>
               <li>{user?.email}</li>
               <li onClick={handleClick} id="logout-button">Logout</li>

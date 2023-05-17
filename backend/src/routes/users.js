@@ -72,19 +72,25 @@ router.post('/login', validateLoginInput, async (req, res, next) => {
     })(req, res, next);
 });
 
-router.get('/current', restoreUser, (req, res) => {
+router.get('/current', restoreUser, async (req, res) => {
     if (!isProduction) {
         const csrfToken = req.csrfToken();
         res.cookie("X-CSRF-Token", csrfToken);
     }
     if (!req.user) return res.json(null);
-    res.json({
+    const command = new GetObjectCommand({
+        Bucket: "scene-dev",
+        Key: `${req.user.username}.jpg`
+    });
+    const userInfo = {
         _id: req.user._id,
         username: req.user.username,
         email: req.user.email,
         genreIds: req.user.genreIds,
-        likedMovies: req.user.likedMovies
-    });
+        likedMovies: req.user.likedMovies,
+        photoUrl: await getSignedUrl(client, command, {expiresIn: 3600})
+    };
+    res.json(userInfo);
 });
 
 router.patch('/current/registerGenresZipCode', requireUser, async (req, res, next) => {
