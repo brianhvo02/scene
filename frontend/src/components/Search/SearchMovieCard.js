@@ -11,7 +11,7 @@ const SearchMovieCard = ({ movie }) => {
             </div>
             <div className="movie-card-container-right">
                 <h1>{movie.title}</h1>
-                <p>{movie.overview}</p>
+                <p>{movie.overview ? movie.overview : "This movie does not have description yet, please come back later!"}</p>
             </div>
         </div>
 
