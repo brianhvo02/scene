@@ -25,6 +25,10 @@ const userSchema = new Schema({
     likedMovies: {
         type: [Number],
         required: true
+    },
+    events: {
+        type: [Schema.Types.ObjectId],
+        ref: 'Event'
     }
 }, {
     timestamps: true

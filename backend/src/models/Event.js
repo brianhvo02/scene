@@ -52,6 +52,9 @@ const eventSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     }],
+    tmdb: {
+        type: String
+    }
 }, {
     timestamps: true
 });

@@ -16,6 +16,7 @@ const User = mongoose.model('User');
 
 import validateRegisterInput from '../validations/register';
 import validateLoginInput from '../validations/login';
+import Movie from '../models/Movie';
 
 router.post('/register', validateRegisterInput, async (req, res, next) => {
     const user = await User.findOne({
@@ -40,7 +41,8 @@ router.post('/register', validateRegisterInput, async (req, res, next) => {
         username: req.body.username,
         email: req.body.email,
         genreIds: [],
-        likedMovies: []
+        likedMovies: [],
+        events: []
     });
 
     bcrypt.genSalt(10, (err, salt) => {
@@ -88,6 +90,7 @@ router.get('/current', restoreUser, async (req, res) => {
         email: req.user.email,
         genreIds: req.user.genreIds,
         likedMovies: req.user.likedMovies,
+        events: req.user.events,
         photoUrl: await getSignedUrl(client, command, {expiresIn: 3600})
     };
     res.json(userInfo);
@@ -104,6 +107,35 @@ router.patch('/current/registerGenresZipCode', requireUser, async (req, res, nex
     catch (err) {
         next(err);
     };
+});
+
+router.post('/likedMovie', requireUser, async (req, res, next) => {
+    try {
+        let likedMovie = req.body.movieId;
+        const movie = await Movie.findOne({ [likedMovie.length === 24 ? '_id' : 'tmdbId']: likedMovie });
+        let user = req.user;
+        user.likedMovies.push(movie._id);
+        user = await user.save();
+        return res.json(user);
+    }
+    catch (err) {
+        next(err);
+    }
+});
+
+
+router.delete('/unlikedMovie', requireUser, async (req, res, next) => {
+    try {
+        let unlikedMovie = req.body.movieId;
+        const movie = await Movie.findOne({ [unlikedMovie.length === 24 ? '_id' : 'tmdbId']: unlikedMovie });
+        let user = req.user;
+        user.likedMovies.remove(movie._id);
+        user = await user.save();
+        return res.json(user);
+    }
+    catch (err) {
+        next(err);
+    }
 });
 
 router.patch('/current/updateProfilePic', upload.single("profilePic"), requireUser, async (req, res, next) => {
