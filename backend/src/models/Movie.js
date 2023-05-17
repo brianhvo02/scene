@@ -34,22 +34,19 @@ const movieSchema = new Schema({
         type: String
     },
     genreIds: [{
-        type: Number,
-        required: true
+        type: Number
     }],
     ratings: [{
         type: Schema.Types.ObjectId,
-        ref: 'Rating',
+        ref: 'Rating'
     }],
     comments: [{
         type: Schema.Types.ObjectId,
-        ref: 'Comment',
-        required: true
+        ref: 'Comment'
     }],
     events: [{
         type: Schema.Types.ObjectId,
-        ref: 'Event',
-        required: true
+        ref: 'Event'
     }],
 }, {
     timestamps: true

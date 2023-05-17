@@ -11,6 +11,11 @@ const userSchema = new Schema({
         required: true,
         unique: true,
     },
+    hasProfilePic: {
+        type: Boolean,
+        required: true,
+        default: false
+    },
     zipCode: {
         type: Number
     },
@@ -20,16 +25,18 @@ const userSchema = new Schema({
     },
     genreIds: {
         type: [Number],
-        required: true
+        required: true,
+        default: []
     },
     likedMovies: {
         type: [Number],
-        required: true
+        required: true,
+        default: []
     },
-    events: {
-        type: [Schema.Types.ObjectId],
+    events: [{
+        type: Schema.Types.ObjectId,
         ref: 'Event'
-    }
+    }]
 }, {
     timestamps: true
 });

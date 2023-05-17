@@ -24,7 +24,7 @@ const Search = () => {
         <div className='search-bar'>
             <div className='search-bar-background'>
                 <div className='magnifying-glass'><RxMagnifyingGlass id="mag-glass" /></div>
-                <form className='search-input-box' onSubmit={handleSubmit}><input autocomplete="off" id='search-input' type="search" placeholder='Search' onChange={update} /></form>
+                <form className='search-input-box' onSubmit={handleSubmit}><input autoComplete="off" id='search-input' type="search" placeholder='Search' onChange={update} /></form>
             </div>
         </div>
     )

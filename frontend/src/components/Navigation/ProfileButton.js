@@ -33,7 +33,7 @@ function ProfileButton({ user }) {
           </button>
           <nav className="hamburger-side-menu">
             <ul className="profile-dropdown">
-              <li><img src={user?.photoUrl} alt="profile-picture" id="profile-pic"/></li>
+              <li><img src={user?.photoUrl || '/scene-dark-logo-no-text.png'} alt="profile-picture" id="profile-pic" /></li>
               <li onClick={() => navigate('/user')}>{user?.username}</li>
               <li onClick={() => navigate('/home')}>Discover</li>
               <li onClick={handleClick} id="logout-button">Logout</li>

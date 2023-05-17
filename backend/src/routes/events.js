@@ -3,7 +3,6 @@ import mongoose, { model } from 'mongoose';
 const router = Router({ mergeParams: true });
 import Event from '../models/Event';
 import passport from 'passport';
-// import mongoose from 'mongoose';
 import { isProduction } from '../config';
 import validateEventInput from '../validations/event';
 import { requireUser } from '../config';

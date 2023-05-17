@@ -3,16 +3,15 @@ const router = Router();
 
 import bcrypt from "bcryptjs";
 import passport from "passport";
-import mongoose from 'mongoose';
+import User from '../models/User';
 import { isProduction, loginUser, requireUser, restoreUser } from '../config';
 import { PutObjectCommand, S3Client, GetObjectCommand } from '@aws-sdk/client-s3';
 import multer from 'multer';
-import {getSignedUrl} from '@aws-sdk/s3-request-presigner'
+import {getSignedUrl} from '@aws-sdk/s3-request-presigner';
 
 
 const upload = multer();
 const client = new S3Client({region: "us-west-1"});
-const User = mongoose.model('User');
 
 import validateRegisterInput from '../validations/register';
 import validateLoginInput from '../validations/login';
@@ -91,7 +90,7 @@ router.get('/current', restoreUser, async (req, res) => {
         genreIds: req.user.genreIds,
         likedMovies: req.user.likedMovies,
         events: req.user.events,
-        photoUrl: await getSignedUrl(client, command, {expiresIn: 3600})
+        photoUrl: req.user.hasProfilePic ? await getSignedUrl(client, command, {expiresIn: 3600}) : null
     };
     res.json(userInfo);
 });
@@ -139,7 +138,7 @@ router.delete('/unlikedMovie', requireUser, async (req, res, next) => {
 });
 
 router.patch('/current/updateProfilePic', upload.single("profilePic"), requireUser, async (req, res, next) => {
-    try{
+    try {
         let user = req.user;
         const file = req.file;
         const command = new PutObjectCommand({
@@ -148,6 +147,7 @@ router.patch('/current/updateProfilePic', upload.single("profilePic"), requireUs
             Key: `${user.username}.jpg`
         });
         const response = await client.send(command);
+        
         return res.status(200).json(response);
     }
     catch (err) {

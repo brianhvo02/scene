@@ -6,11 +6,10 @@ const ratingSchema = new Schema({
         required: true,
         min: 0,
         max: 5,
-        },
+    },
     rater: {
         type: Schema.Types.ObjectId,
-        ref: 'User',
-        requred: true
+        ref: 'User'
     },
 },{
     timestamps: true

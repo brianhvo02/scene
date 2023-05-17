@@ -27,7 +27,7 @@ const Navigation = () => {
                     </NavLink>
                 </div>
             </div>
-            <div className='nav-search-bar-container'><Search/></div>
+            <div className='nav-search-bar-container'><Search /></div>
             <div className='nav-right'>
                 <div className='profile-button-container'>
                     <ProfileButton user={sessionUser}/>

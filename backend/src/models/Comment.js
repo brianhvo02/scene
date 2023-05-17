@@ -16,8 +16,7 @@ const commentSchema = new Schema({
     },
     childrenComments: [{
         type: Schema.Types.ObjectId,
-        ref: 'Comment',
-        required: true
+        ref: 'Comment'
     }]
 }, {
     timestamps: true
