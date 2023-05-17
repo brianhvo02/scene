@@ -38,6 +38,7 @@ router.post('/', requireUser, validateEventInput, async (req, res, next) => {
         await movie.save();
         req.user.events.push(event);
         await req.user.save();
+        await req.user.populate('events');
 
         sendMovie({movie, user: req.user}, res, event._id);
     }
@@ -83,6 +84,7 @@ router.delete('/:eventId', requireUser, async (req, res, next) => {
         await movie.save();
         req.user.events.remove(eventId);
         await req.user.save();
+        await req.user.populate('events');
         sendMovie({movie, user: req.user}, res);
     }
     catch (err) {
