@@ -10,7 +10,7 @@ import multer from 'multer';
 import {getSignedUrl} from '@aws-sdk/s3-request-presigner'
 
 
-const upload = multer({dest: "tmp"});
+const upload = multer();
 const client = new S3Client({region: "us-west-1"});
 const User = mongoose.model('User');
 
@@ -111,7 +111,6 @@ router.patch('/current/updateProfilePic', upload.single("profilePic"), requireUs
         });
         const response = await client.send(command);
         return res.status(200).json(response);
-
     }
     catch (err) {
         next(err);
