@@ -5,6 +5,7 @@ import LikedMovies from "./LikedMovies";
 import {useGenreSlice, fetchGenres} from "../../store/genres";
 import {Link} from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { userUpdateProfilePic } from "../../store/session";
 
 
 const UserProfile = () => {
@@ -18,12 +19,24 @@ const UserProfile = () => {
         dispatch(fetchGenres());
     }, [dispatch]);
 
+    const handleUpload = (e) => {
+        e.preventDefault();
+        dispatch(userUpdateProfilePic(e.target[0].files[0]));
+    }
+
 
     return (
         <div className="user-show-page-container">
             <div className="user-show-page-user-details">
                 <h1>Users show page</h1>
                 <img className="user-show-page-user-picture" src={user?.photoUrl || '/scene-dark-logo-no-text.png'} alt="profile-picture" id="profile-pic" />
+                
+                <form onSubmit={handleUpload}>
+                    <label for="user-profile-picture">Choose a profile picture</label>
+                    <input type="file" id="user-profile-picture" accept="image/*"/>
+                    <input type="submit"/>
+                </form>
+                
                 <h2>{user?.username}</h2>
                 <h2>{user?.email}</h2>
             </div>
