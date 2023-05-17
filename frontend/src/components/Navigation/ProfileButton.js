@@ -3,32 +3,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { logout } from "../../store/session";
+import { useNavigate } from "react-router-dom";
 import './Navigation.scss'
 
 
 function ProfileButton({ user }) {
     const dispatch = useDispatch();
-    const [showMenu, setShowMenu] = useState(false);
     const menuRef = useRef(null);
+    const navigate = useNavigate();
     
-
-    // const openMenu = () => {
-    //     setShowMenu((prevShowMenu) => !prevShowMenu);
-    //   };
-    
-    // useEffect(() => {
-    //     const handleOutsideClick = (event) => {
-    //       if (menuRef.current && !menuRef.current.contains(event.target)) {
-    //         setShowMenu(false);
-    //       }
-    //     };
-    
-    //     document.addEventListener("click", handleOutsideClick);
-    
-    //     return () => {
-    //       document.removeEventListener("click", handleOutsideClick);
-    //     };
-    //   }, []);
 
 
     const openMenu = () => {
@@ -52,6 +35,7 @@ function ProfileButton({ user }) {
             <ul className="profile-dropdown">
               <li>{user?.username}</li>
               <li>{user?.email}</li>
+              <li onClick={() => navigate('/user')}>Profile</li>
               <li onClick={handleClick} id="logout-button">Logout</li>
             </ul>
           </nav>

@@ -20,7 +20,7 @@ const UserProfile = () => {
 
 
     return (
-        <>
+        <div className="user-show-page-container">
             <h1>Users show page</h1>
             <h2>{user?.username}</h2>
             <h2>{user?.email}</h2>
@@ -41,7 +41,6 @@ const UserProfile = () => {
                                 minute: '2-digit'
                             })}</div>
                             <div className='event-show-theater'>{event.theater}</div>
-                            {/* <div className='event-show-host'>{event.host.username}</div> */}
                         </Link>
                     )
                 }
@@ -63,7 +62,7 @@ const UserProfile = () => {
                 )
             }
             )}
-        </>
+        </div>
     )
 }
 
