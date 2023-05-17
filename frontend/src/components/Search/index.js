@@ -8,9 +8,9 @@ import "./index.scss"
 const SearchShow = () => {
     const dispatch = useDispatch();
     const [searchParams, setSearchParams] = useSearchParams();
-    const [movies, setMovies] = useState([])
-    const [totalPages, setTotalPages] = useState(null)
-    const page = useMemo(() => searchParams.get("page") || 1, [searchParams])
+    const [movies, setMovies] = useState([]);
+    const [totalPages, setTotalPages] = useState(null);
+    const page = useMemo(() => searchParams.get("page") || "1", [searchParams]);
 
     useEffect(() => {
         dispatch(fetchSearchedMovies(searchParams.get("query"), page))
@@ -25,15 +25,21 @@ const SearchShow = () => {
 
 
     return(
-        <div className='movie-search-card-container'>
-        {movies.map( movie => 
-            <SearchMovieCard key={movie.id} movie={movie}/>
-        )}
-        {        
-        Array.from(Array(totalPages).keys()).map( i => {
-            return <a key= {`page-${i}`} onClick={() => setSearchParams({...Object.fromEntries(searchParams), page: i + 1})} className={`page-count ${page === i + 1 ? "active" : "not-active"}`}>{i + 1}</a>
-        })}
-        </div>
+        <> 
+            <div className='movie-search-card-container'>
+            {movies.map( movie => 
+                <SearchMovieCard key={movie.id} movie={movie}/>
+            )}
+                <div className='page-count-container'>
+                {        
+                Array.from(Array(totalPages).keys()).map( i => {
+                    return <a key= {`page-${i}`} onClick={() => setSearchParams({...Object.fromEntries(searchParams), page: i + 1})} className={`page-count-${page === (i + 1).toString() ? "active" : "not-active"}`}>{i + 1}</a>
+                })}
+                </div>
+            </div>
+            
+        </>
+       
     )
 }
 
