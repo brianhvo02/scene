@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import { fetchUrl, customFetch } from "./utils";
 import { receiveMovieErrors } from './errors/movieErrors';
 import { receiveEventErrors } from "./errors/eventErrors";
-import { receiveRatingErrors } from './errors/ratingErrors'
+import { receiveRatingErrors } from './errors/ratingErrors';
+import { receiveCurrentUser } from "./session";
 
 const initialState = {}
 
@@ -32,6 +33,7 @@ export const createEvent = (event, movieId) => async dispatch => {
             method: 'POST',
             body: JSON.stringify(event)
         })
+        if (res.session.user) dispatch(receiveCurrentUser(res.session.user));
         dispatch(receiveMovies(res));
         return res.eventId;
     } catch (err) {
@@ -47,6 +49,7 @@ export const deleteEvent = (eventId, movieId) => async dispatch => {
         const res = await customFetch(`/api/movies/${movieId}/events/${eventId}`,{
             method: "DELETE"
         })
+        if (res.session.user) dispatch(receiveCurrentUser(res.session.user));
         return dispatch(receiveMovies(res));
     }
     catch (err){

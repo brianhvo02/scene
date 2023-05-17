@@ -41,7 +41,7 @@ router.post('/', requireUser, validateCommentInput, async (req, res, next) => {
             movie.comments.push(comment);
             await movie.save();
         }
-        sendMovie(movie, res);
+        sendMovie({movie}, res);
     }
     catch (err) {
         next(err);
@@ -68,7 +68,7 @@ router.post('/', requireUser, validateCommentInput, async (req, res, next) => {
 //             let movie = await Movie.findOne({ [movieId.length === 24 ? '_id' : 'tmdbId']: movieId });
 //             await movie.comments.remove(req.params.id);
 //             await movie.save();
-//             sendMovie(movie, res);
+//             sendMovie({movie}, res);
 //     }
 //     catch (err) {
 //         next(err);
@@ -97,7 +97,7 @@ router.patch('/:commentId', requireUser, validateCommentInput, async (req, res, 
         }, {new: true});
         
         const movie = await Movie.findOne({ [movieId.length === 24 ? '_id' : 'tmdbId']: movieId });
-        sendMovie(movie, res);
+        sendMovie({movie}, res);
     }
     catch (err) {
         next(err);
