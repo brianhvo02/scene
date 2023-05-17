@@ -66,7 +66,6 @@ export const fetchRecommendedMovies = movieId =>
 export const fetchSearchedMovies = (query, page = 1) => 
     fetchUrl(`/api/search?query=${query}&page=${page}`, receiveMovies);
 
-
 export const fetchNowPlayingMovies = () => 
     fetchUrl(`/api/tmdb/movies/now_playing`, receiveMovies);
 
@@ -194,6 +193,22 @@ export const deleteComment = (commentId, movieId) => async dispatch => {
         const res = await err.json();
         if (res.statusCode === 400) {
             return dispatch(receiveRatingErrors(res.errors));
+        }
+    }
+}
+
+export const sendChatQuery = (query, previousQuery, movieId) => async dispatch => {
+    try {
+        const { c, r, rc } = previousQuery;
+        return customFetch(
+            `/api/movies/${movieId}/chat?query=${query}&c=${c || ''}&r=${r || ''}&rc=${rc || ''}`,
+            { method: 'GET' }
+        );
+    }
+    catch (err){
+        const res = await err.json();
+        if (res.statusCode === 400) {
+            return dispatch(receiveMovieErrors(res.errors));
         }
     }
 }

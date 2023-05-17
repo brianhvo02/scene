@@ -7,6 +7,7 @@ import './index.scss'
 import { useEffect, useMemo, useState } from 'react';
 import RatingsComponent from '../Ratings';
 import Loading from '../Loading/Loading';
+import Chat from './Chat';
 
 const scrollToTop = () => {
     window.scrollTo({
@@ -37,7 +38,7 @@ const MovieShow = () => {
     
     useEffect(() => {
         dispatch(fetchMovie(movieId))
-        .finally(()=>(setLoading(false)))
+            .finally(()=>(setLoading(false)))
     }, [dispatch]);
 
     useEffect(() => {
@@ -189,7 +190,7 @@ const MovieShow = () => {
                     {comments}
                 </div>
             </div>
-            
+            <Chat movieId={movieId} />
         </>
     )  
     }

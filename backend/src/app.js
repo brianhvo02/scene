@@ -33,9 +33,9 @@ if (!isProduction) {
 app.use(
     csurf({
         cookie: {
-        secure: isProduction,
-        sameSite: isProduction && 'Lax',
-        httpOnly: true
+            secure: isProduction,
+            sameSite: isProduction && 'Lax',
+            httpOnly: true
         }
     })
 );
