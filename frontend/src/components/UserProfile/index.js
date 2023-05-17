@@ -3,7 +3,7 @@ import "./UserProfile.scss"
 import {useEffect, useState} from "react";
 import LikedMovies from "./LikedMovies";
 import {useGenreSlice, fetchGenres} from "../../store/genres";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { userUpdateProfilePic } from "../../store/session";
 
@@ -21,7 +21,11 @@ const UserProfile = () => {
 
     const handleUpload = (e) => {
         e.preventDefault();
-        dispatch(userUpdateProfilePic(e.target[0].files[0]));
+        if (e.target.files[0]) {
+            const formData = new FormData();
+            formData.append('profilePic', e.target.files[0]);
+            dispatch(userUpdateProfilePic(formData));
+        }
     }
 
 
@@ -31,8 +35,7 @@ const UserProfile = () => {
                 <img className="user-show-page-user-picture" src={user?.photoUrl || '/scene-dark-logo-no-text.png'} alt="profile-picture" id="profile-pic" />
                 <form onSubmit={handleUpload}>
                     <label for="user-profile-picture">Choose a profile picture</label>
-                    <input type="file" id="user-profile-picture" accept="image/*"/>
-                    <input type="submit"/>
+                    <input type="file" id="user-profile-picture" accept="image/*" onChange={handleUpload} />
                 </form>
                 <h2 className="user-show-page-username">{user?.username}</h2>
                 <h2 className="user-show-page-email">{user?.email}</h2>
@@ -56,7 +59,6 @@ const UserProfile = () => {
                 {
                     user?.events?.map(event =>
                         <div className='event-show-box' key={event._id} onClick={() => navigate(`/movie/${event.tmdb}/event/${event._id}`)}>
-                            {console.log(event.tmdb)}
                             <div className='event-show-title'>{event.title}</div>
                             <div className='event-show-date'>{new Date(event.date).toLocaleString('en-US', {
                                 weekday: 'short',

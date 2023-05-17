@@ -17,8 +17,10 @@ export const customFetch = async (url, options = {}) => {
     if (jwtToken) options.headers["Authorization"] = 'Bearer ' + jwtToken;
 
     if (options.method.toUpperCase() !== "GET") {
-        options.headers["Content-Type"] =
-            options.headers["Content-Type"] || "application/json";
+        if (options.headers["Content-Type"] !== null) {
+            options.headers["Content-Type"] = 
+                options.headers["Content-Type"] || "application/json";
+        } else delete options.headers["Content-Type"];
         options.headers["X-CSRF-Token"] = getCookie("X-CSRF-Token");
     }
 

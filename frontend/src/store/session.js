@@ -4,7 +4,6 @@ import { customFetch } from './utils';
 import { createSlice } from '@reduxjs/toolkit';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { async } from '../../../backend/dist/config';
 
 const initialState = {
     user: undefined
@@ -141,14 +140,16 @@ export const userUpdateProfilePic = formData => async dispatch => {
     try {
         const user = await customFetch('/api/users/current/updateProfilePic', {
             method: 'PATCH',
-            body: JSON.stringify({formData})
+            body: formData,
+            headers: {
+                'Content-Type': null
+            }
         });
         return dispatch(receiveCurrentUser(user));
     } catch (err) {
         const res = await err.json();
         if (res.statusCode === 400) {
             return dispatch(receiveSessionErrors(res.errors));
-
         }
     }
 }
