@@ -5,7 +5,13 @@ import bcrypt from "bcryptjs";
 import passport from "passport";
 import mongoose from 'mongoose';
 import { isProduction, loginUser, requireUser, restoreUser } from '../config';
+import { PutObjectCommand, S3Client, GetObjectCommand } from '@aws-sdk/client-s3';
+import multer from 'multer';
+import {getSignedUrl} from '@aws-sdk/s3-request-presigner'
 
+
+const upload = multer({dest: "tmp"});
+const client = new S3Client({region: "us-west-1"});
 const User = mongoose.model('User');
 
 import validateRegisterInput from '../validations/register';
@@ -93,5 +99,23 @@ router.patch('/current/registerGenresZipCode', requireUser, async (req, res, nex
         next(err);
     };
 });
+
+router.patch('/current/updateProfilePic', upload.single("profilePic"), requireUser, async (req, res, next) => {
+    try{
+        let user = req.user;
+        const file = req.file;
+        const command = new PutObjectCommand({
+            Body: file.buffer,
+            Bucket: "scene-dev",
+            Key: `${user.username}.jpg`
+        });
+        const response = await client.send(command);
+        return res.status(200).json(response);
+
+    }
+    catch (err) {
+        next(err);
+    };
+})
 
 export default router;
