@@ -15,7 +15,7 @@ const EventShow = () => {
     const navigate = useNavigate();
     const sessionUser = useSelector(state => state.session.user);
     const movie = useSelector(getMovie(movieId));
-    const event = useMemo(() => movie?.events.find(e => e._id === eventId), [movie]);
+    const event = useMemo(() => movie?.events?.find(e => e._id === eventId), [movie]);
     const eventDate = useMemo(() => new Date(event?.date), [event]);
     const eventCreatedDate = useMemo(() => new Date(event?.createdAt), [event]);
     const [loading, setLoading] = useState(true);

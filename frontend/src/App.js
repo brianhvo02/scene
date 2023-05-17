@@ -37,7 +37,7 @@ function App() {
             <Route exact path="/signup" Component={SignupForm} />
             <Route exact path="/signup/genres" Component={SelectGenresForm} />
             <Route exact path="/movie/:movieId" Component={MovieShow}/>
-            <Route exact path="movie/:movieId/event/:eventId" Component={EventShow} />
+            <Route exact path="/movie/:movieId/event/:eventId" Component={EventShow} />
         </Routes>
         </>
     );

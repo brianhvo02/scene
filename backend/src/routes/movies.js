@@ -41,10 +41,10 @@ router.get('/:movieId', async (req, res, next) => {
         movie = new Movie(extractAllowedParams(allowedParams, movieRes));
         movie = await movie.save();
     }
-    sendMovie(movie, res);
+    sendMovie({movie}, res);
 });
 
-export const sendMovie = async (movie, res, eventId) => {
+export const sendMovie = async ({movie, user}, res, eventId) => {
     movie = await movie.populate([{
         path: 'events',
         populate: [
@@ -95,11 +95,24 @@ export const sendMovie = async (movie, res, eventId) => {
                 }
             ])
     ));
+
+    const userInfo = user ? {
+        _id: user._id,
+        username: user.username,
+        email: user.email,
+        genreIds: user.genreIds,
+        likedMovies: user.likedMovies,
+        events: user.events,
+        photoUrl: user.hasProfilePic ? await getSignedUrl(client, command, {expiresIn: 3600}) : null
+    } : null;
     
     return res.json({
         eventId,
         movies: {
             [movie.tmdbId]: movie
+        },
+        session: {
+            user: userInfo
         }
     });
 }

@@ -17,6 +17,14 @@
     --defaultSelect: #111;
 }
 
+#Search::-webkit-search-cancel-button {
+    position: relative;
+    right: 20px;
+
+    -webkit-appearance: none;
+    
+}
+
 html, body {
     background-color: var(--backgroundBlue);
     font-family: 'League Gothic', sans-serif;

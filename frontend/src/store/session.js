@@ -19,7 +19,7 @@ const sessionSlice = createSlice({
     }
 });
 
-const { receiveCurrentUser, logoutUser } = sessionSlice.actions;
+export const { receiveCurrentUser, logoutUser } = sessionSlice.actions;
 // End new stuff
 
 export const signup = user => startSession(user, 'api/users/register');

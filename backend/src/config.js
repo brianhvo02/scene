@@ -7,6 +7,7 @@ import { Strategy as LocalStrategy } from 'passport-local';
 import User from './models/User';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { async } from '../dist/config';
 
 const client = new S3Client({region: "us-west-1"});
 
@@ -35,6 +36,7 @@ passport.use(new LocalStrategy({
 }));
 
 export const loginUser = async user => {
+    await user.populate('events');
     const command = new GetObjectCommand({
         Bucket: "scene-dev",
         Key: `${user.username}.jpg`
@@ -67,7 +69,6 @@ passport.use(new JwtStrategy({
 }, async (jwtPayload, done) => {
     try {
         const user = await User.findById(jwtPayload._id)
-            .populate('events');
         if (user) return done(null, user);
         return done(null, false);
     }
@@ -78,9 +79,12 @@ passport.use(new JwtStrategy({
 
 export const requireUser = passport.authenticate('jwt', { session: false });
 
-export const restoreUser = (req, res, next) => {
-    return passport.authenticate('jwt', { session: false }, function(err, user) {
-        if (user) req.user = user;
+export const restoreUser = async(req, res, next) => {
+    return passport.authenticate('jwt', { session: false }, async(err, user) => {
+        if (user){
+            await user.populate('events');
+            req.user = user;
+        } 
         next();
     })(req, res, next);
 };

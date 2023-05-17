@@ -23,6 +23,7 @@ const UserProfile = () => {
         <div className="user-show-page-container">
             <div className="user-show-page-user-details">
                 <h1>Users show page</h1>
+                <img className="user-show-page-user-picture" src={user?.photoUrl || '/scene-dark-logo-no-text.png'} alt="profile-picture" id="profile-pic" />
                 <h2>{user?.username}</h2>
                 <h2>{user?.email}</h2>
             </div>
