@@ -35,7 +35,8 @@ export const loginUser = async user => {
         username: user.username,
         email: user.email,
         genreIds: user.genreIds,
-        likedMovies: user.likedMovies
+        likedMovies: user.likedMovies,
+        events: user.events
     };
     const token = await new Promise((resolve, reject) => jwt.sign(
         userInfo,
@@ -55,7 +56,8 @@ passport.use(new JwtStrategy({
     ignoreExpiration: !isProduction
 }, async (jwtPayload, done) => {
     try {
-        const user = await User.findById(jwtPayload._id);
+        const user = await User.findById(jwtPayload._id)
+            .populate('events');
         if (user) return done(null, user);
         return done(null, false);
     }

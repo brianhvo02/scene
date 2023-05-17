@@ -67,13 +67,13 @@ const genres = [878, 12, 28, 80, 53, 10751, 14, 35, 16, 9648, 27, 36];
     const events = Array.from(Array(NUM_SEED_EVENTS).keys()).map(() => {
         const attendees = []
         const host = users[Math.floor(Math.random() * NUM_SEED_USERS)]
-    
+        
         while (attendees.length < 4){
             const attendee = users[Math.floor(Math.random() * NUM_SEED_USERS)];
             if(attendee !== host) attendees.push(attendee);
         }
-    
-        return new Event({
+        
+        const event = new Event({
             title: faker.hacker.adjective(),
             body: faker.hacker.phrase(),
             date: faker.date.future(),
@@ -92,6 +92,8 @@ const genres = [878, 12, 28, 80, 53, 10751, 14, 35, 16, 9648, 27, 36];
             host: host,
             attendees: attendees
         });
+        host.events.push(event);
+        return event;
     });
 
     const comments = [];

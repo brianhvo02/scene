@@ -13,6 +13,7 @@ import EventShow from './components/Events/EventsShow';
 import Navigation from './components/Navigation/Navigation.js';
 import { useLocation } from 'react-router-dom';
 import SearchShow from './components/Search';
+import UserProfile from './components/UserProfile';
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
         <>
         {!isSplashPage ? <Navigation /> : null}
         <Routes>
+            <Route exact path="/user" Component={UserProfile}/>
             <Route exact path="/search" Component={SearchShow}/>
             <Route exact path="/" Component={SplashPage}/>
             <Route exact path="/home" Component={HomePage}/>

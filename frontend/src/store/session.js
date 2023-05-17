@@ -102,5 +102,38 @@ export const useRequireLoggedOut = setShowModal => {
     }, [currentUser]);
 }
 
+
+
+export const userLikedMovie = movieId => async dispatch => {
+    try {
+        const user = await customFetch('/api/users/likedMovie', {
+            method: 'POST',
+            body: JSON.stringify({ movieId })
+        });
+        return dispatch(receiveCurrentUser(user));
+    } catch (err) {
+        const res = await err.json();
+        if (res.statusCode === 400) {
+            return dispatch(receiveSessionErrors(res.errors));
+        }
+    }
+};
+
+export const userUnlikedMovie = movieId => async dispatch => {
+    try {
+        const user = await customFetch('/api/users/unlikedMovie', {
+            method: 'DELETE',
+            body: JSON.stringify({ movieId })
+        })
+        return dispatch(receiveCurrentUser(user));
+    }
+    catch (err) {
+        const res = await err.json();
+        if (res.statusCode === 400) {
+            return dispatch(receiveSessionErrors(res.errors));
+        }
+    }
+};
+
 // This is new
 export default sessionSlice.reducer;

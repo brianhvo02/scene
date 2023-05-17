@@ -33,6 +33,8 @@ router.post('/', requireUser, validateEventInput, async (req, res, next) => {
         let movie = await Movie.findOne({ [movieId.length === 24 ? '_id' : 'tmdbId']: movieId });
         movie.events.push(event);
         await movie.save();
+        req.user.events.push(event);
+        await req.user.save();
 
         sendMovie(movie, res, event._id);
     }
@@ -74,6 +76,10 @@ router.delete('/:eventId', requireUser, async (req, res, next) => {
         await Event.findByIdAndDelete(eventId);
 
         const movie = await Movie.findOne({ [movieId.length === 24 ? '_id' : 'tmdbId']: movieId });
+        movie.events.remove(eventId);
+        await movie.save();
+        req.user.events.remove(eventId);
+        await req.user.save();
         sendMovie(movie, res);
     }
     catch (err) {
