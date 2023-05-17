@@ -21,10 +21,11 @@ const UserProfile = () => {
 
     return (
         <div className="user-show-page-container">
-            <h1>Users show page</h1>
-            <h2>{user?.username}</h2>
-            <h2>{user?.email}</h2>
-            <h2>Your Events</h2>
+            <div className="user-show-page-user-details">
+                <h1>Users show page</h1>
+                <h2>{user?.username}</h2>
+                <h2>{user?.email}</h2>
+            </div>
             <div className='events-near'>
                 <h3>Your Events</h3>
                 <div className='events-card-box'>
@@ -39,29 +40,34 @@ const UserProfile = () => {
                                 year: 'numeric',
                                 hour: '2-digit',
                                 minute: '2-digit'
-                            })}</div>
+                            })}
+                            </div>
                             <div className='event-show-theater'>{event.theater}</div>
                         </Link>
                     )
                 }
-                    </div>
                 </div>
-            <h2>Your Genres</h2>
-            {user?.genreIds.map((genre, index) => {
-                return (
-                    <div>
-                        <h2>{genres?.[genre]?.name}</h2>
-                    </div>
-                )
-            }
-            )}
-            <h2>Your Movies</h2>
-            {user?.likedMovies.map((movieId, index) => {
-                return (
-                    <LikedMovies key={index} movieId={movieId}/>
-                )
-            }
-            )}
+            </div>
+            <div className="user-show-page-user-genres">
+                <h2>Your Genres</h2>
+                {user?.genreIds.map((genre, index) => {
+                    return (
+                        <div key={index}>
+                            <h2>{genres?.[genre]?.name}</h2>
+                        </div>
+                    )
+                }
+                )}
+            </div>
+            <div className="user-show-page-user-movies">
+                <h2>Your Movies</h2>
+                {user?.likedMovies.map((movieId, index) => {
+                    return (
+                        <LikedMovies key={index} movieId={movieId}/>
+                    )
+                }
+                )}
+            </div>
         </div>
     )
 }
