@@ -21,7 +21,7 @@ router.post('/', requireUser, validateRatingInput, async(req, res, next) => {
 
         movie.ratings.push(rating);
         movie = await movie.save();
-        sendMovie(movie, res);
+        sendMovie({movie}, res);
     }
     catch(err) {
         next(err);
@@ -61,7 +61,7 @@ router.patch('/:ratingId', requireUser, validateRatingInput, async(req, res, nex
             rating: req.body.rating,
         }, { new: true });
         const movie = await Movie.findOne({ [movieId.length !== 24 ? 'tmdbId' : '_id']: movieId });
-        sendMovie(movie, res);
+        sendMovie({movie}, res);
     }
     catch(err) {
         next(err);
@@ -88,7 +88,7 @@ router.delete('/:ratingId', requireUser, async(req, res, next) => {
         let movie = await Movie.findOne({ [movieId.length !== 24 ? 'tmdbId' : '_id']: movieId });
         await movie.ratings.remove(req.params.id);
         await movie.save();
-        sendMovie(movie, res);
+        sendMovie({movie}, res);
     }
     catch (err) {
         next(err);

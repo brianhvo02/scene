@@ -39,7 +39,7 @@ router.post('/', requireUser, validateEventInput, async (req, res, next) => {
         req.user.events.push(event);
         await req.user.save();
 
-        sendMovie(movie, res, event._id);
+        sendMovie({movie, user: req.user}, res, event._id);
     }
     catch (err) {
         next(err);
@@ -83,7 +83,7 @@ router.delete('/:eventId', requireUser, async (req, res, next) => {
         await movie.save();
         req.user.events.remove(eventId);
         await req.user.save();
-        sendMovie(movie, res);
+        sendMovie({movie, user: req.user}, res);
     }
     catch (err) {
         next(err);
@@ -113,7 +113,7 @@ router.post('/:eventId/addAttendee', requireUser, async (req, res, next) => {
         await event.save();
         
         const movie = await Movie.findOne({ [movieId.length === 24 ? '_id' : 'tmdbId']: movieId });
-        sendMovie(movie, res);
+        sendMovie({movie}, res);
     }
     catch (err) {
         console.log(err)
@@ -139,7 +139,7 @@ router.delete('/:eventId/removeAttendee', requireUser, async (req, res, next) =>
         await event.save();
         
         const movie = await Movie.findOne({ [movieId.length === 24 ? '_id' : 'tmdbId']: movieId });
-        sendMovie(movie, res);
+        sendMovie({movie}, res);
     }
     catch (err) {
         console.log(err)
