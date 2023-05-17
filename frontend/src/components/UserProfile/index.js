@@ -28,17 +28,27 @@ const UserProfile = () => {
     return (
         <div className="user-show-page-container">
             <div className="user-show-page-user-details">
-                <h1>Users show page</h1>
                 <img className="user-show-page-user-picture" src={user?.photoUrl || '/scene-dark-logo-no-text.png'} alt="profile-picture" id="profile-pic" />
-                
                 <form onSubmit={handleUpload}>
                     <label for="user-profile-picture">Choose a profile picture</label>
                     <input type="file" id="user-profile-picture" accept="image/*"/>
                     <input type="submit"/>
                 </form>
-                
-                <h2>{user?.username}</h2>
-                <h2>{user?.email}</h2>
+                <h2 className="user-show-page-username">{user?.username}</h2>
+                <h2 className="user-show-page-email">{user?.email}</h2>
+            </div> 
+            <div className="user-show-page-user-genres">
+                <h2>Your Genres:</h2>
+                <div className="user-show-page-genres-container">
+                    {user?.genreIds.map((genre, index) => {
+                        return (
+                            <div key={index}>
+                                <h3>{genres?.[genre]?.name}</h3>
+                            </div>
+                        )
+                    }
+                    )}
+                </div>
             </div>
             <div className='events-near'>
                 <h3>Your Events</h3>
@@ -63,17 +73,7 @@ const UserProfile = () => {
                 }
                 </div>
             </div>
-            <div className="user-show-page-user-genres">
-                <h2>Your Genres</h2>
-                {user?.genreIds.map((genre, index) => {
-                    return (
-                        <div key={index}>
-                            <h2>{genres?.[genre]?.name}</h2>
-                        </div>
-                    )
-                }
-                )}
-            </div>
+           
             <div className="user-show-page-user-movies">
                 <h2>Your Movies</h2>
                 {user?.likedMovies.map((movieId, index) => {
