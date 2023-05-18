@@ -35,8 +35,8 @@ const startSession = (userInfo, route) => async dispatch => {
         return dispatch(receiveCurrentUser(user));
     } catch (err) {
         const res = await err.json();
-        if (res.statusCode === 400) {
-            return dispatch(receiveSessionErrors(res.errors));
+        if (res.statusCode >= 400) {
+            return dispatch(receiveSessionErrors(res));
         }
     }
 };

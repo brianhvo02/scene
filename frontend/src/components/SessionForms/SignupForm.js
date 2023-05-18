@@ -15,6 +15,11 @@ const SignupForm = () => {
 
     useClearSessionErrors();
 
+    console.log(!!email);
+    console.log(!!username);
+    console.log(!!password);
+    console.log(!!password2);
+
     const update = (field) => {
         let setState;
         switch (field) {
@@ -108,7 +113,6 @@ const SignupForm = () => {
             <input className='modal-button' id='modal-button-signup'
                 type="submit"
                 value="Sign Up"
-                disabled={!email || !username || !password || password !== password2}
             />
             <div className="divide-line"></div>
             <div className="warning-text">

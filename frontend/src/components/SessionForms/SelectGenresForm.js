@@ -58,7 +58,7 @@ const SelectGenresForm = () => {
 
                 <label className='input-label'>Choose at least one and up to three genres:</label>
                 {
-                    errors.map((error, i) => 
+                    errors?.map((error, i) => 
                         <p key={`error_${i}`}>{error}</p>
                     )
                 }
@@ -85,8 +85,6 @@ const SelectGenresForm = () => {
 
                 <button className='modal-button-genres' onClick={handleSubmit}>Complete registration</button>
             </div>
-            
-           
             
         </div>
     )

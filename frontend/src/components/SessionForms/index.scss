@@ -1,5 +1,6 @@
 .session-form-container{
     display:flex;
+    overflow-y: hidden;
 
 }
 .session-form-left{
@@ -7,6 +8,7 @@
     width: 420px;
     max-height: 637px;
     overflow: hidden;
+    
     img{ 
         box-sizing: border-box;
         display: -webkit-box;
@@ -14,9 +16,13 @@
         margin-left: auto;
         align-items: center;
         border-radius: 32px;
-        height: 100%;
         opacity: 1;
-    
+        height: 100%;
+        overflow: hidden;
+    }
+
+    form{
+        margin-top: 10px;
     }
 }
 
@@ -29,18 +35,16 @@
     img {
         box-sizing: border-box;
         display: -webkit-box;
-       
-        align-items: center;
+        align-items: stretch;
         border-radius: 32px;
         height: 100%;
         opacity: 1;
-
     }
 }
 
 .session-form {
     min-height: 400px;
-    padding: 20px 10px 24px
+    padding: 20px 10px 24px;
 }
 
 .logo-container {
@@ -75,6 +79,7 @@
 .errors{
     color: red;
     font-size: 12px;
+    text-align: right;
 }
 
 // #m-close-button {
@@ -151,7 +156,7 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     width: 268px;
-
+    z-index: 10;
 }
 
 #password {
