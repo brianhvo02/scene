@@ -8,6 +8,7 @@
     width: 420px;
     max-height: 637px;
     overflow: hidden;
+    height: 100%;
     
     img{ 
         box-sizing: border-box;
@@ -29,7 +30,7 @@
 .session-login-form-left {
     box-sizing: border-box;
     width: 420px;
-    max-height: 555px;
+    max-height: 600px;
     overflow: hidden;
 
     img {
@@ -79,7 +80,7 @@
 .errors{
     color: red;
     font-size: 12px;
-    text-align: right;
+    text-align: center;
 }
 
 // #m-close-button {
