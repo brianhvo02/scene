@@ -140,7 +140,7 @@ const MovieShow = () => {
                     <p>{movie?.overview}</p>
                     <RatingsComponent movie={movie} />
                     <div className='events-near'>
-                        <h3>Events near you</h3>
+                        <h3>Events near you:</h3>
                         <div className='events-card-box'>
                         {
                             movie?.events?.map(event =>{
