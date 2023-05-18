@@ -103,6 +103,7 @@ export const sendMovie = async ({movie, user}, res, eventId) => {
         genreIds: user.genreIds,
         likedMovies: user.likedMovies,
         events: user.events,
+        coordinates: user.coordinates,
         photoUrl: user.hasProfilePic ? await getSignedUrl(client, command, {expiresIn: 3600}) : null
     } : null;
     
