@@ -33,14 +33,14 @@ const EventForm = (props) => {
     const errors = useSelector(state => state.errors.event);
 
     const handleSubmit = () => {
-        const errors = [];
+        const errors = {};
 
-        if (title.length < 10) errors.push('Provide a minimum length of 10 characters title for your event.');
-        if (title.length > 50) errors.push('Provide no more than 50 characters for your event title.');
-        if (body.length < 10) errors.push('Provide a minimum length of 15 characters body for your event.');
-        if (body.length > 50) errors.push('Provide no more than 500 characters for your event body.');
+        if (title.length < 10) errors.title = 'Provide a minimum length of 10 characters title for your event.';
+        if (title.length > 50) errors.title = 'Provide no more than 50 characters for your event title.';
+        if (body.length < 10) errors.body = 'Provide a minimum length of 15 characters body for your event.';
+        if (body.length > 50) errors.body = 'Provide no more than 500 characters for your event body.';
 
-        if (errors.length) {
+        if (Object.keys(errors).length) {
             return dispatch(receiveEventErrors({ errors }));
         }
 
@@ -57,29 +57,39 @@ const EventForm = (props) => {
             <div className='event-form-heading'>
                 <h1>Create your new Event!</h1>
             </div>
-                {/* {
-                    errors.map((error, i) => 
+                {
+                    Array.isArray(errors) ? errors.map((error, i) => 
                         <p key={`error_${i}`}>{error}</p>
-                    )
-                } */}
+                    ) : null
+                }
                 <div className='event-form-input'>
                     <form className='event-form' onSubmit={e => e.preventDefault()}>
                         <label className='input-label'>
                             <div className='input-label-text'>Event Title</div>
-                            <input type='text' placeholder='Event Title' value={title} onChange={(e) => setTitle(e.target.value)}/>
+                            <input type='text' placeholder='Event Title' value={title} onChange={(e) => {
+                                setTitle(e.target.value)
+                                if(title.length >= 9 && title.length <= 49){
+                                    dispatch(clearEventErrors())
+                                }
+                            }}/>
                         </label>
-                        <div>{errors?.[0]}</div>
-                     <label className='input-label description'>
+                        <div>{errors?.title}</div>
+                    <label className='input-label description'>
                         <div className='input-label-text'>Event Description</div>
-                            <input id="input-description" type='text' placeholder='Event Description' value={body} onChange={(e) => setBody(e.target.value)} />
+                            <input id="input-description" type='text' placeholder='Event Description' value={body} onChange={(e) => {
+                                setBody(e.target.value)
+                                if(body.length >= 9 && body.length <= 49){
+                                    dispatch(clearEventErrors());
+                                }
+                                }} />
                         </label>
-                        <div>{errors?.[1]}</div>
+                        <div>{errors?.body}</div>
                     <label className='input-label'>
                         <div className='input-label-text'>Event Date</div>
                             <input type='date' placeholder='Event Date' value={date} onChange={e => {
                                 if (new Date(`${e.target.value} 00:`) < new Date(new Date().toLocaleDateString())) {
                                     dispatch(receiveEventErrors({
-                                        errors: ['Date needs to be on or after today']
+                                        errors: {calendar: 'Date needs to be on or after today'}
                                     }));
                                 } else {
                                     dispatch(clearEventErrors());
@@ -133,7 +143,7 @@ const EventForm = (props) => {
                                                                         {
                                                                             theater.tickets[type].showtimes[amenities].map(ticket => 
                                                                                 <button className={`time-button${
-                                                                                   ( info.date === ticket.date && info.amenities.join(', ') === amenities)
+                                                                                ( info.date === ticket.date && info.amenities.join(', ') === amenities)
                                                                                     ? "-selected" : ""}`}
                                                                                     key={type + amenities + ticket.date}
                                                                                     onClick={() => {
