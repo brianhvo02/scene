@@ -109,11 +109,17 @@ router.patch('/current/registerGenresZipCode', requireUser, async (req, res, nex
 router.post('/likedMovie', requireUser, async (req, res, next) => {
     try {
         let likedMovie = req.body.movieId;
-        const movie = await Movie.findOne({ [likedMovie.length === 24 ? '_id' : 'tmdbId']: likedMovie });
         let user = req.user;
-        user.likedMovies.push(movie._id);
+        if (user.likedMovies.includes(likedMovie)) {
+            const err = new Error('Movie already liked');
+            err.statusCode = 400;
+            err.errors = { session: "Movie already liked" };
+            return next(err);
+        }
+        
+        user.likedMovies.push(likedMovie);
         user = await user.save();
-        return res.json(user);
+        return res.status(200).json(user);
     }
     catch (err) {
         next(err);
@@ -124,10 +130,18 @@ router.post('/likedMovie', requireUser, async (req, res, next) => {
 router.delete('/unlikedMovie', requireUser, async (req, res, next) => {
     try {
         let unlikedMovie = req.body.movieId;
-        const movie = await Movie.findOne({ [unlikedMovie.length === 24 ? '_id' : 'tmdbId']: unlikedMovie });
         let user = req.user;
-        user.likedMovies.remove(movie._id);
-        user = await user.save();
+        if (!user.likedMovies.includes(unlikedMovie)) {
+            const err = new Error('Movie not liked by user');
+            err.statusCode = 400;
+            err.errors = { session: "Movie not liked by user" };
+            return next(err);
+        }
+        user = await User.findByIdAndUpdate(user._id, {
+            $pull: {
+                likedMovies: unlikedMovie
+            }
+        }, { new: true });
         return res.json(user);
     }
     catch (err) {

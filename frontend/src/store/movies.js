@@ -60,8 +60,8 @@ export const deleteEvent = (eventId, movieId) => async dispatch => {
     }
 }
 
-export const fetchDiscoverMovies = user => 
-    fetchUrl(`/api/tmdb/discover?with_genres=${user?.genreIds?.join('|')}`, receiveMovies);
+export const fetchDiscoverMovies = () => 
+    fetchUrl(`/api/tmdb/discover`, receiveMovies);
 
 export const fetchRecommendedMovies = movieId => 
     fetchUrl(`/api/tmdb/movies/${movieId}/recommendations`, receiveMovies);
