@@ -6,6 +6,18 @@ import { clearSessionErrors, receiveSessionErrors, useClearSessionErrors } from 
 import { fetchGenres, useGenres } from '../../store/genres';
 import { fetchPopularMovies, receiveMovies } from '../../store/movies';
 
+const geocodeAddress = async (address, apiKey) => {
+    const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`);
+    const data = await response.json();
+    console.log(data, "data");
+    const { lat, lng } = data.results[0].geometry.location;
+    // const latitude = lat;
+    // const longitude = lng;
+    console.log({ lat, lng })
+    console.log({latitude: lat, longitude: lng})
+    return {latitude: lat, longitude: lng};
+  };
+
 const SelectGenresForm = () => {
     const [selectedGenres, setSelectedGenres] = useState({});
     const [zipCode, setZipCode] = useState('');
@@ -29,12 +41,15 @@ const SelectGenresForm = () => {
         if (genreIds.length > 3) errors.push('Please select at most three genres');
         if (zipCode.length !== 5) errors.push('Please enter a valid zip code');
 
+
         if (errors.length) {
             dispatch(receiveSessionErrors({ errors }));
         } else {
-            dispatch(updateGenreZipCode(genreIds, zipCode));
+            geocodeAddress(zipCode, process.env.REACT_APP_GOOGLE_MAPS_API_KEY).then(coordinates => dispatch(updateGenreZipCode(genreIds, zipCode, coordinates)));
         }
     }
+
+
 
     return (
         <div className='select-genres-container'>

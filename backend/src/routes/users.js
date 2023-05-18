@@ -88,6 +88,7 @@ router.get('/current', restoreUser, async (req, res) => {
         genreIds: req.user.genreIds,
         likedMovies: req.user.likedMovies,
         events: req.user.events,
+        zipCode: req.user.zipCode,
         photoUrl: req.user.hasProfilePic ? await getSignedUrl(client, command, {expiresIn: 3600}) : null
     };
     res.json(userInfo);
@@ -98,6 +99,7 @@ router.patch('/current/registerGenresZipCode', requireUser, async (req, res, nex
         let user = req.user;
         user.genreIds.push(...req.body.genreIds);
         user.zipCode = req.body.zipCode;
+        user.coordinates = req.body.coordinates;
         user = await user.save();
         return res.json(user);
     }

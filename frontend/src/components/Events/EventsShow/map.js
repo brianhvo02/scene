@@ -1,6 +1,7 @@
 import { Loader } from "@googlemaps/js-api-loader";
 import { cloneElement, useEffect, useMemo, useRef, useState } from "react";
 import "./map.scss"
+
 const EventMap = ({ theaters, selected, setSelected, canSelect = true }) => {
     const mapRef = useRef();
 
