@@ -25,13 +25,11 @@ const userSchema = new Schema({
     },
     genreIds: {
         type: [Number],
-        required: true,
-        default: []
+        required: true
     },
     likedMovies: {
-        type: [Number],
-        required: true,
-        default: []
+        type: [],
+        required: true
     },
     events: [{
         type: Schema.Types.ObjectId,

@@ -1,55 +1,65 @@
 import MoviePoster from "./MoviePoster";
 import { getMovies, fetchDiscoverMovies } from "../../store/movies";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight, faThumbsDown, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import './index.scss';
-import Loading from "../Loading/Loading";
+import { userLikedMovie, userUnlikedMovie } from "../../store/session";
 
 const DiscoverCarousel = ({ setSelectedMovie }) => {
     const dispatch = useDispatch();
-    // const movies = useSelector(getMovies);
     const [movies, setMovies] = useState([])
     const sessionUser = useSelector(state => state.session.user);
-
     const [currentIndex, setCurrentIndex] = useState(0);
+    const currentMovie = useMemo(() => movies[currentIndex], [movies, currentIndex]);
 
     useEffect(()=> {
-        dispatch(fetchDiscoverMovies(sessionUser)).then(({movies}) => setMovies(Object.values(movies)));
-    }, [dispatch])
+        dispatch(fetchDiscoverMovies())
+            .then(({ movies, results }) => setMovies(prev => prev.concat(results.map(result => movies[result]))));
+    }, [dispatch]);
 
     const handlePrevClick = () => {
-        setCurrentIndex((prevIndex) => (prevIndex === 0 ? movies?.length - 1 : prevIndex - 1));
+        setCurrentIndex(prev => prev === 0 ? prev : prev - 1);
         setSelectedMovie();
     }
 
     const handleNextClick = () => {
-        setCurrentIndex((prevIndex) => (prevIndex === movies?.length - 1 ? 0 : prevIndex + 1));
+        setCurrentIndex(prev => prev + 1);
         setSelectedMovie();
     }
 
-    const handleDislikeButtonClick = (movie) => {
+    const handleDislikeButtonClick = () => {
+        dispatch(userUnlikedMovie(currentMovie.id || currentMovie._id || currentMovie.tmdbId));
         setSelectedMovie();
         handleNextClick();
     }
 
-    const handleLikeButtonClick = (movie) => {
-        // sessionUser?.likedMovies?.push(movie?.id)
-        setSelectedMovie(movie)
+    const handleLikeButtonClick = () => {
+        dispatch(userLikedMovie(currentMovie.id || currentMovie._id || currentMovie.tmdbId));
+        setSelectedMovie(currentMovie);
     }
+
+    useEffect(() => {
+        if (!currentMovie || !sessionUser) return;
+        for (let i in sessionUser.likedMovies) {
+            const likedMovieId = sessionUser.likedMovies[i];
+            if ([currentMovie._id, currentMovie.tmdbId, currentMovie.id].includes(likedMovieId)) 
+                return setSelectedMovie(currentMovie);
+        }
+    }, [currentMovie, sessionUser]);
 
     const MOVIE_LINK = "https://image.tmdb.org/t/p/original";
 
     return(
         <>
             <FontAwesomeIcon icon={faChevronLeft} onClick={handlePrevClick} className="arrow"/>
-            <img src={movies[currentIndex]?.backdropPath ? MOVIE_LINK.concat(movies[currentIndex]?.backdropPath) : '/backdrop.png'} className="background-image"/>
+            <img src={currentMovie?.backdropPath ? MOVIE_LINK.concat(currentMovie?.backdropPath) : '/backdrop.png'} className="background-image"/>
             <div className="movie-poster-container">
-                <MoviePoster movie={movies[currentIndex]} className="movie-poster-component" />
+                <MoviePoster movie={currentMovie} className="movie-poster-component" />
                 <div className="like-options">
-                    <FontAwesomeIcon icon={faThumbsDown} className="thumb-down" onClick={() => handleDislikeButtonClick(movies[currentIndex])}/>
-                    <FontAwesomeIcon icon={faThumbsUp} className="thumb-up" onClick={() => handleLikeButtonClick(movies[currentIndex])}/>
+                    <FontAwesomeIcon icon={faThumbsDown} className="thumb-down" onClick={handleDislikeButtonClick}/>
+                    <FontAwesomeIcon icon={faThumbsUp} className="thumb-up" onClick={handleLikeButtonClick}/>
                 </div>
             </div>
             <FontAwesomeIcon icon={faChevronRight} onClick={handleNextClick} className="arrow"/>

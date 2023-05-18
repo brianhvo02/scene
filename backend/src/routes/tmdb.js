@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { tmdbAPIKey } from '../config';
+import { requireUser, tmdbAPIKey } from '../config';
 import { extractAllowedParams, snakeToCamel } from '../utils';
 
 const router = Router();
@@ -12,11 +12,17 @@ router.get('/genres', async (req, res) => {
     res.status(200).json({ genres: Object.fromEntries(genres.map(genre => [genre.id, genre])) });
 });
 
-router.get('/discover', async (req, res) => {
-    const query = new URLSearchParams(req.query);
-    const { results } = await fetchTMDB('/discover/movie', query.toString() + "&include_adult=false");
-    const movies = Object.fromEntries(results.map(result => [result.id, extractAllowedParams(allowedParams, result)]));
-    res.status(200).json({ movies });
+router.get('/discover', requireUser, async (req, res) => {
+    const query = new URLSearchParams({
+        with_genres: req.user.genreIds.join('|'),
+        include_adult: false,
+        certification_country: 'US',
+        'certification.lte': 'R',
+        ...req.query
+    });
+    const { results } = await fetchTMDB('/discover/movie', query.toString());
+    const movies = Object.fromEntries(results.map((result) => [result.id, extractAllowedParams(allowedParams, result)]));
+    res.status(200).json({ movies, results: results.map(result => result.id) });
 });
 
 router.get('/movies/now_playing', async (req, res) => {

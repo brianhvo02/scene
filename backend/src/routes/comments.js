@@ -94,7 +94,7 @@ router.patch('/:commentId', requireUser, validateCommentInput, async (req, res, 
 
         comment = await Comment.findByIdAndUpdate(commentId, {
             body: req.body.body,
-        }, {new: true});
+        }, { new: true });
         
         const movie = await Movie.findOne({ [movieId.length === 24 ? '_id' : 'tmdbId']: movieId });
         sendMovie({movie}, res);
