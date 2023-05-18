@@ -32,10 +32,9 @@ const UserProfile = () => {
     return (
         <div className="user-show-page-container">
             <div className="user-show-page-user-details">
-                <img className="user-show-page-user-picture" src={user?.photoUrl || '/scene-dark-logo-no-text.png'} alt="profile-picture" id="profile-pic" />
-                <form onSubmit={handleUpload}>
-                    <label for="user-profile-picture">Choose a profile picture</label>
-                    <input type="file" id="user-profile-picture" accept="image/*" onChange={handleUpload} />
+                <form className="user-show-profile-upload" onSubmit={handleUpload}>
+                    <label for="user-profile-picture"><img className="user-show-page-user-picture" src={user?.photoUrl || '/scene-dark-logo-no-text.png'} alt="profile-picture" id="profile-pic" /></label>
+                    <input type="file" id="user-profile-picture" accept="image/*" style={{display: "none"}} onChange={handleUpload} />
                 </form>
                 <h2 className="user-show-page-username">{user?.username}</h2>
                 <h2 className="user-show-page-email">{user?.email}</h2>
