@@ -1,7 +1,9 @@
 .user-show-page-container{
     height: 100vh;
     // padding-top: 80px;
-    width: 100vw;
+    
+    padding-left: 32px;
+    padding-right: 32px;
     
     .user-show-page-user-details{
         align-items: center;
@@ -36,9 +38,12 @@
         display: flex;
 
         div{
-            padding: 8px;
-            margin-left: 16px;
-            margin-right: 16px;
+            padding-left: 8px;
+            padding-right: 8px;
+            padding-top: 4px;
+            padding-bottom:4px;
+            margin-left: 8px;
+            margin-right: 8px;
             background-color: var(--backgroundLightBlue);
             border-radius: 16px;
         }
@@ -59,3 +64,56 @@
     transition: all 0.5s;
     -webkit-transition: all 0.5s;
 }
+
+.events-near{
+    margin-top: 36px;
+    margin-bottom: 36px;
+    h3{
+        margin-top: 24px;
+        margin-left: 24px;
+        font-size: 24px;
+        color: var(--backgroundLightBlue);
+        margin-bottom: 16px;
+    }
+
+    .events-card-box{
+        overflow-x: scroll;
+    }
+}
+
+.user-show-page-user-movies{
+    margin-top: 36px;
+    margin-bottom: 36px;
+    h2{
+        margin-top: 24px;
+        margin-left: 24px;
+        font-size: 24px;
+        color: var(--backgroundLightBlue);
+        margin-bottom: 16px;
+    }
+
+    .liked-movies-box{
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(20em, 1fr));
+
+        .liked-movie-container{
+            padding: 20px;
+            width: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            h1{
+                font-size: 24px;
+                margin: 16px;
+                color: var(--backgroundLightBlue);
+            }
+            img{
+                width: 360px;
+                height: auto;
+                border-radius: 24px;
+            }
+        }
+    }
+}
+

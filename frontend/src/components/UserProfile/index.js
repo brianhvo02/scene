@@ -53,7 +53,7 @@ const UserProfile = () => {
                 </div>
             </div>
             <div className='events-near'>
-                <h3>Your Events</h3>
+                <h3>Your Events:</h3>
                 <div className='events-card-box'>
                 {
                     user?.events?.map(event =>
@@ -76,13 +76,15 @@ const UserProfile = () => {
             </div>
            
             <div className="user-show-page-user-movies">
-                <h2>Your Movies</h2>
-                {user?.likedMovies.map((movieId, index) => {
-                    return (
-                        <LikedMovies key={index} movieId={movieId}/>
-                    )
-                }
-                )}
+                <h2>Your Movies:</h2>
+                <div className="liked-movies-box">               
+                    {user?.likedMovies.map((movieId, index) => {
+                        return (
+                            <LikedMovies key={index} movieId={movieId}/>
+                        )
+                    }
+                    )}
+                </div>
             </div>
         </div>
     )
