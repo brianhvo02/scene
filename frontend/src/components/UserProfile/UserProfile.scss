@@ -92,7 +92,7 @@
 
     .liked-movies-box{
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(20em, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(24em, 1fr));
 
         .liked-movie-container{
             padding: 20px;
