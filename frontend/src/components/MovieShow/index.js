@@ -9,6 +9,8 @@ import RatingsComponent from '../Ratings';
 import Loading from '../Loading/Loading';
 import { fetchGenres, useGenreSlice } from '../../store/genres';
 import Chat from './Chat';
+import { calculateDistance } from '../../util/function';
+
 
 const scrollToTop = () => {
     window.scrollTo({
@@ -27,6 +29,8 @@ const MovieShow = () => {
     const MOVIE_LINK = 'https://image.tmdb.org/t/p/original';
     const dispatch = useDispatch();
     const [averageRating, setAverageRating] = useState(0)
+    
+
 
     useEffect(() => {
         scrollToTop();
