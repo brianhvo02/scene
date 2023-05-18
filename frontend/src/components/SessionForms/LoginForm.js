@@ -21,7 +21,7 @@ const LoginForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(login({ credential, password }));
+        dispatch(login({ credential, password }))
     }
 
     return (
@@ -37,7 +37,6 @@ const LoginForm = () => {
                 <h1 id="welcome-text">Welcome to SCENE</h1>
             </div>
             <div id="modal-input">
-                <div className = 'errors'>{errors?.credentials}</div>
                 <label className="input-label" htmlFor="user-credential">Username or Email</label>
                 <div className='inputbox-container'>
                     <input className='inputbox' id = 'user-credential' 
@@ -48,7 +47,7 @@ const LoginForm = () => {
                         required
                     />
                 </div>
-                <div className='errors'>{errors?.password}</div>
+                <div className = 'errors'>{errors?._alternative_grouped}</div>
                 <label className="input-label" htmlFor="password">Password</label>
                 <div className='inputbox-container'>
                     <input className='inputbox' id='password'
@@ -59,6 +58,8 @@ const LoginForm = () => {
                         required
                     />
                 </div>
+                <div className='errors'>{errors?.password}</div>
+                <div className='errors'>{errors?.credential}</div>
                 <button className="modal-button" id="modal-button-login" type="submit">Log in</button>
                 <h2 id="modal-or">OR</h2>
                 <button className="modal-button" id="modal-button-demo" onClick={() => { setCredential("DemoUser"); setPassword("password") }}>Continue as Demo User</button>

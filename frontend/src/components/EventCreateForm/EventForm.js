@@ -57,21 +57,23 @@ const EventForm = (props) => {
             <div className='event-form-heading'>
                 <h1>Create your new Event!</h1>
             </div>
-                {
+                {/* {
                     errors.map((error, i) => 
                         <p key={`error_${i}`}>{error}</p>
                     )
-                }
+                } */}
                 <div className='event-form-input'>
                     <form className='event-form' onSubmit={e => e.preventDefault()}>
                         <label className='input-label'>
                             <div className='input-label-text'>Event Title</div>
                             <input type='text' placeholder='Event Title' value={title} onChange={(e) => setTitle(e.target.value)}/>
                         </label>
+                        <div>{errors?.[0]}</div>
                      <label className='input-label description'>
                         <div className='input-label-text'>Event Description</div>
                             <input id="input-description" type='text' placeholder='Event Description' value={body} onChange={(e) => setBody(e.target.value)} />
                         </label>
+                        <div>{errors?.[1]}</div>
                     <label className='input-label'>
                         <div className='input-label-text'>Event Date</div>
                             <input type='date' placeholder='Event Date' value={date} onChange={e => {
@@ -163,7 +165,7 @@ const EventForm = (props) => {
                         }
                         <div className='event-create-footer'>
                             <button className='event-create-button' onClick={()=>closeModal()} >Cancel</button>
-                            <button className='event-create-button' id="event-create-button" onClick={handleSubmit} disabled={!status}>Create</button>
+                            <button className='event-create-button' id="event-create-button" onClick={handleSubmit} >Create</button>
                         </div>
                         
                     </form>
