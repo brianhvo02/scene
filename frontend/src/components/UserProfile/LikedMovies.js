@@ -20,10 +20,10 @@ const LikedMovies = ({movieId}) => {
 
 
     return (
-        <>
+        <div className="liked-movie-container" >
             <h1>{movie?.title}</h1>
             <img src={movie?.posterPath ? `${MOVIE_LINK.concat(movie?.posterPath)}` : '/movie-poster.png'}/>
-        </>
+        </div>
     )
 }
 
