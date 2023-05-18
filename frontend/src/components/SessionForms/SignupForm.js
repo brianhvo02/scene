@@ -64,7 +64,6 @@ const SignupForm = () => {
                 <h1 id="welcome-text">Welcome to SCENE</h1>
             </div>
             <div id="modal-input">
-            <div className="errors">{errors?.email}</div>
             <label className="input-label" htmlFor="user-email">Email</label>
             <div className='inputbox-container'>
                 <input className='inputbox' id='user-email'
@@ -75,7 +74,7 @@ const SignupForm = () => {
                     required
                 />
             </div>
-            <div className="errors">{errors?.username}</div>
+            <div className="errors">{errors?.email}</div>
             <label className="input-label" htmlFor="user-username">Username</label>
             <div className='inputbox-container'>
                 <input className='inputbox' id='user-username'
@@ -86,7 +85,7 @@ const SignupForm = () => {
                     required
                 />
             </div>
-            <div className='errors'>{errors?.password}</div>
+            <div className="errors">{errors?.username}</div>
             <label className="input-label" htmlFor="password">Password</label>
             <div className='inputbox-container'>
                 <input className='inputbox' id='password'
@@ -97,6 +96,7 @@ const SignupForm = () => {
                     required
                 />
             </div>
+            <div className='errors'>{errors?.password}</div>
             <div className="errors">
                 {password !== password2 && 'Confirm Password field must match'}
             </div>
