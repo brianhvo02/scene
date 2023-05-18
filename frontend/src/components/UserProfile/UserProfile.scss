@@ -46,3 +46,16 @@
 
     }
 }
+
+.user-show-page-user-picture{
+    cursor: pointer;
+}
+.user-show-page-user-picture:hover{
+    opacity:0.5;
+    content:'\A';
+    width:100%; height:100%;
+    top:0; left:0;
+    background:rgba(0,0,0,0.6);
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+}

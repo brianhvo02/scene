@@ -7,9 +7,7 @@ import User from '../models/User';
 import { isProduction, loginUser, requireUser, restoreUser } from '../config';
 import { PutObjectCommand, S3Client, GetObjectCommand } from '@aws-sdk/client-s3';
 import multer from 'multer';
-import {getSignedUrl} from '@aws-sdk/s3-request-presigner';
-
-
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 const upload = multer();
 const client = new S3Client({region: "us-west-1"});
 
@@ -141,14 +139,31 @@ router.patch('/current/updateProfilePic', upload.single("profilePic"), requireUs
     try {
         let user = req.user;
         const file = req.file;
-        const command = new PutObjectCommand({
+        const uploadCommand = new PutObjectCommand({
             Body: file.buffer,
             Bucket: "scene-dev",
             Key: `${user.username}.jpg`
         });
-        const response = await client.send(command);
-        
-        return res.status(200).json(response);
+        await client.send(uploadCommand);   
+        const downloadCommand = new GetObjectCommand({
+            Bucket: "scene-dev",
+            Key: `${user.username}.jpg`
+        });
+
+        user.hasProfilePic = true;
+        await user.save();
+
+        const userInfo = {
+            _id: user._id,
+            username: user.username,
+            email: user.email,
+            genreIds: user.genreIds,
+            likedMovies: user.likedMovies,
+            events: user.events,
+            photoUrl: await getSignedUrl(client, downloadCommand, {expiresIn: 3600})
+        };
+
+        return res.status(200).json(userInfo);
     }
     catch (err) {
         next(err);
