@@ -128,6 +128,28 @@ router.post('/likedMovie', requireUser, async (req, res, next) => {
     }
 });
 
+router.delete('/likedMovie', requireUser, async (req, res, next) => {
+    try {
+        let unlikedMovie = req.body.movieId;
+        let user = req.user;
+        if (!user.likedMovies.includes(unlikedMovie)) {
+            const err = new Error('Movie not liked by user');
+            err.statusCode = 400;
+            err.errors = { session: "Movie not liked by user" };
+            return next(err);
+        }
+        user = await User.findByIdAndUpdate(user._id, {
+            $pull: {
+                likedMovies: unlikedMovie
+            }
+        }, { new: true });
+        return res.json(user);
+    }
+    catch (err) {
+        next(err);
+    }
+});
+
 
 router.delete('/unlikedMovie', requireUser, async (req, res, next) => {
     try {

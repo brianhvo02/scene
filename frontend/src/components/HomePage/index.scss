@@ -81,18 +81,19 @@
         }
 
         .thumb-down{
-            color: rgb(137, 30, 30)
+            color: rgb(137, 30, 30);
         }
 
-        .thumb-up{
-            color: rgb(0, 137, 0)
-        }
-
-        .thumb-down:hover{
+        .thumb-down:hover, .thumb-down.active {
             opacity: 1;
             color: rgb(204, 35, 35);
         }
-        .thumb-up:hover{
+
+        .thumb-up{
+            color: rgb(0, 137, 0);
+        }
+
+        .thumb-up:hover, .thumb-up.active {
             opacity: 1;
             color: rgb(0, 167, 35);
         }

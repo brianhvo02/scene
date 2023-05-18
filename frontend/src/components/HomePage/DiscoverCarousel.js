@@ -13,6 +13,17 @@ const DiscoverCarousel = ({ setSelectedMovie }) => {
     const sessionUser = useSelector(state => state.session.user);
     const [currentIndex, setCurrentIndex] = useState(0);
     const currentMovie = useMemo(() => movies[currentIndex], [movies, currentIndex]);
+    const currentMovieLiked = useMemo(() => {
+        if (!currentMovie || !sessionUser) return false;
+        for (let i in sessionUser.likedMovies) {
+            const likedMovieId = sessionUser.likedMovies[i];
+            if ([currentMovie._id, currentMovie.tmdbId, currentMovie.id].includes(likedMovieId)) {
+                setSelectedMovie(currentMovie);
+                return true;
+            }
+        }
+        return false;
+    }, [currentMovie, sessionUser])
 
     useEffect(()=> {
         dispatch(fetchDiscoverMovies())
@@ -36,20 +47,12 @@ const DiscoverCarousel = ({ setSelectedMovie }) => {
     }
 
     const handleLikeButtonClick = () => {
-        dispatch(userLikedMovie(currentMovie.id || currentMovie._id || currentMovie.tmdbId));
+        dispatch((currentMovieLiked ? userUnlikedMovie : userLikedMovie)(currentMovie.id || currentMovie._id || currentMovie.tmdbId));
         setSelectedMovie(currentMovie);
     }
 
-    useEffect(() => {
-        if (!currentMovie || !sessionUser) return;
-        for (let i in sessionUser.likedMovies) {
-            const likedMovieId = sessionUser.likedMovies[i];
-            if ([currentMovie._id, currentMovie.tmdbId, currentMovie.id].includes(likedMovieId)) 
-                return setSelectedMovie(currentMovie);
-        }
-    }, [currentMovie, sessionUser]);
-
     const MOVIE_LINK = "https://image.tmdb.org/t/p/original";
+    console.log(currentMovieLiked)
 
     return(
         <>
@@ -58,8 +61,8 @@ const DiscoverCarousel = ({ setSelectedMovie }) => {
             <div className="movie-poster-container">
                 <MoviePoster movie={currentMovie} className="movie-poster-component" />
                 <div className="like-options">
-                    <FontAwesomeIcon icon={faThumbsDown} className="thumb-down" onClick={handleDislikeButtonClick}/>
-                    <FontAwesomeIcon icon={faThumbsUp} className="thumb-up" onClick={handleLikeButtonClick}/>
+                    <FontAwesomeIcon icon={faThumbsDown} className={`thumb-down ${false ? 'active' : null}`} onClick={handleDislikeButtonClick}/>
+                    <FontAwesomeIcon icon={faThumbsUp} className={`thumb-up ${currentMovieLiked ? 'active' : undefined}`}  onClick={handleLikeButtonClick}/>
                 </div>
             </div>
             <FontAwesomeIcon icon={faChevronRight} onClick={handleNextClick} className="arrow"/>

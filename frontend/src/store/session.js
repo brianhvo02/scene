@@ -121,7 +121,7 @@ export const userLikedMovie = movieId => async dispatch => {
 
 export const userUnlikedMovie = movieId => async dispatch => {
     try {
-        const user = await customFetch('/api/users/unlikedMovie', {
+        const user = await customFetch('/api/users/likedMovie', {
             method: 'DELETE',
             body: JSON.stringify({ movieId })
         })
