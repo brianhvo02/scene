@@ -88,6 +88,7 @@ router.get('/current', restoreUser, async (req, res) => {
         genreIds: req.user.genreIds,
         likedMovies: req.user.likedMovies,
         events: req.user.events,
+        zipCode: req.user.zipCode,
         photoUrl: req.user.hasProfilePic ? await getSignedUrl(client, command, {expiresIn: 3600}) : null
     };
     res.json(userInfo);

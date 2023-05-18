@@ -28,8 +28,6 @@ const MovieShow = () => {
     const dispatch = useDispatch();
     const [averageRating, setAverageRating] = useState(0)
 
-    console.log(genres);
-
     useEffect(() => {
         scrollToTop();
     }, [])
