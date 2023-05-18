@@ -9,7 +9,7 @@ const validateLoginInput = [
         check('credential')
             .isLength({ min: 3 })
             .withMessage('Please provide a username.'),
-    ]),
+    ], {message: 'Your email or username is too short'}),
     check('password')
         .isLength({ min: 6 })
         .withMessage('Please provide a password with at least 6 characters.'),
