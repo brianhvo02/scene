@@ -32,6 +32,15 @@ const MovieShow = () => {
         scrollToTop();
     }, [])
 
+    const theaterZipArray = [];
+
+    movie?.events?.map(({coordinates}) => {
+        theaterZipArray.push(coordinates);
+    })
+        
+
+
+
     const [commentBody, setCommentBody] = useState('');
     const [activeComment, setActiveComment] = useState();
     const [loading, setLoading] = useState(true)

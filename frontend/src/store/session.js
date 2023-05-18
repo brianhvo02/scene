@@ -58,11 +58,11 @@ export const getCurrentUser = () => async dispatch => {
     }
 };
 
-export const updateGenreZipCode = (genreIds, zipCode) => async dispatch => {
+export const updateGenreZipCode = (genreIds, zipCode, coordinates) => async dispatch => {
     try {
         const user = await customFetch('/api/users/current/registerGenresZipCode', {
             method: 'PATCH',
-            body: JSON.stringify({ genreIds, zipCode })
+            body: JSON.stringify({ genreIds, zipCode, coordinates })
         });
         return dispatch(receiveCurrentUser(user));
     } catch (err) {

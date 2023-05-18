@@ -99,6 +99,7 @@ router.patch('/current/registerGenresZipCode', requireUser, async (req, res, nex
         let user = req.user;
         user.genreIds.push(...req.body.genreIds);
         user.zipCode = req.body.zipCode;
+        user.coordinates = req.body.coordinates;
         user = await user.save();
         return res.json(user);
     }
