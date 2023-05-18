@@ -89,6 +89,7 @@ router.get('/current', restoreUser, async (req, res) => {
         likedMovies: req.user.likedMovies,
         events: req.user.events,
         zipCode: req.user.zipCode,
+        coordinates: req.user.coordinates,
         photoUrl: req.user.hasProfilePic ? await getSignedUrl(client, command, {expiresIn: 3600}) : null
     };
     res.json(userInfo);
@@ -176,6 +177,7 @@ router.patch('/current/updateProfilePic', upload.single("profilePic"), requireUs
             genreIds: user.genreIds,
             likedMovies: user.likedMovies,
             events: user.events,
+            coordinates: user.coordinates,
             photoUrl: await getSignedUrl(client, downloadCommand, {expiresIn: 3600})
         };
 

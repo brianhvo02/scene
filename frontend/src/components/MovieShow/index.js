@@ -1,6 +1,6 @@
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { createComment, deleteComment, editComment, fetchMovie, getMovie } from '../../store/movies';
+import movies, { createComment, deleteComment, editComment, fetchMovie, getMovie } from '../../store/movies';
 import EventCreateForm from '../EventCreateForm';
 import { GiPopcorn } from 'react-icons/gi';
 import './index.scss'
@@ -10,6 +10,7 @@ import Loading from '../Loading/Loading';
 import { fetchGenres, useGenreSlice } from '../../store/genres';
 import Chat from './Chat';
 import { calculateDistance } from '../../util/function';
+import { current } from '@reduxjs/toolkit';
 
 
 const scrollToTop = () => {
@@ -36,15 +37,6 @@ const MovieShow = () => {
         scrollToTop();
     }, [])
 
-    const theaterZipArray = [];
-
-    movie?.events?.map(({coordinates}) => {
-        theaterZipArray.push(coordinates);
-    })
-        
-
-
-
     const [commentBody, setCommentBody] = useState('');
     const [activeComment, setActiveComment] = useState();
     const [loading, setLoading] = useState(true)
@@ -57,7 +49,7 @@ const MovieShow = () => {
             .then(({movies}) => setRealMovieId(Object.keys(movies)[0]))
             .finally(()=>(setLoading(false)));
         dispatch(fetchGenres());
-    }, [dispatch]);
+    }, [dispatch,movieId]);
 
     useEffect(() => {
         let total = 0;
@@ -151,20 +143,33 @@ const MovieShow = () => {
                         <h3>Events near you</h3>
                         <div className='events-card-box'>
                         {
-                            movie?.events?.map(event =>
-                                <Link className='event-show-box' key={event._id} to={`./event/${event._id}`}>
-                                    <div className='event-show-title'>{event.title}</div>
-                                    <div className='event-show-date'>{new Date(event.date).toLocaleString('en-US', {
-                                        weekday: 'short',
-                                        month: 'short',
-                                        day: '2-digit',
-                                        year: 'numeric',
-                                        hour: '2-digit',
-                                        minute: '2-digit'
-                                    })}</div>
-                                    <div className='event-show-theater'>{event.theater}</div>
-                                    {/* <div className='event-show-host'>{event.host.username}</div> */}
-                                </Link>
+                            movie?.events?.map(event =>{
+                                console.log(event, "event")
+                                console.log(currentUser, "currentUser")
+                                const distance = calculateDistance(
+                                    event.coordinates.latitude, 
+                                    event.coordinates.longitude, 
+                                    currentUser?.coordinates?.latitude, 
+                                    currentUser?.coordinates?.longitude
+                                    );
+                                if(distance <= 20){
+                                    return(
+                                        <Link className='event-show-box' key={event._id} to={`./event/${event._id}`}>
+                                            <div className='event-show-title'>{event.title}</div>
+                                            <div className='event-show-date'>{new Date(event.date).toLocaleString('en-US', {
+                                                weekday: 'short',
+                                                month: 'short',
+                                                day: '2-digit',
+                                                year: 'numeric',
+                                                hour: '2-digit',
+                                                minute: '2-digit'
+                                            })}</div>
+                                            <div className='event-show-theater'>{event.theater}</div>
+                                            {/* <div className='event-show-host'>{event.host.username}</div> */}
+                                        </Link>
+                                    )
+                                }
+                            }
                             )
                         }
                         </div>
