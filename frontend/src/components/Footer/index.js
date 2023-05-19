@@ -23,8 +23,8 @@ const Footer = () => {
                     <h2>Contact Us</h2>
                     <a href="">Brian Huy Vo</a>
                     <a href="">Ningxiao Cao</a>
-                    <a href="">Eduardo Bac Sierra</a>
-                    <a href="">Joshua Lee</a>
+                    <a href="mailto: ed.bacsierra@gmail.com?subject=Mail from Our Scene">Eduardo Bac Sierra</a>
+                    <a href="mailto: joshua.lee0195@gmail.com?subject=Mail from Our Scene">Joshua Lee</a>
                 </div>
             </div>
             <div className="copyright">
