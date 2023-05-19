@@ -14,7 +14,9 @@ router.post('/', requireUser, validateEventInput, async (req, res, next) => {
         const { movieId } = req.params;
         const movieFind = await Movie.findOne({tmdbId: movieId});
         console.log(movieId)
-        
+
+        let movie = await Movie.findOne({ [movieId.length === 24 ? '_id' : 'tmdbId']: movieId });
+
         const newEvent = new Event({
             title: req.body.title,
             body: req.body.body,
@@ -27,13 +29,12 @@ router.post('/', requireUser, validateEventInput, async (req, res, next) => {
             coordinates: req.body.coordinates,
             host: req.user._id,
             attendees: [],
-            tmdb: movieId
+            movie
         });
 
         let event = await newEvent.save();
         console.log(event)
         // event = await event.populate('movie').execPopulate();
-        let movie = await Movie.findOne({ [movieId.length === 24 ? '_id' : 'tmdbId']: movieId });
         movie.events.push(event);
         await movie.save();
         req.user.events.push(event);
