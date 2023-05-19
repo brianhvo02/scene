@@ -33,7 +33,7 @@ const UserProfile = () => {
         <div className="user-show-page-container">
             <div className="user-show-page-user-details">
                 <form className="user-show-profile-upload" onSubmit={handleUpload}>
-                    <label for="user-profile-picture"><img className="user-show-page-user-picture" src={user?.photoUrl || '/scene-dark-logo-no-text.png'} alt="profile-picture" id="profile-pic" /></label>
+                    <label for="user-profile-picture"><img className="user-show-page-user-picture" src={user?.photoUrl || '/scene-dark-logo-no-text.png'} alt="profile" id="profile-pic" /></label>
                     <input type="file" id="user-profile-picture" accept="image/*" style={{display: "none"}} onChange={handleUpload} />
                 </form>
                 <h2 className="user-show-page-username">{user?.username}</h2>

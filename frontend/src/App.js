@@ -14,7 +14,8 @@ import Navigation from './components/Navigation/Navigation.js';
 import { useLocation } from 'react-router-dom';
 import SearchShow from './components/Search';
 import UserProfile from './components/UserProfile';
-
+import TeamPage from './components/TeamPage';
+import Footer from './components/Footer';
 
 function App() {
     const dispatch = useDispatch();
@@ -38,7 +39,9 @@ function App() {
             <Route exact path="/signup/genres" Component={SelectGenresForm} />
             <Route exact path="/movie/:movieId" Component={MovieShow}/>
             <Route exact path="/movie/:movieId/event/:eventId" Component={EventShow} />
+            <Route exact path="/team" Component={TeamPage}/>
         </Routes>
+        <Footer />
         </>
     );
 }
