@@ -48,32 +48,6 @@ router.post('/', requireUser, validateCommentInput, async (req, res, next) => {
     };
 });
 
-// router.delete('/:commentId', requireUser, async (req, res, next) => {
-//     try {
-//         const { movieId, commentId } = req.params;
-//         const comment = await Comment.findById(commentId);
-//             if (!comment) {
-//                 const error = new Error('Comment not found');
-//                 error.statusCode = 404;
-//                 error.errors = { message: 'No comment found with that id' };
-//                 return next(error);
-//             }
-//             if (comment.author._id.toString() !== req.user._id.toString()) {
-//                 const error = new Error('Unauthorized');
-//                 error.statusCode = 401;
-//                 error.errors = { message: 'Unauthorized' };
-//                 return next(error);
-//             }
-//             await Comment.findByIdAndDelete(commentId);
-//             let movie = await Movie.findOne({ [movieId.length === 24 ? '_id' : 'tmdbId']: movieId });
-//             await movie.comments.remove(req.params.id);
-//             await movie.save();
-//             sendMovie({movie}, res);
-//     }
-//     catch (err) {
-//         next(err);
-//     }
-// });
 
 router.patch('/:commentId', requireUser, validateCommentInput, async (req, res, next) => {
     try {

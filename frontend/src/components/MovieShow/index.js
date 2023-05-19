@@ -43,7 +43,7 @@ const MovieShow = () => {
     const [replyComment, setReplyComment] = useState();
     const [replyUser, setReplyUser] = useState('');
     const [edit, setEdit] = useState();
-    
+   
     useEffect(() => {
         dispatch(fetchMovie(movieId))
             .then(({movies}) => setRealMovieId(Object.keys(movies)[0]))
@@ -81,6 +81,7 @@ const MovieShow = () => {
                                                 setReplyComment();
                                                 setReplyUser();
                                                 scrollToTop();
+                                                setCommentBody(body);
                                             }
                                         }>Edit</button>
                                 }
@@ -188,10 +189,8 @@ const MovieShow = () => {
                     <div className='create-comment'>
                         <textarea className='comment comment-body' placeholder={
                             replyComment 
-                                ? `Reply to ${replyUser}` 
-                                : edit 
-                                    ? 'Editing your comment...' 
-                                    : 'Add a comment...'
+                                ? `Reply to ${replyUser}`  
+                                : 'Add a comment...'
                         } value={commentBody} onChange={e => setCommentBody(e.target.value)} />
                         {
                             (commentBody || replyUser || edit) &&
