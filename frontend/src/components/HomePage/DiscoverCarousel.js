@@ -52,7 +52,6 @@ const DiscoverCarousel = ({ setSelectedMovie }) => {
     }
 
     const MOVIE_LINK = "https://image.tmdb.org/t/p/original";
-    console.log(currentMovieLiked)
 
     return(
         <>
