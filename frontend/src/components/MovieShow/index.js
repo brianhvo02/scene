@@ -145,8 +145,6 @@ const MovieShow = () => {
                         <div className='events-card-box'>
                         {
                             movie?.events?.map(event =>{
-                                console.log(event, "event")
-                                console.log(currentUser, "currentUser")
                                 const distance = calculateDistance(
                                     event.coordinates.latitude, 
                                     event.coordinates.longitude, 

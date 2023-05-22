@@ -13,7 +13,6 @@ router.post('/', requireUser, validateEventInput, async (req, res, next) => {
     try {
         const { movieId } = req.params;
         const movieFind = await Movie.findOne({tmdbId: movieId});
-        console.log(movieId)
 
         let movie = await Movie.findOne({ [movieId.length === 24 ? '_id' : 'tmdbId']: movieId });
 
@@ -33,7 +32,6 @@ router.post('/', requireUser, validateEventInput, async (req, res, next) => {
         });
 
         let event = await newEvent.save();
-        console.log(event)
         // event = await event.populate('movie').execPopulate();
         movie.events.push(event);
         await movie.save();
@@ -119,7 +117,6 @@ router.post('/:eventId/addAttendee', requireUser, async (req, res, next) => {
         sendMovie({movie}, res);
     }
     catch (err) {
-        console.log(err)
         const error = new Error('Event not found');
         error.statusCode = 404;
         error.errors = { message: 'No event found with that id' };
@@ -145,7 +142,6 @@ router.delete('/:eventId/removeAttendee', requireUser, async (req, res, next) =>
         sendMovie({movie}, res);
     }
     catch (err) {
-        console.log(err)
         const error = new Error('Event not found');
         error.statusCode = 404;
         error.errors = { message: 'No event found with that id' };

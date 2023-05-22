@@ -4,7 +4,6 @@ const handleValidationErrors = (req, res, next) => {
     const validationErrors = validationResult(req);
 
     if (!validationErrors.isEmpty()) {
-        console.log(validationErrors)
         const errorFormatter = ({ msg }) => msg;
         const errors = validationErrors.formatWith(errorFormatter).mapped();
 

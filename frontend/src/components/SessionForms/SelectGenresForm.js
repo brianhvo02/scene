@@ -9,12 +9,9 @@ import { fetchPopularMovies, receiveMovies } from '../../store/movies';
 const geocodeAddress = async (address, apiKey) => {
     const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`);
     const data = await response.json();
-    console.log(data, "data");
     const { lat, lng } = data.results[0].geometry.location;
     // const latitude = lat;
     // const longitude = lng;
-    console.log({ lat, lng })
-    console.log({latitude: lat, longitude: lng})
     return {latitude: lat, longitude: lng};
   };
 
