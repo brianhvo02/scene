@@ -4,6 +4,8 @@
     background-color: rgb(26, 26, 26);
     padding-top: 20px;
     margin-top: 50px;
+    position: relative;
+    z-index: 5;
 
     .outside-links{
         display: flex;
