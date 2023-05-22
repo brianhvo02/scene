@@ -25,9 +25,38 @@ const configuration = new Configuration({ apiKey: process.env.BARD_API_KEY });
 const bard = new BardAPI(configuration);
 
 (async () => {
-    const eventNames = await bard.generateQuery('what are 30 creative event names to go to the movie theater in an array')
-        .then(res => res.slice(res.indexOf('['), res.indexOf(']') + 1))
-        .then(res => JSON.parse(res));
+    const eventNames = [
+        "The Big Screen Experience",
+        "A Night at the Movies",
+        "Movie Magic",
+        "Cinema Paradiso",
+        "The Silver Screen",
+        "The Dream Factory",
+        "The Magic of Movies",
+        "The World of Cinema",
+        "The Art of Film",
+        "The History of Movies",
+        "The Future of Cinema",
+        "A Celebration of Movies",
+        "A Tribute to Movies",
+        "A Night of Classic Movies",
+        "A Marathon of Movies",
+        "A Festival of Movies",
+        "A Retrospective of Movies",
+        "A Premiere of a New Movie",
+        "A Screening of a Rare Movie",
+        "A Q&A with a Movie Director",
+        "A Meet and Greet with a Movie Star",
+        "A Costume Contest",
+        "A Trivia Night",
+        "A Movie Trivia Night",
+        "A Movie Marathon",
+        "A Movie Party",
+        "A Movie Night",
+        "A Movie Date",
+        "A Movie Night with Friends",
+        "A Movie Night with Family"
+    ];
 
     const users = Array.from(Array(NUM_SEED_USERS).keys()).map(i => {
         if (i === 0) return new User({
