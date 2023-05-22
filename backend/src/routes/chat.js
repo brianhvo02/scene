@@ -1,7 +1,6 @@
 import { Router } from 'express';
 import Movie from '../models/Movie';
-import { extractAllowedParams } from '../utils';
-import { bardAPIKey, requireUser } from '../config';
+import { bardAPIKey } from '../config';
 import BardAPI, { Configuration } from 'bard-node';
 const router = Router({ mergeParams: true });
 

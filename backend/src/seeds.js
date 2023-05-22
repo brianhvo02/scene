@@ -9,7 +9,7 @@ import bcrypt, { hashSync } from 'bcryptjs'
 import { faker } from '@faker-js/faker';
 import { fetchTMDB } from './routes/tmdb';
 import { extractAllowedParams } from './utils';
-import BardAPI, { Configuration } from 'bard-api';
+import BardAPI, { Configuration } from 'bard-node';
 import { config } from 'dotenv';
 config();
 
