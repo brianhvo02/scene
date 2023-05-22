@@ -21,8 +21,8 @@ const Footer = () => {
                 </div>
                 <div className="information-container">
                     <h2>Contact Us</h2>
-                    <a href="">Brian Huy Vo</a>
-                    <a href="">Ningxiao Cao</a>
+                    <a href="mailto: me@brianhuyvo.com?subject=Mail from Our Scene">Brian Huy Vo</a>
+                    <a href="mailto: ningxiaocao@gmail.com?subject=Mail from Our Scene">Ningxiao Cao</a>
                     <a href="mailto: ed.bacsierra@gmail.com?subject=Mail from Our Scene">Eduardo Bac Sierra</a>
                     <a href="mailto: joshua.lee0195@gmail.com?subject=Mail from Our Scene">Joshua Lee</a>
                 </div>
