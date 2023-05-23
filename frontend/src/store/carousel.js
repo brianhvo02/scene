@@ -2,44 +2,48 @@ import { createSlice } from "@reduxjs/toolkit";
 import { fetchUrl } from "./utils";
 import { useDispatch, useSelector } from "react-redux";
 
-const initialState = 0
+const initialState = {
+    currentIndex: 0,
+    currentPage: 1,
+    movies: []
+}
 
 const carouselSlice = createSlice({
     name: "carousel",
     initialState,
     reducers: {
-        decrement: state => state !== 0 ? state - 1 : state,
-        increment: state => state + 1
+        decrement: state => {
+            if (state.currentIndex !== 0) {
+                state.currentIndex--;
+            } else {
+                return state;
+            }
+        },
+        increment: state => { state.currentIndex++ },
+        addMovies: (state, { payload }) => {
+            state.movies = [
+                ...new Set([
+                    ...state.movies, 
+                    ...payload.results.filter(
+                        result => !payload.movies.includes(result)
+                    )
+                ])
+            ]
+        },
+        incrementPage: state => { state.currentPage++ }
     }
 });
 
-export const { decrement, increment } = carouselSlice.actions;
-
-// const getGenreSlice = state => {
-//     return state?.genres ? state.genres : {};
-// }
-
-// export const getGenres = state => {
-//     return state?.genres ? Object.values(state.genres) : [];
-// }
-
-// export const getGenre = genreId => state => {
-//     return state?.genres ? state?.genres[genreId] : null;
-// }
-
-// export const fetchGenres = () => 
-//     fetchUrl('/api/tmdb/genres', receiveGenres);
-
-// export const useGenres = () => useSelector(getGenres);
-
-// export const useGenreSlice = () => useSelector(getGenreSlice);
+export const { addMovies, decrement, increment, incrementPage } = carouselSlice.actions;
 
 export const useCarousel = () => {
     const dispatch = useDispatch();
+    const carousel = useSelector(state => state.carousel);
     return {
-        currentIndex: useSelector(state => state.carousel),
+        ...carousel,
         decrement: () => dispatch(decrement()),
-        increment: () => dispatch(increment())
+        increment: () => dispatch(increment()),
+        incrementPage: () => dispatch(incrementPage())
     }
 }
 

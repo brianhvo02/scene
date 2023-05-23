@@ -4,7 +4,7 @@ const router = Router();
 import bcrypt from "bcryptjs";
 import passport from "passport";
 import User from '../models/User';
-import { isProduction, loginUser, requireUser, restoreUser } from '../config';
+import { getUserInfo, isProduction, loginUser, requireUser, restoreUser } from '../config';
 import { PutObjectCommand, S3Client, GetObjectCommand } from '@aws-sdk/client-s3';
 import multer from 'multer';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
@@ -14,6 +14,7 @@ const client = new S3Client({region: "us-west-1"});
 import validateRegisterInput from '../validations/register';
 import validateLoginInput from '../validations/login';
 import Movie from '../models/Movie';
+import { fetchTMDB } from './tmdb';
 
 router.post('/register', validateRegisterInput, async (req, res, next) => {
     const user = await User.findOne({
@@ -36,10 +37,7 @@ router.post('/register', validateRegisterInput, async (req, res, next) => {
 
     const newUser = new User({
         username: req.body.username,
-        email: req.body.email,
-        genreIds: [],
-        likedMovies: [],
-        events: []
+        email: req.body.email
     });
 
     bcrypt.genSalt(10, (err, salt) => {
@@ -49,7 +47,8 @@ router.post('/register', validateRegisterInput, async (req, res, next) => {
             try {
                 newUser.hashedPassword = hashedPassword;
                 const user = await newUser.save();
-                return res.json(await loginUser(user)); 
+                const userInfo = await loginUser(user);
+                return res.json(userInfo); 
             }
             catch (err) {
                 next(err);
@@ -77,28 +76,18 @@ router.get('/current', restoreUser, async (req, res) => {
         res.cookie("X-CSRF-Token", csrfToken);
     }
     if (!req.user) return res.json(null);
-    const command = new GetObjectCommand({
-        Bucket: "scene-dev",
-        Key: `${req.user.username}.jpg`
-    });
-    const userInfo = {
-        _id: req.user._id,
-        username: req.user.username,
-        email: req.user.email,
-        genreIds: req.user.genreIds,
-        likedMovies: req.user.likedMovies,
-        events: req.user.events,
-        zipCode: req.user.zipCode,
-        coordinates: req.user.coordinates,
-        photoUrl: req.user.hasProfilePic ? await getSignedUrl(client, command, {expiresIn: 3600}) : null
-    };
+    const userInfo = await getUserInfo(req.user);
     res.json(userInfo);
 });
 
 router.patch('/current/registerGenresZipCode', requireUser, async (req, res, next) => {
     try {
         let user = req.user;
-        user.genreIds.push(...req.body.genreIds);
+
+        const { genres } = await fetchTMDB('/genre/movie/list');
+        user.genreMap = new Map();
+        genres.forEach(genre => user.genreMap.set(`${genre.id}`, req.body.genreIds.includes(`${genre.id}`) ? 5 : 0));
+
         user.zipCode = req.body.zipCode;
         user.coordinates = req.body.coordinates;
         user = await user.save();
@@ -111,16 +100,35 @@ router.patch('/current/registerGenresZipCode', requireUser, async (req, res, nex
 
 router.post('/likedMovie', requireUser, async (req, res, next) => {
     try {
-        let likedMovie = req.body.movieId;
+        const likedMovie = req.body.movie;
         let user = req.user;
-        if (user.likedMovies.includes(likedMovie)) {
+        if (user.likedMovies.includes(likedMovie.id)) {
             const err = new Error('Movie already liked');
             err.statusCode = 400;
             err.errors = { session: "Movie already liked" };
             return next(err);
         }
+
+        let count = 1;
+        if (user.dislikedMovies.includes(likedMovie.id)) {
+            user = await User.findByIdAndUpdate(user._id, {
+                $pull: {
+                    dislikedMovies: likedMovie.id
+                }
+            }, { new: true });
+            count++;
+        }
         
-        user.likedMovies.push(likedMovie);
+        user.likedMovies.push(likedMovie.id);
+
+        likedMovie.genreIds.map(
+            genreId => 
+                user.genreMap.set(
+                    `${genreId}`, 
+                    user.genreMap.get(`${genreId}`) + count
+                )
+        );
+
         user = await user.save();
         return res.status(200).json(user);
     }
@@ -131,9 +139,9 @@ router.post('/likedMovie', requireUser, async (req, res, next) => {
 
 router.delete('/likedMovie', requireUser, async (req, res, next) => {
     try {
-        let unlikedMovie = req.body.movieId;
+        let unlikedMovie = req.body.movie;
         let user = req.user;
-        if (!user.likedMovies.includes(unlikedMovie)) {
+        if (!user.likedMovies.includes(unlikedMovie.id)) {
             const err = new Error('Movie not liked by user');
             err.statusCode = 400;
             err.errors = { session: "Movie not liked by user" };
@@ -141,9 +149,20 @@ router.delete('/likedMovie', requireUser, async (req, res, next) => {
         }
         user = await User.findByIdAndUpdate(user._id, {
             $pull: {
-                likedMovies: unlikedMovie
+                likedMovies: unlikedMovie.id
             }
         }, { new: true });
+
+        unlikedMovie.genreIds.map(
+            genreId => 
+                user.genreMap.set(
+                    `${genreId}`, 
+                    user.genreMap.get(`${genreId}`) - 1
+                )
+        );
+
+        await user.save();
+
         return res.json(user);
     }
     catch (err) {
@@ -151,22 +170,70 @@ router.delete('/likedMovie', requireUser, async (req, res, next) => {
     }
 });
 
-
-router.delete('/unlikedMovie', requireUser, async (req, res, next) => {
+router.post('/dislikedMovie', requireUser, async (req, res, next) => {
     try {
-        let unlikedMovie = req.body.movieId;
+        let dislikedMovie = req.body.movie;
         let user = req.user;
-        if (!user.likedMovies.includes(unlikedMovie)) {
-            const err = new Error('Movie not liked by user');
+        if (user.dislikedMovies.includes(dislikedMovie.id)) {
+            const err = new Error('Movie already disliked');
             err.statusCode = 400;
-            err.errors = { session: "Movie not liked by user" };
+            err.errors = { session: "Movie already disliked" };
             return next(err);
         }
+
+        let count = -1;
+        if (user.likedMovies.includes(dislikedMovie.id)) {
+            user = await User.findByIdAndUpdate(user._id, {
+                $pull: {
+                    likedMovies: dislikedMovie.id
+                }
+            }, { new: true });
+            count--;
+        }
+        
+        user.dislikedMovies.push(dislikedMovie.id);
+
+        dislikedMovie.genreIds.map(
+            genreId => 
+                user.genreMap.set(
+                    `${genreId}`, 
+                    user.genreMap.get(`${genreId}`) + count
+                )
+        );
+
+        user = await user.save();
+        return res.status(200).json(user);
+    }
+    catch (err) {
+        next(err);
+    }
+});
+
+router.delete('/dislikedMovie', requireUser, async (req, res, next) => {
+    try {
+        let dislikedMovie = req.body.movie;
+        let user = req.user;
+        if (!user.dislikedMovies.includes(dislikedMovie.id)) {
+            const err = new Error('Movie not disliked by user');
+            err.statusCode = 400;
+            err.errors = { session: "Movie not disliked by user" };
+            return next(err);
+        }
+
         user = await User.findByIdAndUpdate(user._id, {
             $pull: {
-                likedMovies: unlikedMovie
+                dislikedMovies: dislikedMovie.id
             }
         }, { new: true });
+
+        dislikedMovie.genreIds.map(
+            genreId => 
+                user.genreMap.set(
+                    `${genreId}`, 
+                    user.genreMap.get(`${genreId}`) + 1
+                )
+        );
+
         return res.json(user);
     }
     catch (err) {
@@ -183,27 +250,12 @@ router.patch('/current/updateProfilePic', upload.single("profilePic"), requireUs
             Bucket: "scene-dev",
             Key: `${user.username}.jpg`
         });
-        await client.send(uploadCommand);   
-        const downloadCommand = new GetObjectCommand({
-            Bucket: "scene-dev",
-            Key: `${user.username}.jpg`
-        });
+        await client.send(uploadCommand);
 
         user.hasProfilePic = true;
         await user.save();
-
-        await user.populate('events');
-
-        const userInfo = {
-            _id: user._id,
-            username: user.username,
-            email: user.email,
-            genreIds: user.genreIds,
-            likedMovies: user.likedMovies,
-            events: user.events,
-            coordinates: user.coordinates,
-            photoUrl: await getSignedUrl(client, downloadCommand, {expiresIn: 3600})
-        };
+        
+        const userInfo = await getUserInfo(user);
 
         return res.status(200).json(userInfo);
     }

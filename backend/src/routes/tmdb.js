@@ -13,13 +13,18 @@ router.get('/genres', async (req, res) => {
 });
 
 router.get('/discover', requireUser, async (req, res) => {
+    const { genreMap } = req.user;
+
+    const genres = Array.from(genreMap.entries()).sort((a, b) => b[1] - a[1]).map(entry => entry[0]);
+
     const query = new URLSearchParams({
-        with_genres: req.user.genreIds.join('|'),
+        with_genres: genres.slice(0, 3).join('|'),
         include_adult: false,
         certification_country: 'US',
         'certification.lte': 'R',
         ...req.query
     });
+
     const { results } = await fetchTMDB('/discover/movie', query.toString());
     const movies = Object.fromEntries(results.map((result) => [result.id, extractAllowedParams(allowedParams, result)]));
     res.status(200).json({ movies, results: results.map(result => result.id) });
@@ -47,7 +52,7 @@ router.get('/movies/:movieId/recommendations', async (req, res) => {
     const { movieId } = req.params;
     const { results } = await fetchTMDB(`/movie/${movieId}/recommendations`);
     const movies = results ? Object.fromEntries(results.map(result => [result.id, extractAllowedParams(allowedParams, result)])) : null;
-    res.status(200).json({ movies });
+    res.status(200).json({ movies, results: results.map(result => result.id) });
 });
 
 export default router;

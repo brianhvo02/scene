@@ -10,7 +10,6 @@ import http from 'http';
 import mongoose from 'mongoose';
 import csrfRouter from './routes/csrf';
 import tmdbRouter from './routes/tmdb';
-import fandangoRouter from './routes/fandango';
 import usersRouter from './routes/users';
 import moviesRouter from './routes/movies';
 import searchRouter from './routes/search';

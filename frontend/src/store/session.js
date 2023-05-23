@@ -4,6 +4,7 @@ import { customFetch } from './utils';
 import { createSlice } from '@reduxjs/toolkit';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import _ from 'lodash';
 
 const initialState = {
     user: undefined
@@ -81,8 +82,16 @@ export const useProtected = () => {
     useEffect(() => {
         if (
             currentUser === null
-            || (currentUser !== undefined
-                && currentUser.genreIds.length === 0)
+                || 
+            (
+                currentUser !== undefined
+                    && 
+                (
+                    !currentUser.genreMap
+                        ||
+                    _.isEmpty(currentUser.genreMap)
+                )
+            )
         ) navigate('/');
     }, [currentUser]);
 }
@@ -91,8 +100,8 @@ export const useRequireLoggedOut = setShowModal => {
     const navigate = useNavigate();
     const currentUser = useCurrentUser();
     useEffect(() => {
-        if (currentUser) {
-            (!currentUser.genreIds.length && setShowModal)
+        if (currentUser && !_.isEmpty(currentUser)) {
+            (_.isEmpty(currentUser.genreMap) && setShowModal)
                 ? (() => {
                     navigate('/');
                     setShowModal();
@@ -104,11 +113,11 @@ export const useRequireLoggedOut = setShowModal => {
 
 
 
-export const userLikedMovie = movieId => async dispatch => {
+export const userLikedMovie = movie => async dispatch => {
     try {
         const user = await customFetch('/api/users/likedMovie', {
             method: 'POST',
-            body: JSON.stringify({ movieId })
+            body: JSON.stringify({ movie })
         });
         return dispatch(receiveCurrentUser(user));
     } catch (err) {
@@ -119,11 +128,42 @@ export const userLikedMovie = movieId => async dispatch => {
     }
 };
 
-export const userUnlikedMovie = movieId => async dispatch => {
+export const userUnlikedMovie = movie => async dispatch => {
     try {
         const user = await customFetch('/api/users/likedMovie', {
             method: 'DELETE',
-            body: JSON.stringify({ movieId })
+            body: JSON.stringify({ movie })
+        })
+        return dispatch(receiveCurrentUser(user));
+    }
+    catch (err) {
+        const res = await err.json();
+        if (res.statusCode === 400) {
+            return dispatch(receiveSessionErrors(res.errors));
+        }
+    }
+};
+
+export const userDislikedMovie = movie => async dispatch => {
+    try {
+        const user = await customFetch('/api/users/dislikedMovie', {
+            method: 'POST',
+            body: JSON.stringify({ movie })
+        });
+        return dispatch(receiveCurrentUser(user));
+    } catch (err) {
+        const res = await err.json();
+        if (res.statusCode === 400) {
+            return dispatch(receiveSessionErrors(res.errors));
+        }
+    }
+};
+
+export const userUndislikedMovie = movie => async dispatch => {
+    try {
+        const user = await customFetch('/api/users/dislikedMovie', {
+            method: 'DELETE',
+            body: JSON.stringify({ movie })
         })
         return dispatch(receiveCurrentUser(user));
     }

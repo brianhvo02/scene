@@ -5,37 +5,39 @@ import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight, faThumbsDown, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import './index.scss';
-import { userLikedMovie, userUnlikedMovie } from "../../store/session";
-import { useCarousel } from "../../store/carousel";
+import { userDislikedMovie, userLikedMovie, userUndislikedMovie, userUnlikedMovie } from "../../store/session";
+import { addMovies, incrementPage, useCarousel } from "../../store/carousel";
+import { fetchGenres, useGenreSlice } from "../../store/genres";
+import _ from 'lodash';
 
 const DiscoverCarousel = ({ setSelectedMovie }) => {
     const dispatch = useDispatch();
     const movieSlice = useMovieSlice();
-    const [movies, setMovies] = useState([])
+
     const sessionUser = useSelector(state => state.session.user);
-    const { currentIndex, increment, decrement } = useCarousel();
+    const { movies, currentIndex, increment, decrement, currentPage } = useCarousel();
     const currentMovie = useMemo(() => movieSlice[movies[currentIndex]], [movieSlice, movies, currentIndex]);
     const currentMovieLiked = useMemo(() => {
-        if (!currentMovie || !sessionUser) return false;
-        for (let i in sessionUser.likedMovies) {
-            const likedMovieId = sessionUser.likedMovies[i];
-            if ([currentMovie._id, currentMovie.tmdbId, currentMovie.id].includes(likedMovieId)) {
-                setSelectedMovie(currentMovie);
-                return true;
-            }
-        }
-        return false;
+        if (!currentMovie || !sessionUser || _.isEmpty(sessionUser)) return false;
+        return ![currentMovie._id, currentMovie.tmdbId, currentMovie.id].every(id => !sessionUser.likedMovies.includes(id));
     }, [currentMovie, sessionUser]);
-    const [currentPage, setCurrentPage] = useState(1);
+    const currentMovieDisliked = useMemo(() => {
+        if (!currentMovie || !sessionUser || _.isEmpty(sessionUser)) return false;
+        return ![currentMovie._id, currentMovie.tmdbId, currentMovie.id].every(id => !sessionUser.dislikedMovies.includes(id));
+    }, [currentMovie, sessionUser]);
 
     useEffect(() => {
-        dispatch(fetchDiscoverMovies(currentPage))
-            .then(({ results }) => setMovies(prev => [...new Set([...prev, ...results])]));
-    }, [dispatch, currentPage]);
-
-    useEffect(() => {
-        console.log(movies)
-    }, [movies]);
+        if (sessionUser) {
+            dispatch(fetchDiscoverMovies(currentPage))
+                .then(
+                    ({ results }) => 
+                        dispatch(addMovies({
+                            results,
+                            movies: sessionUser.dislikedMovies.concat(sessionUser.likedMovies)
+                        }))
+                );
+        }
+    }, [dispatch, currentPage, sessionUser]);
 
     const handlePrevClick = () => {
         decrement();
@@ -43,20 +45,21 @@ const DiscoverCarousel = ({ setSelectedMovie }) => {
     }
 
     const handleNextClick = () => {
-        if (movies.length - currentIndex < 5)
-            setCurrentPage(prev => prev + 1);
+        if (movies.length - currentIndex < 5) {
+            dispatch(incrementPage());
+        }
         increment();
         setSelectedMovie();
     }
 
     const handleDislikeButtonClick = () => {
-        dispatch(userUnlikedMovie(currentMovie.id || currentMovie._id || currentMovie.tmdbId));
+        dispatch((currentMovieDisliked ? userUndislikedMovie : userDislikedMovie)(currentMovie));
         setSelectedMovie();
-        handleNextClick();
+        if (!currentMovieDisliked) handleNextClick();
     }
 
     const handleLikeButtonClick = () => {
-        dispatch((currentMovieLiked ? userUnlikedMovie : userLikedMovie)(currentMovie.id || currentMovie._id || currentMovie.tmdbId));
+        dispatch((currentMovieLiked ? userUnlikedMovie : userLikedMovie)(currentMovie));
         setSelectedMovie(currentMovie);
     }
 
@@ -69,7 +72,7 @@ const DiscoverCarousel = ({ setSelectedMovie }) => {
             <div className="movie-poster-container">
                 <MoviePoster movie={currentMovie} className="movie-poster-component" />
                 <div className="like-options">
-                    <FontAwesomeIcon icon={faThumbsDown} className={`thumb-down ${false ? 'active' : null}`} onClick={handleDislikeButtonClick}/>
+                    <FontAwesomeIcon icon={faThumbsDown} className={`thumb-down ${currentMovieDisliked ? 'active' : null}`} onClick={handleDislikeButtonClick}/>
                     <FontAwesomeIcon icon={faThumbsUp} className={`thumb-up ${currentMovieLiked ? 'active' : undefined}`} onClick={handleLikeButtonClick}/>
                 </div>
             </div>

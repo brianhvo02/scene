@@ -150,9 +150,9 @@ const MovieShow = () => {
                                     event.coordinates.longitude, 
                                     currentUser?.coordinates?.latitude, 
                                     currentUser?.coordinates?.longitude
-                                    );
-                                if(distance <= 20){
-                                    return(
+                                );
+                                if (distance <= 20) {
+                                    return (
                                         <Link className='event-show-box' key={event._id} to={`./event/${event._id}`}>
                                             <div className='event-show-title'>{event.title}</div>
                                             <div className='event-show-date'>{new Date(event.date).toLocaleString('en-US', {

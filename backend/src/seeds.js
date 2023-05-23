@@ -18,8 +18,6 @@ const NUM_SEED_EVENTS = 30; //done
 const NUM_SEED_COMMENTS = 30;  //done
 const NUM_SEED_RATING = 30; //done
 
-const genres = [878, 12, 28, 80, 53, 10751, 14, 35, 16, 9648, 27, 36];
-
 (async () => {
     const eventNames = [
         "The Big Screen Experience",
@@ -54,33 +52,44 @@ const genres = [878, 12, 28, 80, 53, 10751, 14, 35, 16, 9648, 27, 36];
         "A Movie Night with Family"
     ];
 
+    const { genres } = await fetchTMDB('/genre/movie/list');
+
     const users = Array.from(Array(NUM_SEED_USERS).keys()).map(i => {
-        if (i === 0) return new User({
-            username: 'DemoUser',
-            email: 'DemoUser@appacademy.io',
-            hashedPassword: bcrypt.hashSync('password', 10),
-            zipCode: 94103,
-            genreIds: [12, 80, 53, 10751, 16],
-            likedMovies: [1102776, 315162, 640146]
-        });
+        const genreIds = [];
+        if (i === 0) {
+            genreIds.push(12, 80, 53);
+            const user = new User({
+                username: 'DemoUser',
+                email: 'DemoUser@appacademy.io',
+                hashedPassword: bcrypt.hashSync('password', 10),
+                zipCode: 94103,
+                genreMap: new Map()
+            });
+
+            genres.forEach(genre => user.genreMap.set(`${genre.id}`, genreIds.includes(genre.id) ? 5 : 0));
+
+            return user;
+        }
 
         const firstName = faker.name.firstName();
         const lastName = faker.name.lastName();
-        const genreIds = [];
 
         while(genreIds.length < 4){
             const randGenre = genres[Math.floor(Math.random() * genres.length)]
             if(!genreIds.includes(randGenre)) genreIds.push(randGenre)
         }
 
-        return new User({
+        const user = new User({
             username: faker.internet.userName(firstName, lastName),
             email: faker.internet.email(firstName, lastName),
             zipCode: parseInt(faker.address.zipCodeByState("CA")),
             hashedPassword: bcrypt.hashSync(faker.internet.password(), 10),
-            genreIds,
-            likedMovies: []
+            genreMap: new Map()
         });
+
+        genres.forEach(genre => user.genreMap.set(`${genre.id}`, genreIds.includes(genre.id) ? 5 : 0));
+
+        return user;
     });
 
     const movieIds = [76600, 315162, 420808, 447365, 493529, 502356, 594767, 804150, 677179, 640146];

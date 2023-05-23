@@ -35,21 +35,7 @@ passport.use(new LocalStrategy({
 }));
 
 export const loginUser = async user => {
-    await user.populate('events');
-    const command = new GetObjectCommand({
-        Bucket: "scene-dev",
-        Key: `${user.username}.jpg`
-    });
-    const userInfo = {
-        _id: user._id,
-        username: user.username,
-        email: user.email,
-        genreIds: user.genreIds,
-        likedMovies: user.likedMovies,
-        events: user.events,
-        coordinates: user.coordinates,
-        photoUrl: user.hasProfilePic ? await getSignedUrl(client, command, {expiresIn: 3600}) : null
-    };
+    const userInfo = await getUserInfo(user);
     const token = await new Promise((resolve, reject) => jwt.sign(
         userInfo,
         secret,
@@ -61,6 +47,26 @@ export const loginUser = async user => {
         token
     };
 };
+
+export const getUserInfo = async user => {
+    await user.populate('events');
+    const command = new GetObjectCommand({
+        Bucket: "scene-dev",
+        Key: `${user.username}.jpg`
+    });
+
+    return {
+        _id: user._id,
+        username: user.username,
+        email: user.email,
+        genreMap: user.genreMap,
+        likedMovies: user.likedMovies,
+        dislikedMovies: user.dislikedMovies,
+        events: user.events,
+        coordinates: user.coordinates,
+        photoUrl: user.hasProfilePic ? await getSignedUrl(client, command, { expiresIn: 3600 }) : null
+    };
+}
 
 passport.use(new JwtStrategy({
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
