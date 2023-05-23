@@ -9,7 +9,6 @@ import bcrypt, { hashSync } from 'bcryptjs'
 import { faker } from '@faker-js/faker';
 import { fetchTMDB } from './routes/tmdb';
 import { extractAllowedParams } from './utils';
-import BardAPI, { Configuration } from 'bard-node';
 import { config } from 'dotenv';
 config();
 
@@ -20,9 +19,6 @@ const NUM_SEED_COMMENTS = 30;  //done
 const NUM_SEED_RATING = 30; //done
 
 const genres = [878, 12, 28, 80, 53, 10751, 14, 35, 16, 9648, 27, 36];
-
-const configuration = new Configuration({ apiKey: process.env.BARD_API_KEY });
-const bard = new BardAPI(configuration);
 
 (async () => {
     const eventNames = [
