@@ -128,8 +128,8 @@ const MovieShow = () => {
                 <div className='movie-info-left'>
                     <h2>{movie?.title}</h2>
                     <div className="genre-container">
-                        {movie?.genreIds.map((genreId,idx) => {
-                            return <span className="genre">{genres?.[genreId]?.name} <span> {idx === movie?.genreIds.length - 1 ? "" : "|"} </span> </span> 
+                        {movie?.genreIds.map((genreId, idx) => {
+                            return <span key={`genre_${genreId}`} className="genre">{genres?.[genreId]?.name} <span> {idx === movie?.genreIds.length - 1 ? "" : "|"} </span> </span> 
                         })}
                     </div>
                     <p id="tagline">{movie?.tagline}</p>

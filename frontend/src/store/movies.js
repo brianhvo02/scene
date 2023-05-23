@@ -4,6 +4,7 @@ import { receiveMovieErrors } from './errors/movieErrors';
 import { receiveEventErrors } from "./errors/eventErrors";
 import { receiveRatingErrors } from './errors/ratingErrors';
 import { receiveCurrentUser } from "./session";
+import { useSelector } from "react-redux";
 
 const initialState = {}
 
@@ -18,6 +19,8 @@ const movieSlice = createSlice({
 });
 
 export const { receiveMovies, receiveEvent, receiveRating } = movieSlice.actions;
+
+export const getMovieSlice = state => state?.movies ? state.movies : {};
 
 export const getMovies = state => {
     return state?.movies ? Object.values(state.movies) : [];
@@ -60,8 +63,8 @@ export const deleteEvent = (eventId, movieId) => async dispatch => {
     }
 }
 
-export const fetchDiscoverMovies = () => 
-    fetchUrl(`/api/tmdb/discover`, receiveMovies);
+export const fetchDiscoverMovies = (page = 1) => 
+    fetchUrl(`/api/tmdb/discover?page=${page}`, receiveMovies);
 
 export const fetchRecommendedMovies = movieId => 
     fetchUrl(`/api/tmdb/movies/${movieId}/recommendations`, receiveMovies);
@@ -215,5 +218,7 @@ export const sendChatQuery = (query, previousQuery, movieId) => async dispatch =
         }
     }
 }
+
+export const useMovieSlice = () => useSelector(getMovieSlice);
 
 export default movieSlice.reducer;

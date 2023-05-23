@@ -1,18 +1,20 @@
 import MoviePoster from "./MoviePoster";
-import { getMovies, fetchDiscoverMovies } from "../../store/movies";
+import { getMovies, fetchDiscoverMovies, useMovieSlice } from "../../store/movies";
 import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight, faThumbsDown, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import './index.scss';
 import { userLikedMovie, userUnlikedMovie } from "../../store/session";
+import { useCarousel } from "../../store/carousel";
 
 const DiscoverCarousel = ({ setSelectedMovie }) => {
     const dispatch = useDispatch();
+    const movieSlice = useMovieSlice();
     const [movies, setMovies] = useState([])
     const sessionUser = useSelector(state => state.session.user);
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const currentMovie = useMemo(() => movies[currentIndex], [movies, currentIndex]);
+    const { currentIndex, increment, decrement } = useCarousel();
+    const currentMovie = useMemo(() => movieSlice[movies[currentIndex]], [movieSlice, movies, currentIndex]);
     const currentMovieLiked = useMemo(() => {
         if (!currentMovie || !sessionUser) return false;
         for (let i in sessionUser.likedMovies) {
@@ -23,20 +25,27 @@ const DiscoverCarousel = ({ setSelectedMovie }) => {
             }
         }
         return false;
-    }, [currentMovie, sessionUser])
+    }, [currentMovie, sessionUser]);
+    const [currentPage, setCurrentPage] = useState(1);
 
-    useEffect(()=> {
-        dispatch(fetchDiscoverMovies())
-            .then(({ movies, results }) => setMovies(prev => prev.concat(results.map(result => movies[result]))));
-    }, [dispatch]);
+    useEffect(() => {
+        dispatch(fetchDiscoverMovies(currentPage))
+            .then(({ results }) => setMovies(prev => [...new Set([...prev, ...results])]));
+    }, [dispatch, currentPage]);
+
+    useEffect(() => {
+        console.log(movies)
+    }, [movies]);
 
     const handlePrevClick = () => {
-        setCurrentIndex(prev => prev === 0 ? prev : prev - 1);
+        decrement();
         setSelectedMovie();
     }
 
     const handleNextClick = () => {
-        setCurrentIndex(prev => prev + 1);
+        if (movies.length - currentIndex < 5)
+            setCurrentPage(prev => prev + 1);
+        increment();
         setSelectedMovie();
     }
 
@@ -55,16 +64,16 @@ const DiscoverCarousel = ({ setSelectedMovie }) => {
 
     return(
         <>
-            <FontAwesomeIcon icon={faChevronLeft} onClick={handlePrevClick} className="arrow"/>
+            <FontAwesomeIcon icon={faChevronLeft} onClick={handlePrevClick} className="arrow" visibility={currentIndex === 0 ? 'hidden' : 'visible'} />
             <img src={currentMovie?.backdropPath ? MOVIE_LINK.concat(currentMovie?.backdropPath) : '/backdrop.png'} className="background-image"/>
             <div className="movie-poster-container">
                 <MoviePoster movie={currentMovie} className="movie-poster-component" />
                 <div className="like-options">
                     <FontAwesomeIcon icon={faThumbsDown} className={`thumb-down ${false ? 'active' : null}`} onClick={handleDislikeButtonClick}/>
-                    <FontAwesomeIcon icon={faThumbsUp} className={`thumb-up ${currentMovieLiked ? 'active' : undefined}`}  onClick={handleLikeButtonClick}/>
+                    <FontAwesomeIcon icon={faThumbsUp} className={`thumb-up ${currentMovieLiked ? 'active' : undefined}`} onClick={handleLikeButtonClick}/>
                 </div>
             </div>
-            <FontAwesomeIcon icon={faChevronRight} onClick={handleNextClick} className="arrow"/>
+            <FontAwesomeIcon icon={faChevronRight} onClick={handleNextClick} className="arrow" visibility={currentIndex === movies.length - 1 ? 'hidden' : 'visible'} />
         </>
     )
 }

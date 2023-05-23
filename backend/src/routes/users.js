@@ -192,6 +192,8 @@ router.patch('/current/updateProfilePic', upload.single("profilePic"), requireUs
         user.hasProfilePic = true;
         await user.save();
 
+        await user.populate('events');
+
         const userInfo = {
             _id: user._id,
             username: user.username,
