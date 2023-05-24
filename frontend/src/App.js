@@ -1,5 +1,5 @@
 import './App.scss';
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import SplashPage from './components/SplashPage';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -30,17 +30,17 @@ function App() {
         <>
         {!isSplashPage ? <Navigation /> : null}
         <Routes>
-            <Route path='*' Component={HomePage} />
-            <Route exact path="/" Component={SplashPage}/>
-            <Route exact path="/home" Component={HomePage}/>
-            <Route exact path="/user" Component={UserProfile}/>
-            <Route exact path="/search" Component={SearchShow}/>
-            <Route exact path="/login" Component={LoginForm} />
-            <Route exact path="/signup" Component={SignupForm} />
-            <Route exact path="/signup/genres" Component={SelectGenresForm} />
-            <Route exact path="/movie/:movieId" Component={MovieShow}/>
-            <Route exact path="/movie/:movieId/event/:eventId" Component={EventShow} />
-            <Route exact path="/team" Component={TeamPage}/>
+            <Route path='*' element={<Navigate replace to='/home' />} />
+            <Route exact path='/' Component={SplashPage}/>
+            <Route exact path='/home' Component={HomePage}/>
+            <Route exact path='/user' Component={UserProfile}/>
+            <Route exact path='/search' Component={SearchShow}/>
+            <Route exact path='/login' Component={LoginForm} />
+            <Route exact path='/signup' Component={SignupForm} />
+            <Route exact path='/signup/genres' Component={SelectGenresForm} />
+            <Route exact path='/movie/:movieId' Component={MovieShow}/>
+            <Route exact path='/movie/:movieId/event/:eventId' Component={EventShow} />
+            <Route exact path='/team' Component={TeamPage}/>
         </Routes>
         <Footer />
         </>
