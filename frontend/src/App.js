@@ -30,10 +30,11 @@ function App() {
         <>
         {!isSplashPage ? <Navigation /> : null}
         <Routes>
-            <Route exact path="/user" Component={UserProfile}/>
-            <Route exact path="/search" Component={SearchShow}/>
+            <Route path='*' Component={HomePage} />
             <Route exact path="/" Component={SplashPage}/>
             <Route exact path="/home" Component={HomePage}/>
+            <Route exact path="/user" Component={UserProfile}/>
+            <Route exact path="/search" Component={SearchShow}/>
             <Route exact path="/login" Component={LoginForm} />
             <Route exact path="/signup" Component={SignupForm} />
             <Route exact path="/signup/genres" Component={SelectGenresForm} />

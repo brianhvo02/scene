@@ -24,9 +24,7 @@ const carouselSlice = createSlice({
             state.movies = [
                 ...new Set([
                     ...state.movies, 
-                    ...payload.results.filter(
-                        result => !payload.movies.includes(result)
-                    )
+                    ...payload
                 ])
             ]
         },

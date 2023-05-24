@@ -30,11 +30,16 @@ const DiscoverCarousel = ({ setSelectedMovie }) => {
         if (sessionUser) {
             dispatch(fetchDiscoverMovies(currentPage))
                 .then(
-                    ({ results }) => 
-                        dispatch(addMovies({
-                            results,
-                            movies: sessionUser.dislikedMovies.concat(sessionUser.likedMovies)
-                        }))
+                    ({ results }) => {
+                        const userMovies = sessionUser.dislikedMovies.concat(sessionUser.likedMovies);
+                        const filteredResults = results.filter(result => !userMovies.includes(result));
+                        if (filteredResults.length < 5) {
+                            dispatch(incrementPage());
+                        }
+                        if (filteredResults.length) {
+                            dispatch(addMovies(filteredResults));
+                        }
+                    }
                 );
         }
     }, [dispatch, currentPage, sessionUser]);
