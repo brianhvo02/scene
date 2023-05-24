@@ -9,6 +9,7 @@ import ratingRouter from "./ratings";
 import chatRouter from "./chat";
 import { fetchTMDB } from "./tmdb";
 import { extractAllowedParams } from "../utils";
+import { getUserInfo } from "../config";
 
 
 router.use("/:movieId/events", eventRouter);
@@ -96,16 +97,7 @@ export const sendMovie = async ({movie, user}, res, eventId) => {
             ])
     ));
 
-    const userInfo = user ? {
-        _id: user._id,
-        username: user.username,
-        email: user.email,
-        genreIds: user.genreIds,
-        likedMovies: user.likedMovies,
-        events: user.events,
-        coordinates: user.coordinates,
-        photoUrl: user.hasProfilePic ? await getSignedUrl(client, command, {expiresIn: 3600}) : null
-    } : null;
+    const userInfo = user ? await getUserInfo(user) : null;
     
     return res.json({
         eventId,

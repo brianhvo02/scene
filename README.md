@@ -12,24 +12,54 @@ Scene is a social movie recommendation app. Scene uses TMDB api to recommend mov
 
 ## Features
 
-Scene is broken down into 4 core features:
-+ User account creation and log in
-+ Movie discovery and recommendation using [TMDB API](https://developer.themoviedb.org/docs)
-+ Movie information/details, reddit-like forum, and rating from a movie's individual page
-+ Event creation to organize a local watch party for "now-playing" movies
+Some features of Scene include:
+
++ User account creation and log in:
+++ <img src="assets/userauth.gif" width="600px"/>
+<br>
++ User Profiles:
+<br>
+<img src="assets/UserProfile.gif" width="600px">
+<br>
++ Movie discovery and recommendation using [TMDB API](https://developer.themoviedb.org/docs):
+<img src="assets/moviediscover.gif" width="600px">
+<br>
++ Movie information/details:
+<br>
+<img src="assets/movieshow.gif" width="600px">
+<br>
++ Movie comments that imitate a reddit-like feel:
+<br>
+<img src="assets/comments.gif" width="600px">
+<br>
++ Movie Ratings:
+<br>
+<img src="assets/ratings.gif" width="600px">
+<br>
++ Event creation to organize a local watch party for "now-playing" movies:
+<br>
+<img src="assets/event.gif" width="600px">
+
 
 ## Technologies
 **Technologies Used:**
-+ MongoDB
-+ Express
-+ REACT
-+ JavaScript
-+ Node.js
-+ HTML5
-+ SCSS
+
+### Frontend: 
++ ```REACT```: A free and open-source front-end JavaScript library for building user interfaces based on components.
++ ```JavaScript```: programming language that is one of the core technologies of the World Wide Web.
++ ```HTML5```: markup language used for structuring and presenting content on the World Wide Web.
++ ```SCSS```: A preprocessor scripting language that is interpreted or compiled into Cascading Style Sheets.
+
+### Backend:
++ ```MongoDB```: A source-available cross-platform document-oriented database program.
++ ```Node.js```: An open source, cross-platform runtime environment for executing JavaScript code.
++ ```Mongoose```: A Node. js-based Object Data Modeling (ODM) library for MongoDB.
++ ```Express```: A popular unopinionated web framework, written in JavaScript and hosted within the Node. js runtime environment.
+
+### API:
 + [TMDB API](https://developer.themoviedb.org/docs)
 + [Fandango API](https://developer.fandango.com/)
-+ [Google Maps JavaScript API]()
++ [Google Maps JavaScript API](https://developers.google.com/maps)
 
 ## Featured Code
 **Code to handle Carousel**: 
@@ -150,11 +180,8 @@ const Comment = ({ id, body, author, children }) => {
 ## Contributors
 
 Scene was made with love from these fine gentlemen/software engineers:
-+ [Brian Huy Vo](): Team Lead
-+ [Eduardo Bac Sierra](): Backend Lead
-+ [Ningxiao Cao](): Frontend Lead
-+ [Joshua Lee](): Flex Lead
++ [Brian Huy Vo](https://brianhuyvo.com/): Team Lead
++ [Eduardo Bac Sierra](https://github.com/bann-dito): Backend Lead
++ [Ningxiao Cao](https://github.com/kevinismcao): Frontend Lead
++ [Joshua Lee](https://github.com/joshua-lee-sf): Flex Lead
 
-## Future Features
-+ Search bar
-+ Account Profiles

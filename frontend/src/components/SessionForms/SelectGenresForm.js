@@ -5,6 +5,7 @@ import { signup, updateGenreZipCode, useProtected, useRequireLoggedOut } from '.
 import { clearSessionErrors, receiveSessionErrors, useClearSessionErrors } from '../../store/errors/sessionErrors';
 import { fetchGenres, useGenres } from '../../store/genres';
 import { fetchPopularMovies, receiveMovies } from '../../store/movies';
+import _ from 'lodash';
 
 const geocodeAddress = async (address, apiKey) => {
     const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`);
@@ -13,7 +14,7 @@ const geocodeAddress = async (address, apiKey) => {
     // const latitude = lat;
     // const longitude = lng;
     return {latitude: lat, longitude: lng};
-  };
+};
 
 const SelectGenresForm = () => {
     const [selectedGenres, setSelectedGenres] = useState({});
@@ -39,7 +40,7 @@ const SelectGenresForm = () => {
         if (zipCode.length !== 5) errors.push('Please enter a valid zip code');
 
 
-        if (errors.length) {
+        if (errors?.length) {
             dispatch(receiveSessionErrors({ errors }));
         } else {
             geocodeAddress(zipCode, process.env.REACT_APP_GOOGLE_MAPS_API_KEY).then(coordinates => dispatch(updateGenreZipCode(genreIds, zipCode, coordinates)));
@@ -68,9 +69,9 @@ const SelectGenresForm = () => {
                         } />
                 </div>
 
-                <label className='input-label'>Choose at least one and up to three genres:</label>
+                <label className='input-label'>Choose at least one and up to three genres:</label>             
                 {
-                    errors?.map((error, i) => 
+                    ( _.isArray(errors) ? errors : Object.values(errors) ).map((error, i) => 
                         <p key={`error_${i}`}>{error}</p>
                     )
                 }

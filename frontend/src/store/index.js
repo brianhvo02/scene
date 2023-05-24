@@ -4,6 +4,7 @@ import genresReducer from './genres';
 import theatersReducer from './theaters';
 import errorsReducer from './errors';
 import { configureStore } from '@reduxjs/toolkit';
+import carouselReducer from './carousel';
 
 export default configureStore({
     reducer: {
@@ -11,6 +12,7 @@ export default configureStore({
         session: sessionReducer,
         movies: moviesReducer,
         genres: genresReducer,
-        theaters: theatersReducer
+        theaters: theatersReducer,
+        carousel: carouselReducer
     }
 });

@@ -1,11 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
 import "./UserProfile.scss"
-import {useEffect, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import LikedMovies from "./LikedMovies";
 import {useGenreSlice, fetchGenres} from "../../store/genres";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { userUpdateProfilePic } from "../../store/session";
+import _ from "lodash";
 
 
 const UserProfile = () => {
@@ -14,6 +15,12 @@ const UserProfile = () => {
     const navigate = useNavigate();
 
     const genres = useGenreSlice();
+    const userGenres = useMemo(() => (!_.isEmpty(user) && !_.isEmpty(genres)) ?
+        Object.entries(user.genreMap)
+            .sort((a, b) => b[1] - a[1])
+            .map(entry => genres[entry[0]].name)
+            .slice(0, 3)
+    : [], [user, genres]);
 
     useEffect(() => {
         dispatch(fetchGenres());
@@ -28,12 +35,11 @@ const UserProfile = () => {
         }
     }
 
-
     return (
         <div className="user-show-page-container">
             <div className="user-show-page-user-details">
                 <form className="user-show-profile-upload" onSubmit={handleUpload}>
-                    <label for="user-profile-picture"><img className="user-show-page-user-picture" src={user?.photoUrl || '/scene-dark-logo-no-text.png'} alt="profile" id="profile-pic" /></label>
+                    <label htmlFor="user-profile-picture"><img className="user-show-page-user-picture" src={user?.photoUrl || '/scene-dark-logo-no-text.png'} alt="profile" id="profile-pic" /></label>
                     <input type="file" id="user-profile-picture" accept="image/*" style={{display: "none"}} onChange={handleUpload} />
                 </form>
                 <h2 className="user-show-page-username">{user?.username}</h2>
@@ -42,14 +48,15 @@ const UserProfile = () => {
             <div className="user-show-page-user-genres">
                 <h2>Your Genres:</h2>
                 <div className="user-show-page-genres-container">
-                    {user?.genreIds.map((genre, index) => {
-                        return (
-                            <div key={index}>
-                                <h3>{genres?.[genre]?.name}</h3>
-                            </div>
-                        )
+                    {
+                        userGenres.map((genre, index) => {
+                            return (
+                                <div key={index}>
+                                    <h3>{genre}</h3>
+                                </div>
+                            )
+                        })
                     }
-                    )}
                 </div>
             </div>
             <div className='events-near'>
@@ -74,16 +81,14 @@ const UserProfile = () => {
                 }
                 </div>
             </div>
-           
             <div className="user-show-page-user-movies">
                 <h2>Your Movies:</h2>
                 <div className="liked-movies-box">               
-                    {user?.likedMovies.map((movieId, index) => {
-                        return (
-                            <LikedMovies key={index} movieId={movieId}/>
+                    {
+                        user?.likedMovies.map(movieId => 
+                            movieId ? <LikedMovies key={movieId} movieId={movieId} /> : null
                         )
                     }
-                    )}
                 </div>
             </div>
         </div>

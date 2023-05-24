@@ -11,15 +11,7 @@ import { fetchGenres, useGenreSlice } from '../../store/genres';
 import Chat from './Chat';
 import { calculateDistance } from '../../util/function';
 import { current } from '@reduxjs/toolkit';
-
-
-const scrollToTop = () => {
-    window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: 'smooth'
-    });
-}
+import CommentBox from './Comment';
 
 const MovieShow = () => {
     const currentUser = useSelector(state => state.session.user);
@@ -29,20 +21,9 @@ const MovieShow = () => {
     const genres = useGenreSlice();
     const MOVIE_LINK = 'https://image.tmdb.org/t/p/original';
     const dispatch = useDispatch();
-    const [averageRating, setAverageRating] = useState(0)
-    
+    const [averageRating, setAverageRating] = useState(0);
 
-
-    useEffect(() => {
-        scrollToTop();
-    }, [])
-
-    const [commentBody, setCommentBody] = useState('');
-    const [activeComment, setActiveComment] = useState();
-    const [loading, setLoading] = useState(true)
-    const [replyComment, setReplyComment] = useState();
-    const [replyUser, setReplyUser] = useState('');
-    const [edit, setEdit] = useState();
+    const [loading, setLoading] = useState(true);
    
     useEffect(() => {
         dispatch(fetchMovie(movieId))
@@ -55,70 +36,9 @@ const MovieShow = () => {
         let total = 0;
         movie?.ratings?.map(rating => {
             total += rating?.rating
-        }) 
+        });
         setAverageRating((((Math.floor(total / movie?.ratings?.length))/ 5)) * 100)
-    }, [movie])
-
-
-    const Comment = ({ id, body, author, children }) => {
-        return (
-            <div className='comment'>
-                <div className='comment-body-box' onMouseEnter={() => setActiveComment(id)} onMouseLeave={() => setActiveComment()}>
-                    <span>
-                        <p className='comment-username'>{author.username}:</p>
-                        <p className='comment-body'>{body}</p>
-                    </span>
-                    <span>
-                        {
-                            (activeComment === id || replyComment === id || edit === id) && body !== '[DELETED]' &&
-                            <>
-                                {
-                                    author._id === currentUser._id &&
-                                    <button className='event-create-button' 
-                                        onClick={
-                                            () => {
-                                                setEdit(id);
-                                                setReplyComment();
-                                                setReplyUser();
-                                                scrollToTop();
-                                                setCommentBody(body);
-                                            }
-                                        }>Edit</button>
-                                }
-                                {
-                                    author._id === currentUser._id &&
-                                    <button className='event-create-button' 
-                                        onClick={
-                                            () => dispatch(deleteComment(id, movie.tmdbId))
-                                        }>Remove</button>
-                                }
-                                <button className='event-create-button'
-                                    onClick={
-                                        () => {
-                                            setReplyComment(id);
-                                            setReplyUser(author.username);
-                                            setEdit();
-                                            scrollToTop();
-                                        }
-                                    }>Reply</button>
-                            </>
-                        }
-                    </span>
-                </div>
-                <div className='children'>
-                    {
-                        children.map(child => <Comment key={child._id} id={child._id} body={child.body} author={child.author} children={child.childrenComments} />)
-                    }
-                </div>
-            </div>
-        )
-    }
-
-    const comments = useMemo(() => 
-        movie?.comments?.map(comment =>
-            <Comment key={comment._id} id={comment._id} body={comment.body} author={comment.author} children={comment.childrenComments} />
-        ), 
-    [movie, activeComment]);
+    }, [movie]);
 
     const content = () =>{
         return (
@@ -128,8 +48,8 @@ const MovieShow = () => {
                 <div className='movie-info-left'>
                     <h2>{movie?.title}</h2>
                     <div className="genre-container">
-                        {movie?.genreIds.map((genreId,idx) => {
-                            return <span className="genre">{genres?.[genreId]?.name} <span> {idx === movie?.genreIds.length - 1 ? "" : "|"} </span> </span> 
+                        {movie?.genreIds.map((genreId, idx) => {
+                            return <span key={`genre_${genreId}`} className="genre">{genres?.[genreId]?.name} <span> {idx === movie?.genreIds.length - 1 ? "" : "|"} </span> </span> 
                         })}
                     </div>
                     <p id="tagline">{movie?.tagline}</p>
@@ -150,9 +70,9 @@ const MovieShow = () => {
                                     event.coordinates.longitude, 
                                     currentUser?.coordinates?.latitude, 
                                     currentUser?.coordinates?.longitude
-                                    );
-                                if(distance <= 20){
-                                    return(
+                                );
+                                if (distance <= 20) {
+                                    return (
                                         <Link className='event-show-box' key={event._id} to={`./event/${event._id}`}>
                                             <div className='event-show-title'>{event.title}</div>
                                             <div className='event-show-date'>{new Date(event.date).toLocaleString('en-US', {
@@ -182,39 +102,7 @@ const MovieShow = () => {
                 </div>
             </div>
             <div className='background-gradient'></div>
-            <div className='comments-box'>
-                <div className='comments'>
-                    <div className='create-comment'>
-                        <textarea className='comment comment-body' placeholder={
-                            replyComment 
-                                ? `Reply to ${replyUser}`  
-                                : 'Add a comment...'
-                        } value={commentBody} onChange={e => setCommentBody(e.target.value)} />
-                        {
-                            (commentBody || replyUser || edit) &&
-                            <>
-                                <button className='event-create-button' onClick={() => {
-                                    setCommentBody('');
-                                    setReplyComment();
-                                    setReplyUser();
-                                    setEdit();
-                                }}>Cancel</button>
-                                <button className='event-create-button' 
-                                    onClick={
-                                        () => dispatch((edit ? editComment : createComment)(commentBody, movie.tmdbId, edit || replyComment))
-                                            .then(() => {
-                                                setCommentBody('');
-                                                setReplyComment();
-                                                setReplyUser();
-                                                setEdit();
-                                            })
-                                    }>Comment</button>
-                            </>
-                        }
-                    </div>
-                    {comments}
-                </div>
-            </div>
+            <CommentBox comments={movie ? movie.comments : []} movieId={movie?.tmdbId} userId={currentUser?._id} />
             <Chat movieId={movieId} />
         </>
     )  

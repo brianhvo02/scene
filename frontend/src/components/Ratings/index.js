@@ -14,7 +14,7 @@ const RatingsComponent = ({ movie }) => {
 
     useEffect(() => {
         movie?.ratings?.map(rating => {
-            if(rating.rater._id === sessionUser._id) {
+            if(rating.rater._id === sessionUser?._id) {
                 setUserRating(rating);
                 setRatingsValue(rating.rating);
             } 

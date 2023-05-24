@@ -23,11 +23,16 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    genreIds: {
-        type: [Number],
-        required: true
+    genreMap: {
+        type: Map,
+        of: Number
+        // required: true
     },
     likedMovies: {
+        type: [],
+        required: true
+    },
+    dislikedMovies: {
         type: [],
         required: true
     },
