@@ -14,29 +14,35 @@ Scene is a social movie recommendation app. Scene uses TMDB api to recommend mov
 
 Some features of Scene include:
 
-+ User account creation and log in:
-++ <img src="assets/userauth.gif" width="600px"/>
+- User account creation and log in:
+<img src="assets/userauth.gif" width="600px"/>
 <br>
-+ User Profiles:
+
+- User Profiles:
 <br>
 <img src="assets/UserProfile.gif" width="600px">
 <br>
-+ Movie discovery and recommendation using [TMDB API](https://developer.themoviedb.org/docs):
+
+- Movie discovery and recommendation using [TMDB API](https://developer.themoviedb.org/docs):
 <img src="assets/moviediscover.gif" width="600px">
 <br>
-+ Movie information/details:
+
+- Movie information/details:
 <br>
 <img src="assets/movieshow.gif" width="600px">
 <br>
-+ Movie comments that imitate a reddit-like feel:
+
+- Movie comments that imitate a reddit-like feel:
 <br>
 <img src="assets/comments.gif" width="600px">
 <br>
-+ Movie Ratings:
+
+- Movie Ratings:
 <br>
 <img src="assets/ratings.gif" width="600px">
 <br>
-+ Event creation to organize a local watch party for "now-playing" movies:
+
+- Event creation to organize a local watch party for "now-playing" movies:
 <br>
 <img src="assets/event.gif" width="600px">
 
