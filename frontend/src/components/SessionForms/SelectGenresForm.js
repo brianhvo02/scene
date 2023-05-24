@@ -27,7 +27,6 @@ const SelectGenresForm = () => {
     }, []);
 
     useProtected();
-    console.log(errors)
     useClearSessionErrors();
 
     const genres = useGenres();
