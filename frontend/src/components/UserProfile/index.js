@@ -81,7 +81,6 @@ const UserProfile = () => {
                 }
                 </div>
             </div>
-           
             <div className="user-show-page-user-movies">
                 <h2>Your Movies:</h2>
                 <div className="liked-movies-box">               

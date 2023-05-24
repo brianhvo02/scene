@@ -14,7 +14,7 @@ const geocodeAddress = async (address, apiKey) => {
     // const latitude = lat;
     // const longitude = lng;
     return {latitude: lat, longitude: lng};
-  };
+};
 
 const SelectGenresForm = () => {
     const [selectedGenres, setSelectedGenres] = useState({});
