@@ -3,10 +3,12 @@ import sessionErrorsReducer from './sessionErrors';
 import movieErrorsReducer from './movieErrors';
 import eventErrorsReducer from './eventErrors';
 import ratingErrorsReducer from './ratingErrors';
+import commentErrorsReducer from './commentErrors';
 
 export default combineReducers({
     session: sessionErrorsReducer,
     movie: movieErrorsReducer,
     event: eventErrorsReducer,
-    rating: ratingErrorsReducer
+    rating: ratingErrorsReducer,
+    comment: commentErrorsReducer,
 });

@@ -51,7 +51,7 @@
 
 .comment-body-box{
     display: flex;
-    height: 30px;
+    min-height: 30px;
     text-align: center;
     padding: 8px;
     margin-bottom: 8px;
@@ -61,7 +61,8 @@
 
     span {
         display: flex;
-        
+
+
         .comment-username {
             font-size: 18px;
             margin-right: 24px;
@@ -69,10 +70,13 @@
         }
     
         .comment-body {
-            text-align: center;
+            text-align: left;
             font-size: 16px;
             font-weight: 400;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            // word-wrap: break-word;
+            width: 100%;
+            overflow-wrap: anywhere;
         }
     }
 }
@@ -103,6 +107,10 @@
     .event-create-button:nth-child(2) {
         margin-left: 32px;
         margin-right: 32px;
+    }
+
+    .comment-errors{
+        font-size: 20px;
     }
 
     .comment-body::placeholder {

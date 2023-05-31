@@ -1,13 +1,19 @@
 import './Comment.scss';
 import { useEffect, useMemo, useRef, useState } from "react";
 import { createComment, deleteComment, editComment } from "../../store/movies";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { clearcommentErrors, receivecommentErrors, useClearcommentErrors } from '../../store/errors/commentErrors';
+
 
 const CommentBox = ({ movieId, comments, userId }) => {
     const dispatch = useDispatch();
     const [activeComment, setActiveComment] = useState('');
     const [replyComment, setReplyComment] = useState();
     const [edit, setEdit] = useState();
+    const errors = useSelector(state => state.errors.comment);
+    console.log(errors);
+
+    useClearcommentErrors();
 
     const CommentCreate = ({ editBody = '', disabled = false }) => {
         const [commentBody, setCommentBody] = useState(editBody);
@@ -27,15 +33,27 @@ const CommentBox = ({ movieId, comments, userId }) => {
                         }}>Cancel</button>
                         <button className='event-create-button' 
                             onClick={
-                                () => dispatch((edit ? editComment : createComment)(commentBody, movieId, edit || replyComment))
-                                    .then(() => {
-                                        setCommentBody('');
-                                        setReplyComment();
-                                        setEdit();
-                                    })
+                                () => {
+                                    const errors = [];
+                                    if (commentBody.length < 2 || commentBody.length > 500) errors.push('Comment must be between 2 and 500 characters')
+
+                                    if (errors?.length) {
+                                        dispatch(receivecommentErrors({ errors }));
+                                    }
+
+                                    dispatch((edit ? editComment : createComment)(commentBody, movieId, edit || replyComment))
+                                        .then(() => {
+                                            setCommentBody('');
+                                            setReplyComment();
+                                            setEdit();
+                                        })
+                                }
                             }>{replyComment ? 'Reply' : edit ? 'Edit' : 'Comment'}</button>
                     </>
                 }
+                {errors?.map(error => {
+                    return <p key={`${error}-1`} className='errors comment-errors'>{error}</p>
+                })}
             </div>
         )
     }
