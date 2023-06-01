@@ -51,7 +51,7 @@ const SelectGenresForm = () => {
 
     return (
         <div className='select-genres-container'>
-            <div><h1>Just a few more steps to o</h1></div>
+            <div><h1>Just a few more steps to go</h1></div>
             <div className='zip-genres-box'>
                 <label className='input-label' htmlFor='zip-code-input'>Enter your zip code:</label>
                 <div className='inputbox-container'>
