@@ -1,6 +1,6 @@
 # Scene
 
-Scene is a social movie recommendation app. Scene uses TMDB api to recommend movies or help users discover new movies based on the user's inputs. Scene allows userts to create, view, and RSVP to local watch parties at movie theaters. Users are also able to discuss and rate movies like a forum board from and individual movie page. Users are able to delete, edit, and reply to other comments from there. If you're ready to meet locals that enjoy movies as much as yourself, please visit [Scene](https://scene-app.herokuapp.com/).
+Scene is a social movie recommendation app. Scene uses TMDB API to recommend movies or help users discover new movies based on the user's inputs. Scene allows users to create, view, and RSVP to local watch parties at movie theaters. Users are also able to discuss and rate movies like a forum board from and individual movie page. Users are able to delete, edit, and reply to other comments from there. If you're ready to meet locals that enjoy movies as much as you do, please visit [Scene](https://scene-app.herokuapp.com/).
 
 # Table of Contents
 
