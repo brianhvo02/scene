@@ -16,7 +16,7 @@ export const
     mongoURI = process.env.MONGO_URI,
     isProduction = process.env.NODE_ENV === 'production',
     tmdbAPIKey = process.env.TMDB_API_KEY,
-    bardAPIKey = process.env.BARD_API_KEY;
+    palmAPIKey = process.env.GOOGLE_PALM_API_KEY;
 
 passport.use(new LocalStrategy({
     session: false,

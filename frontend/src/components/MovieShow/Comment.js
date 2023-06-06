@@ -11,7 +11,6 @@ const CommentBox = ({ movieId, comments, userId }) => {
     const [replyComment, setReplyComment] = useState();
     const [edit, setEdit] = useState();
     const errors = useSelector(state => state.errors.comment);
-    console.log(errors);
 
     useClearcommentErrors();
 
