@@ -7,9 +7,8 @@ import { fetchTheaters, getTheaterSlice } from '../../store/theaters';
 import EventMap from '../Events/EventsShow/map';
 import "./index.scss"
 
-const EventForm = (props) => {
+const EventForm = ({ closeModal }) => {
     useClearEventErrors();
-    const {closeModal} = props
     const dispatch = useDispatch();
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
@@ -21,7 +20,7 @@ const EventForm = (props) => {
     const [info, setInfo] = useState({});
     const [theater, setTheater] = useState({ name: '' });
     const [selected, setSelected] = useState(false)
-    const {movieId} = useParams();
+    const { movieId } = useParams();
     const navigate = useNavigate();
 
     const theaters = useSelector(getTheaterSlice);
@@ -45,7 +44,10 @@ const EventForm = (props) => {
         }
 
         if (status) {
-            dispatch(createEvent({title, body, ...info}, movieId))
+            dispatch(createEvent({
+                title, body, ...info, 
+                date: new Date(info.ticketingdate.replace('+', ' '))
+            }, movieId))
                 .then((eventId) => {
                     if (eventId) navigate(`/movie/${movieId}/event/${eventId}`);
                 });

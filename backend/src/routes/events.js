@@ -19,7 +19,7 @@ router.post('/', requireUser, validateEventInput, async (req, res, next) => {
         const newEvent = new Event({
             title: req.body.title,
             body: req.body.body,
-            date: new Date(req.body.ticketingdate.replace('+', ' ')),
+            date: req.body.date,
             ticketUrl: req.body.ticketingjumppageurl,
             ticketType: req.body.type,
             amenities: req.body.amenities,
