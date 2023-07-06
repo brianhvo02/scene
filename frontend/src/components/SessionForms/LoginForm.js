@@ -62,7 +62,7 @@ const LoginForm = () => {
                 <div className='errors'>{errors?.credential}</div>
                 <button className="modal-button" id="modal-button-login" type="submit">Log in</button>
                 <h2 id="modal-or">OR</h2>
-                <button className="modal-button" id="modal-button-demo" onClick={() => { setCredential("DemoUser"); setPassword("password") }}>Continue as Demo User</button>
+                <button className="modal-button" id="modal-button-demo" onClick={() => {setCredential("DemoUser"); setPassword("password")}}>Continue as Demo User</button>
                 <div className="divide-line"></div>
                 <div className="warning-text">
                     <p>This website is for educational purposes only.</p>

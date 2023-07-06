@@ -114,7 +114,7 @@ const CommentBox = ({ movieId, comments, userId }) => {
     }
 
     const commentElements = useMemo(() => 
-        comments.map(comment =>
+        comments?.map(comment =>
             <Comment key={comment._id} id={comment._id} body={comment.body} author={comment.author} children={comment.childrenComments} />
         ), 
     [comments, activeComment, replyComment, edit]);
