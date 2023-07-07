@@ -74,11 +74,13 @@ passport.use(new JwtStrategy({
     ignoreExpiration: !isProduction
 }, async (jwtPayload, done) => {
     try {
+        console.log('success')
         const user = await User.findById(jwtPayload._id)
         if (user) return done(null, user);
         return done(null, false);
     }
     catch(err) {
+        console.log('failure')
         done(err);
     }
 }));
