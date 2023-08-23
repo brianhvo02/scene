@@ -92,7 +92,7 @@ const NUM_SEED_RATING = 30; //done
         return user;
     });
 
-    const movieIds = [76600, 315162, 420808, 447365, 493529, 502356, 594767, 804150, 677179, 640146];
+    const movieIds = [615656, 1121575, 1149381, 565770, 1040148, 1076487, 1000475, 502356, 1003581, 724209];
     const movies = await Promise.all(movieIds.map(async movieId => {
         const allowedParams = ["tmdb_id", "title", "overview", "poster_path", "backdrop_path", "genre_ids", "alternative_titles", "runtime", "tagline", "certification"];
         const movieRes = await fetchTMDB(`/movie/${movieId}`, 'append_to_response=alternative_titles,release_dates');
